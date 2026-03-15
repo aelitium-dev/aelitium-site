@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AELITIUM — Prove what the model actually returned</title>
+<meta name="description" content="Cryptographic integrity for LLM outputs. Detect when AI behavior silently changes — offline, tamper-evident, no server required.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --white: #ffffff;
+    --bg: #f9fafb;
+    --bg2: #f3f4f6;
+    --border: #e5e7eb;
+    --border2: #d1d5db;
+    --text: #111827;
+    --text2: #374151;
+    --muted: #6b7280;
+    --muted2: #9ca3af;
+    --green: #059669;
+    --green-light: #d1fae5;
+    --green-mid: #a7f3d0;
+    --green-btn: #10b981;
+    --green-hover: #047857;
+    --red: #dc2626;
+    --red-light: #fee2e2;
+    --blue: #2563eb;
+    --blue-light: #dbeafe;
+    --amber: #d97706;
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'JetBrains Mono', 'Fira Code', monospace;
+    --radius: 12px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.05);
+    --shadow-lg: 0 20px 60px rgba(0,0,0,0.1), 0 4px 16px rgba(0,0,0,0.06);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--white); color: var(--text); font-family: var(--font); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 2.5rem; height: 60px; }
+  .nav-logo { font-family: var(--mono); font-size: 0.95rem; font-weight: 500; color: var(--text); text-decoration: none; letter-spacing: 0.05em; }
+  .nav-logo span { color: var(--green); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.15s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-right { display: flex; gap: 0.75rem; align-items: center; }
+  .btn-ghost { color: var(--text2); text-decoration: none; font-size: 0.875rem; font-weight: 500; padding: 0.4rem 1rem; border-radius: 8px; transition: background 0.15s; display: flex; align-items: center; gap: 0.4rem; }
+  .btn-ghost:hover { background: var(--bg2); }
+  .btn-green { background: var(--green-btn); color: #fff; text-decoration: none; font-size: 0.875rem; font-weight: 600; padding: 0.45rem 1.1rem; border-radius: 8px; transition: background 0.15s; }
+  .btn-green:hover { background: var(--green-hover); }
+  .hero { padding: 7rem 2rem 5rem; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 40% at 50% -10%, rgba(16,185,129,0.08) 0%, transparent 60%), radial-gradient(ellipse 40% 30% at 80% 80%, rgba(37,99,235,0.04) 0%, transparent 50%); pointer-events: none; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--green-light); color: var(--green); font-size: 0.75rem; font-weight: 600; padding: 0.35rem 0.875rem; border-radius: 100px; margin-bottom: 2rem; letter-spacing: 0.02em; }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(0.85); } }
+  .hero h1 { font-size: clamp(2.5rem, 6vw, 4.25rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.03em; max-width: 820px; margin: 0 auto; color: var(--text); }
+  .hero h1 .accent { color: var(--green); }
+  .hero-sub { margin: 1.5rem auto 0; font-size: 1.2rem; color: var(--muted); max-width: 580px; line-height: 1.65; font-weight: 400; }
+  .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2.5rem; }
+  .hero-btn-primary { background: var(--green-btn); color: #fff; padding: 0.8rem 1.75rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: background 0.15s, transform 0.1s; box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
+  .hero-btn-primary:hover { background: var(--green-hover); transform: translateY(-1px); }
+  .hero-btn-secondary { background: var(--white); color: var(--text); padding: 0.8rem 1.75rem; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 1rem; border: 1.5px solid var(--border2); transition: border-color 0.15s, transform 0.1s; display: flex; align-items: center; gap: 0.5rem; }
+  .hero-btn-secondary:hover { border-color: var(--green-btn); transform: translateY(-1px); }
+  .output-wrap { margin: 4rem auto 0; max-width: 680px; }
+  .output-card { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-lg); }
+  .output-header { background: var(--bg); border-bottom: 1px solid var(--border); padding: 0.75rem 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
+  .output-header .pill { display: inline-flex; align-items: center; gap: 0.35rem; background: var(--green-light); color: var(--green); font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 100px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .output-header .path { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
+  .output-body { padding: 1.5rem 1.75rem; font-family: var(--mono); font-size: 0.85rem; line-height: 2; }
+  .o-line { display: block; }
+  .o-line.hidden { display: none; }
+  .o-prompt { color: var(--muted2); }
+  .o-cmd { color: var(--text); font-weight: 500; }
+  .o-key { color: var(--amber); }
+  .o-same { color: var(--blue); font-weight: 600; }
+  .o-diff { color: var(--red); font-weight: 600; }
+  .o-changed { color: var(--red); font-weight: 700; }
+  .o-comment { color: var(--muted2); font-size: 0.78rem; }
+  .o-interp { color: var(--text2); }
+  .cursor { display: inline-block; width: 2px; height: 1em; background: var(--green); vertical-align: text-bottom; animation: blink 1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .install-row { display: flex; justify-content: center; align-items: center; gap: 0.75rem; margin-top: 1.75rem; flex-wrap: wrap; }
+  .install-chip { display: flex; align-items: center; gap: 0.6rem; background: var(--bg); border: 1px solid var(--border2); border-radius: 8px; padding: 0.55rem 1rem; font-family: var(--mono); font-size: 0.85rem; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; position: relative; }
+  .install-chip:hover { border-color: var(--green-btn); box-shadow: 0 0 0 3px rgba(16,185,129,0.08); }
+  .install-chip .pip { color: var(--muted); }
+  .install-chip .copied { position: absolute; top: -2.25rem; left: 50%; transform: translateX(-50%); background: var(--text); color: #fff; padding: 0.2rem 0.6rem; border-radius: 5px; font-size: 0.7rem; font-weight: 600; font-family: var(--font); white-space: nowrap; opacity: 0; transition: opacity 0.15s; pointer-events: none; }
+  .install-chip.flash .copied { opacity: 1; }
+  .copy-icon { width: 14px; height: 14px; color: var(--muted2); }
+  .section-wrap { max-width: 1100px; margin: 0 auto; padding: 6rem 2rem; }
+  .section-label { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; font-weight: 700; color: var(--green); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; }
+  h2 { font-size: clamp(1.75rem, 3.5vw, 2.75rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; color: var(--text); }
+  h2 .accent { color: var(--green); }
+  .section-sub { margin-top: 0.875rem; font-size: 1.0625rem; color: var(--muted); max-width: 540px; line-height: 1.7; }
+  .problem-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 3rem; }
+  @media (max-width: 640px) { .problem-cards { grid-template-columns: 1fr; } }
+  .p-card { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); }
+  .p-card-tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.65rem; border-radius: 100px; margin-bottom: 1rem; letter-spacing: 0.06em; text-transform: uppercase; }
+  .tag-a { background: var(--blue-light); color: var(--blue); }
+  .tag-b { background: var(--red-light); color: var(--red); }
+  .p-card-q { font-size: 0.875rem; color: var(--muted); margin-bottom: 0.875rem; font-style: italic; }
+  .p-card-a { font-size: 0.9rem; color: var(--text2); line-height: 1.6; }
+  .p-card-hash { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); font-family: var(--mono); font-size: 0.7rem; color: var(--muted2); }
+  .p-card-hash .hval { color: var(--muted); }
+  .problem-verdict { margin-top: 1.25rem; background: #fff7ed; border: 1.5px solid #fed7aa; border-radius: var(--radius); padding: 1.25rem 1.5rem; display: flex; align-items: flex-start; gap: 1rem; }
+  .problem-verdict .icon { font-size: 1.4rem; flex-shrink: 0; line-height: 1; }
+  .problem-verdict-text { font-size: 0.9rem; color: var(--text2); line-height: 1.6; }
+  .problem-verdict-text strong { color: var(--text); }
+  .demo-bg { background: var(--bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .demo-card { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-md); margin-top: 2.5rem; }
+  .demo-card-header { background: var(--bg); border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; font-size: 0.8rem; font-weight: 600; color: var(--muted); display: flex; align-items: center; gap: 0.5rem; }
+  .demo-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+  @media (max-width: 600px) { .demo-inputs { grid-template-columns: 1fr; } }
+  .demo-col { padding: 1.5rem; }
+  .demo-col + .demo-col { border-left: 1px solid var(--border); }
+  .demo-col label { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; font-weight: 700; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.75rem; }
+  .demo-col label .badge { font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 100px; font-weight: 700; }
+  .badge-a { background: var(--blue-light); color: var(--blue); }
+  .badge-b { background: var(--red-light); color: var(--red); }
+  .demo-col textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 0.875rem; font-family: var(--mono); font-size: 0.8rem; color: var(--text); background: var(--white); resize: vertical; min-height: 90px; outline: none; line-height: 1.55; transition: border-color 0.15s, box-shadow 0.15s; }
+  .demo-col textarea:focus { border-color: var(--green-btn); box-shadow: 0 0 0 3px rgba(16,185,129,0.1); }
+  .demo-result { padding: 1.25rem 1.5rem; font-family: var(--mono); font-size: 0.83rem; line-height: 1.9; }
+  .r-key { color: var(--amber); font-weight: 500; }
+  .r-same { color: var(--blue); font-weight: 600; }
+  .r-diff { color: var(--red); font-weight: 600; }
+  .r-status-changed { display: inline-block; background: var(--red-light); color: var(--red); font-weight: 700; padding: 0.1rem 0.5rem; border-radius: 4px; }
+  .r-status-ok { display: inline-block; background: var(--green-light); color: var(--green); font-weight: 700; padding: 0.1rem 0.5rem; border-radius: 4px; }
+  .r-hash { color: var(--muted2); font-size: 0.71rem; }
+  .flow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-top: 3rem; }
+  .flow-step { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); transition: border-color 0.2s, transform 0.2s; }
+  .flow-step:hover { border-color: var(--green-btn); transform: translateY(-2px); }
+  .step-num { width: 32px; height: 32px; background: var(--green-light); color: var(--green); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800; margin-bottom: 1rem; }
+  .step-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .step-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
+  .step-code { margin-top: 0.875rem; font-family: var(--mono); font-size: 0.72rem; color: var(--green); background: var(--green-light); padding: 0.35rem 0.65rem; border-radius: 5px; display: inline-block; line-height: 1.5; }
+  .vs-wrap { margin-top: 3rem; border: 1.5px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+  table { width: 100%; border-collapse: collapse; }
+  thead th { background: var(--bg); padding: 1rem 1.5rem; text-align: left; font-size: 0.8rem; font-weight: 700; color: var(--muted); letter-spacing: 0.04em; border-bottom: 1.5px solid var(--border); }
+  thead th.th-ael { color: var(--green); background: var(--green-light); }
+  tbody td { padding: 0.9rem 1.5rem; font-size: 0.875rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--bg); }
+  .td-ael { background: rgba(209,250,229,0.25); }
+  .td-ael:hover { background: rgba(209,250,229,0.45) !important; }
+  .check { color: var(--green); font-weight: 700; }
+  .cross { color: var(--muted2); }
+  .check-ael { color: var(--green); font-weight: 700; }
+  .comp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin-top: 2.5rem; }
+  .comp-card { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 1.375rem; box-shadow: var(--shadow); transition: border-color 0.15s; }
+  .comp-card:hover { border-color: var(--green-btn); }
+  .comp-fw { font-size: 0.7rem; font-weight: 800; color: var(--green); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .comp-req { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .comp-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
+  .cta-wrap { background: var(--text); padding: 6rem 2rem; text-align: center; position: relative; overflow: hidden; }
+  .cta-wrap::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(16,185,129,0.12) 0%, transparent 60%); }
+  .cta-wrap h2 { color: #fff; position: relative; }
+  .cta-wrap .accent { color: var(--green-btn); }
+  .cta-wrap p { color: rgba(255,255,255,0.55); margin-top: 0.75rem; position: relative; }
+  .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2.5rem; position: relative; }
+  .cta-btn-main { background: var(--green-btn); color: #fff; text-decoration: none; padding: 0.9rem 2.25rem; border-radius: 10px; font-weight: 700; font-size: 1rem; transition: background 0.15s; box-shadow: 0 4px 16px rgba(16,185,129,0.35); }
+  .cta-btn-main:hover { background: var(--green-hover); }
+  .cta-btn-ghost { background: rgba(255,255,255,0.08); border: 1.5px solid rgba(255,255,255,0.15); color: #fff; text-decoration: none; padding: 0.9rem 2.25rem; border-radius: 10px; font-weight: 600; font-size: 1rem; transition: background 0.15s; }
+  .cta-btn-ghost:hover { background: rgba(255,255,255,0.14); }
+  .cta-mono { margin-top: 2rem; font-family: var(--mono); font-size: 0.85rem; color: rgba(255,255,255,0.3); position: relative; }
+  footer { border-top: 1px solid var(--border); padding: 1.75rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: 0.8rem; color: var(--muted); }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--green); }
+  .footer-links { display: flex; gap: 1.5rem; }
+  @media (max-width: 768px) { nav { padding: 0 1.25rem; } .nav-links { display: none; } .section-wrap { padding: 4rem 1.25rem; } }
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="#"><span>AELITIUM</span></a>
+  <ul class="nav-links">
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#demo">Live demo</a></li>
+    <li><a href="#compare">vs observability</a></li>
+    <li><a href="https://github.com/aelitium-dev/aelitium-v3/tree/main/docs">Docs</a></li>
+  </ul>
+  <div class="nav-right">
+    <a class="btn-ghost" href="https://github.com/aelitium-dev/aelitium-v3">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      GitHub
+    </a>
+    <a class="btn-green" href="#demo">Try the demo</a>
+  </div>
+</nav>
+<div class="hero">
+  <div class="hero-badge"><span class="badge-dot"></span>v0.2.4 · 177 tests passing · Apache 2.0</div>
+  <h1>Your LLM changed last week.<br><span class="accent">Can you prove when?</span></h1>
+  <p class="hero-sub">A CLI that wraps any OpenAI-compatible call and produces a signed, verifiable record — hash of the request, hash of the response. Offline. No server required. No vendor trust required.</p>
+  <div class="hero-actions">
+    <a class="hero-btn-primary" href="#demo">See it live →</a>
+    <a class="hero-btn-secondary" href="https://github.com/aelitium-dev/aelitium-v3">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      View on GitHub
+    </a>
+  </div>
+  <div class="output-wrap">
+    <div class="output-card">
+      <div class="output-header">
+        <span class="pill"><span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;"></span> CHANGED</span>
+        <span class="path">aelitium compare ./bundle_last_week ./bundle_today</span>
+      </div>
+      <div class="output-body" id="termBody">
+        <span class="o-line" id="l0"><span class="o-prompt">$ </span><span class="o-cmd" id="cmd0"></span><span class="cursor" id="cur0"></span></span>
+        <span class="o-line hidden" id="l1">&nbsp;</span>
+        <span class="o-line hidden" id="l2"><span class="o-key">STATUS</span>=<span class="o-changed">CHANGED</span>&nbsp;&nbsp;rc=2</span>
+        <span class="o-line hidden" id="l3"><span class="o-key">REQUEST_HASH</span>=<span class="o-same">SAME</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a=7b30b0d2...&nbsp;&nbsp;b=7b30b0d2...</span>
+        <span class="o-line hidden" id="l4"><span class="o-key">RESPONSE_HASH</span>=<span class="o-diff">DIFFERENT</span>&nbsp;&nbsp;&nbsp;a=2f1563cc...&nbsp;&nbsp;b=c41d8e3b...</span>
+        <span class="o-line hidden" id="l5"><span class="o-key">INTERPRETATION</span>=<span class="o-interp">Same request produced a different response</span></span>
+        <span class="o-line hidden" id="l6">&nbsp;</span>
+        <span class="o-line hidden" id="l7"><span class="o-comment"># The change came from the model — not your code.</span></span>
+      </div>
+    </div>
+  </div>
+  <div class="install-row">
+    <div class="install-chip" onclick="copyInstall(this)" title="Click to copy">
+      <span class="pip">$</span>
+      <span>pip install aelitium</span>
+      <svg class="copy-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="8" height="10" rx="1.5"/><path d="M4 4V3a1 1 0 011-1h6a1 1 0 011 1v1"/></svg>
+      <span class="copied">Copied!</span>
+    </div>
+  </div>
+</div>
+<div style="background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="section-wrap">
+    <div class="section-label">The problem</div>
+    <h2>Here's what actually<br><span class="accent">happens with a live model.</span></h2>
+    <p class="section-sub">OpenAI silently updated gpt-4o last Tuesday. Your evals look fine. But the response to your exact prompt is different. Your observability tool shows the call happened. It doesn't show what the model returned.</p>
+    <div class="problem-cards">
+      <div class="p-card">
+        <span class="p-card-tag tag-a">Run 1 — March 3</span>
+        <p class="p-card-q">"Summarise the key risks of deploying LLMs in production in one sentence."</p>
+        <p class="p-card-a">Key risks include non-deterministic outputs, prompt injection vulnerabilities, hallucinated facts, and the absence of tamper-evident logging.</p>
+        <div class="p-card-hash">response_hash: <span class="hval">2f1563cc8c0b7b71…</span></div>
+      </div>
+      <div class="p-card">
+        <span class="p-card-tag tag-b">Run 2 — March 10 · same prompt</span>
+        <p class="p-card-q">"Summarise the key risks of deploying LLMs in production in one sentence."</p>
+        <p class="p-card-a">Primary risks are hallucination, data leakage, adversarial prompt injection, and unpredictable behaviour changes following silent model updates.</p>
+        <div class="p-card-hash">response_hash: <span class="hval">c41d8e3b5f9a2201…</span></div>
+      </div>
+    </div>
+    <div class="problem-verdict">
+      <span class="icon">→</span>
+      <div class="problem-verdict-text">
+        <strong>request_hash = SAME.</strong> Identical prompt, identical parameters.
+        <strong> response_hash = DIFFERENT.</strong> The model returned something else.
+        The change came from the model — not your code. AELITIUM is how you prove that.
+      </div>
+    </div>
+  </div>
+</div>
+<div class="demo-bg" id="demo">
+  <div class="section-wrap">
+    <div class="section-label">Interactive demo</div>
+    <h2>SHA-256 is deterministic.<br><span class="accent">Edit anything — watch what changes.</span></h2>
+    <p class="section-sub">The same text always produces the same hash. Paste two responses from the same prompt and you'll know immediately whether the model returned identical output. Runs in your browser, no install needed.</p>
+    <div class="demo-card">
+      <div class="demo-card-header">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="var(--green)"><circle cx="8" cy="8" r="8"/></svg>
+        Live · SHA-256 comparison running in your browser — this is exactly how aelitium compare works
+      </div>
+      <div class="demo-inputs">
+        <div class="demo-col">
+          <label>Response <span class="badge badge-a">A</span> &nbsp;bundle_last_week</label>
+          <textarea id="textA" oninput="updateDemo()">Key risks include non-deterministic outputs, prompt injection vulnerabilities, hallucinated facts, and the absence of tamper-evident logging.</textarea>
+        </div>
+        <div class="demo-col">
+          <label>Response <span class="badge badge-b">B</span> &nbsp;bundle_today</label>
+          <textarea id="textB" oninput="updateDemo()">Primary risks are hallucination, data leakage, adversarial prompt injection, and unpredictable behaviour changes following silent model updates.</textarea>
+        </div>
+      </div>
+      <div class="demo-result" id="demoResult"></div>
+    </div>
+  </div>
+</div>
+<div id="how">
+  <div class="section-wrap">
+    <div class="section-label">How it works</div>
+    <h2>One import.<br><span class="accent">Nothing else changes.</span></h2>
+    <p class="section-sub">Your existing code stays exactly the same. AELITIUM intercepts the call, hashes everything, and writes a bundle you can verify forever — with or without internet.</p>
+    <div class="flow-grid">
+      <div class="flow-step"><div class="step-num">1</div><div class="step-title">Add one import</div><p class="step-desc">One line at the top of your existing code. Nothing else changes. No config, no API key, no SDK swap.</p><div class="step-code">from aelitium import capture_openai</div></div>
+      <div class="flow-step"><div class="step-num">2</div><div class="step-title">Bundle written to disk</div><p class="step-desc">SHA-256 of the request. SHA-256 of the response. A binding_hash links both. Ed25519 seals it so you can't quietly edit it later.</p><div class="step-code">request_hash + response_hash<br>→ binding_hash → signature</div></div>
+      <div class="flow-step"><div class="step-num">3</div><div class="step-title">Verify anywhere, offline</div><p class="step-desc">Hand the bundle to your auditor, your client, your lawyer. They can verify it themselves without calling any server — including yours.</p><div class="step-code">aelitium verify-bundle ./evidence<br>→ STATUS=VALID</div></div>
+      <div class="flow-step"><div class="step-num">4</div><div class="step-title">Catch silent model changes</div><p class="step-desc">Same request, different response? AELITIUM tells you exactly when that started — by comparing bundle hashes, not log text.</p><div class="step-code">aelitium compare ./run_a ./run_b<br>→ STATUS=CHANGED</div></div>
+    </div>
+  </div>
+</div>
+<div style="background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);" id="compare">
+  <div class="section-wrap">
+    <div class="section-label">Positioning</div>
+    <h2>Observability tools<br><span class="accent">weren't built for this.</span></h2>
+    <p class="section-sub">Langfuse, Helicone, LangSmith — great for debugging latency and costs. But they run on servers. You can't use them to prove to an auditor what a model returned six months ago.</p>
+    <div class="vs-wrap">
+      <table>
+        <thead><tr><th>Capability</th><th>Langfuse / Helicone / LangSmith</th><th class="th-ael">AELITIUM</th></tr></thead>
+        <tbody>
+          <tr><td>Traces, metrics &amp; dashboards</td><td><span class="check">✓</span></td><td class="td-ael"><span class="cross">—</span></td></tr>
+          <tr><td>Cryptographic proof of LLM output</td><td><span class="cross">✗</span></td><td class="td-ael"><span class="check-ael">✓</span></td></tr>
+          <tr><td>Tamper-evident record</td><td><span class="cross">✗</span></td><td class="td-ael"><span class="check-ael">✓</span></td></tr>
+          <tr><td>Offline verification — no server</td><td><span class="cross">✗</span></td><td class="td-ael"><span class="check-ael">✓</span></td></tr>
+          <tr><td>Drift detection by hash comparison</td><td><span class="cross">✗</span></td><td class="td-ael"><span class="check-ael">✓</span></td></tr>
+          <tr><td>Scan codebase for uninstrumented calls</td><td><span class="cross">✗</span></td><td class="td-ael"><span class="check-ael">✓</span></td></tr>
+          <tr><td>Requires vendor trust</td><td><span style="color:var(--amber);">✓ server-based</span></td><td class="td-ael"><span class="check-ael">✗ offline-first</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div>
+  <div class="section-wrap">
+    <div class="section-label">Compliance</div>
+    <h2>Regulators are<br><span class="accent">already asking for this.</span></h2>
+    <p class="section-sub">If you're building AI into anything regulated, someone is going to ask you to prove what the model returned. AELITIUM's bundles are the answer.</p>
+    <div class="comp-grid">
+      <div class="comp-card"><div class="comp-fw">EU AI Act · Art. 12</div><div class="comp-req">Logging &amp; traceability</div><div class="comp-desc">Requires logged, traceable records of high-risk AI outputs. AELITIUM bundles are tamper-evident by design — you can't quietly edit a hash.</div></div>
+      <div class="comp-card"><div class="comp-fw">SOC 2 · CC7</div><div class="comp-req">System monitoring &amp; integrity</div><div class="comp-desc">SOC 2 auditors ask whether your logs could have been altered. Offline verification is the cleanest answer to that question.</div></div>
+      <div class="comp-card"><div class="comp-fw">ISO 42001</div><div class="comp-req">AI management auditability</div><div class="comp-desc">Third-party auditors don't need access to your infrastructure. They get the bundle and verify it themselves.</div></div>
+      <div class="comp-card"><div class="comp-fw">NIST AI RMF · MG 2.2</div><div class="comp-req">Traceability of AI decisions</div><div class="comp-desc">Full record: canonicalized request, response hash, timestamp, optional Ed25519 signature. Everything a reviewer needs.</div></div>
+    </div>
+  </div>
+</div>
+<div class="cta-wrap">
+  <h2>Try it on your<br><span class="accent">next API call.</span></h2>
+  <p>Open source · Apache 2.0 · 177 tests · If it doesn't do what it says, open an issue.</p>
+  <div class="cta-btns">
+    <a class="cta-btn-main" href="https://github.com/aelitium-dev/aelitium-v3">View on GitHub</a>
+    <a class="cta-btn-ghost" href="https://github.com/aelitium-dev/aelitium-v3/tree/main/docs">Read the docs</a>
+  </div>
+  <p class="cta-mono">pip install aelitium</p>
+  <p style="margin-top:0.75rem;font-size:0.8rem;color:rgba(255,255,255,0.35);position:relative;">Also on <a href="https://pypi.org/project/aelitium/" style="color:rgba(255,255,255,0.5);text-decoration:underline;text-underline-offset:3px;">PyPI</a></p>
+</div>
+<footer>
+  <span>© 2026 AELITIUM · Apache 2.0</span>
+  <div class="footer-links">
+    <a href="https://github.com/aelitium-dev/aelitium-v3">GitHub</a>
+    <a href="https://github.com/aelitium-dev/aelitium-v3/tree/main/docs">Docs</a>
+    <a href="https://pypi.org/project/aelitium/">PyPI</a>
+  </div>
+</footer>
+<script>
+const CMD = 'aelitium compare ./bundle_last_week ./bundle_today';
+let i = 0;
+const cmdEl = document.getElementById('cmd0');
+const curEl = document.getElementById('cur0');
+function type() {
+  if (i < CMD.length) { cmdEl.textContent += CMD[i++]; setTimeout(type, 36 + Math.random()*28); }
+  else { curEl.remove(); setTimeout(showLines, 350); }
+}
+function showLines() {
+  ['l1','l2','l3','l4','l5','l6','l7'].forEach((id, n) => {
+    setTimeout(() => document.getElementById(id).classList.remove('hidden'), n * 120);
+  });
+}
+setTimeout(type, 700);
+function copyInstall(el) {
+  navigator.clipboard.writeText('pip install aelitium').catch(()=>{});
+  el.classList.add('flash');
+  setTimeout(() => el.classList.remove('flash'), 1600);
+}
+async function sha256(t) {
+  const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t));
+  return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');
+}
+async function updateDemo() {
+  const a = document.getElementById('textA').value;
+  const b = document.getElementById('textB').value;
+  const [ha, hb] = await Promise.all([sha256(a), sha256(b)]);
+  const same = ha === hb;
+  document.getElementById('demoResult').innerHTML = `<span class="r-key">STATUS</span>=<span class="${same?'r-status-ok':'r-status-changed'}">${same?'UNCHANGED  rc=0':'CHANGED  rc=2'}</span><br><span class="r-key">REQUEST_HASH</span>=<span class="r-same">SAME</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(canonicalized request — identical in both runs)<br><span class="r-key">RESPONSE_HASH</span>=<span class="${same?'r-same':'r-diff'}">${same?'SAME':'DIFFERENT'}</span><br><span class="r-hash">&nbsp;&nbsp;a=${ha.substring(0,40)}…</span><br><span class="r-hash">&nbsp;&nbsp;b=${hb.substring(0,40)}…</span><br><span class="r-key">INTERPRETATION</span>=${same?'Responses are identical':'Same request produced a different response'}`;
+}
+updateDemo();
+</script>
+</body>
+</html>
