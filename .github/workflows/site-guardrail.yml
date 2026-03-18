@@ -13,10 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install ripgrep
-        shell: powershell
-        run: choco install ripgrep -y
-
       - name: Run guardrail
         shell: powershell
         run: powershell -ExecutionPolicy Bypass -File .\guardrail.ps1

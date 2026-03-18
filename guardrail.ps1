@@ -1,48 +1,46 @@
-Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
 $target = "index.html"
-$patterns = @(
-  "what the model actually",
-  "exactly when",
-  "any OpenAI-compatible",
-  "no config",
-  "no API key",
-  "verify --out",
-  "proves what the model",
-  "exactly what the model"
-)
-
-if (-not (Get-Command rg -ErrorAction SilentlyContinue)) {
-  Write-Host "rg not found. Install ripgrep and re-run."
-  exit 2
-}
 
 if (-not (Test-Path $target)) {
-  Write-Host "Missing target file: $target"
-  exit 2
-}
-
-$found = $false
-
-foreach ($pattern in $patterns) {
-  $matches = rg -n -i -F -e $pattern -- $target
-  if ($LASTEXITCODE -eq 0) {
-    Write-Host ""
-    Write-Host "Match for pattern: $pattern"
-    Write-Host $matches
-    $found = $true
-  } elseif ($LASTEXITCODE -eq 2) {
-    Write-Host "rg error while searching for: $pattern"
-    exit 2
-  }
-}
-
-if ($found) {
-  Write-Host ""
-  Write-Host "Guardrail failed."
+  Write-Error "index.html not found"
   exit 1
 }
 
-Write-Host "Guardrail passed."
+$patterns = @(
+  "proves what the model actually",
+  "what the model actually said",
+  "what the model actually returned",
+  "exactly what the model generated",
+  "closes the trust gap",
+  "no trust gap",
+  "captured at call time",
+  "after capture",
+  "since capture",
+  "at generation time",
+  "verify --out",
+  "any OpenAI-compatible",
+  "No config",
+  "No API key",
+  "exactly when"
+)
+
+$hits = @()
+
+foreach ($pattern in $patterns) {
+  $matches = Select-String -Path $target -Pattern $pattern -SimpleMatch
+  if ($matches) {
+    $hits += $matches
+  }
+}
+
+if ($hits.Count -gt 0) {
+  Write-Host "[FAIL] overclaim patterns found:" -ForegroundColor Red
+  $hits | ForEach-Object {
+    Write-Host ("{0}:{1}: {2}" -f $_.Path, $_.LineNumber, $_.Line.Trim())
+  }
+  exit 1
+}
+
+Write-Host "[PASS] no overclaim patterns found" -ForegroundColor Green
 exit 0
