@@ -1,0 +1,22 @@
+name: site-guardrail
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  messaging-guardrail:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install ripgrep
+        shell: powershell
+        run: choco install ripgrep -y
+
+      - name: Run guardrail
+        shell: powershell
+        run: powershell -ExecutionPolicy Bypass -File .\guardrail.ps1
