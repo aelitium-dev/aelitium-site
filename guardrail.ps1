@@ -1,11 +1,9 @@
 $ErrorActionPreference = "Stop"
 
-$target = "index.html"
-
-if (-not (Test-Path $target)) {
-  Write-Error "index.html not found"
-  exit 1
-}
+$targets = @("index.html", "*.md")
+$excludeFiles = @(
+  "MESSAGING_SPEC.md"
+)
 
 $patterns = @(
   "proves what the model actually",
@@ -26,11 +24,29 @@ $patterns = @(
 )
 
 $hits = @()
+$files = @()
 
-foreach ($pattern in $patterns) {
-  $matches = Select-String -Path $target -Pattern $pattern -SimpleMatch
-  if ($matches) {
-    $hits += $matches
+foreach ($target in $targets) {
+  $items = Get-ChildItem -Path . -Recurse -File -Filter $target
+  foreach ($item in $items) {
+    if ($excludeFiles -contains $item.Name) { continue }
+    $files += $item
+  }
+}
+
+$files = $files | Sort-Object -Property FullName -Unique
+
+if ($files.Count -eq 0) {
+  Write-Error "No files matched the guardrail targets."
+  exit 1
+}
+
+foreach ($file in $files) {
+  foreach ($pattern in $patterns) {
+    $matches = Select-String -Path $file.FullName -Pattern $pattern -SimpleMatch
+    if ($matches) {
+      $hits += $matches
+    }
   }
 }
 
