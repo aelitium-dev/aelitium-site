@@ -603,8 +603,8 @@
     <span class="badge-dot"></span>
     v0.2.4 · 177 tests passing · Apache 2.0
   </div>
-  <h1>Your LLM changed last week.<br><span class="accent">Can you verify the evidence?</span></h1>
-  <p class="hero-sub">A CLI that wraps supported OpenAI-compatible call paths and produces a tamper-evident evidence bundle - hash of the canonical request scope (model + messages) and hash of the recorded response. Offline verification. No vendor server required for verification.</p>
+  <h1>Same request.<br><span class="accent">Different response.</span><br>Can you verify the evidence?</h1>
+  <p class="hero-sub">A CLI that wraps supported OpenAI-compatible integrations and produces a tamper-evident evidence bundle - hash of the canonical request scope (model + messages) and hash of the recorded response. Offline verification. No vendor server required.</p>
   <div class="hero-actions">
     <a class="hero-btn-primary" href="#demo">See it live →</a>
     <a class="hero-btn-secondary" href="https://github.com/aelitium-dev/aelitium-v3">
@@ -671,7 +671,7 @@
       <div class="problem-verdict-text">
         <strong>request_hash = SAME.</strong> Same canonical request scope: identical model + messages.
         <strong> response_hash = DIFFERENT.</strong> The recorded response is different.
-        AELITIUM shows that behavior changed between verified captures.
+        AELITIUM detects changes between verified captures.
       </div>
     </div>
   </div>
@@ -708,7 +708,7 @@
   <div class="section-wrap">
     <div class="section-label">How it works</div>
     <h2>One import.<br><span class="accent">Minimal changes in supported integrations.</span></h2>
-    <p class="section-sub">In supported integrations, adoption can be minimal. AELITIUM wraps the call path, hashes the canonical request scope and response, and writes a bundle you can verify offline, with or without internet.</p>
+    <p class="section-sub">In supported integrations, adoption can be minimal. AELITIUM wraps the call path, hashes the canonical request scope and response, and writes a bundle you can verify offline.</p>
     <div class="flow-grid">
       <div class="flow-step">
         <div class="step-num">1</div>
@@ -731,7 +731,7 @@
       <div class="flow-step">
         <div class="step-num">4</div>
         <div class="step-title">Catch silent model changes</div>
-        <p class="step-desc">Same request, different response? AELITIUM shows that behavior changed between verified captures - by comparing bundle hashes, not log text.</p>
+        <p class="step-desc">Same request, different response? AELITIUM detects changes between verified captures - by comparing bundle hashes, not log text.</p>
         <div class="step-code">aelitium compare ./run_a ./run_b<br>→ STATUS=CHANGED</div>
       </div>
     </div>
@@ -770,7 +770,7 @@
             <td class="td-ael"><span class="check-ael">✓</span></td>
           </tr>
           <tr>
-            <td>Offline verification — no server</td>
+            <td>Offline verification (no vendor server required)</td>
             <td><span class="cross">✗</span></td>
             <td class="td-ael"><span class="check-ael">✓</span></td>
           </tr>
@@ -785,7 +785,7 @@
             <td class="td-ael"><span class="check-ael">✓</span></td>
           </tr>
           <tr>
-            <td>Requires vendor trust</td>
+            <td>Vendor trust dependency</td>
             <td><span style="color:var(--amber);">✓ server-based</span></td>
             <td class="td-ael"><span class="check-ael">✗ offline-first</span></td>
           </tr>
@@ -890,7 +890,7 @@ async function updateDemo() {
 <span class="r-key">RESPONSE_HASH</span>=<span class="${same?'r-same':'r-diff'}">${same?'SAME':'DIFFERENT'}</span><br>
 <span class="r-hash">&nbsp;&nbsp;a=${ha.substring(0,40)}…</span><br>
 <span class="r-hash">&nbsp;&nbsp;b=${hb.substring(0,40)}…</span><br>
-<span class="r-key">INTERPRETATION</span>=${same?'Responses are identical':'Same request produced a different response'}`;
+<span class="r-key">INTERPRETATION</span>=${same?'Responses are identical':'Same canonical request scope produced a different recorded response'}`;
 }
 updateDemo();
 </script>
