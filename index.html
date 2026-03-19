@@ -604,7 +604,7 @@
     v0.2.4 · 177 tests passing · Apache 2.0
   </div>
   <h1>Same request.<br><span class="accent">Different response.</span><br>Can you verify the evidence?</h1>
-  <p class="hero-sub">A CLI that wraps supported OpenAI-compatible integrations and produces a tamper-evident evidence bundle - hash of the canonical request scope (model + messages) and hash of the recorded response. Offline verification. No vendor server required.</p>
+  <p class="hero-sub">A CLI that integrates with supported OpenAI-compatible clients and produces a tamper-evident evidence bundle - hash of the canonicalized request input (model + messages) and hash of the recorded response. Offline verification. No vendor server required.</p>
   <div class="hero-actions">
     <a class="hero-btn-primary" href="#demo">See it live →</a>
     <a class="hero-btn-secondary" href="https://github.com/aelitium-dev/aelitium-v3">
@@ -626,7 +626,7 @@
         <span class="o-line hidden" id="l2"><span class="o-key">STATUS</span>=<span class="o-changed">CHANGED</span>&nbsp;&nbsp;rc=2</span>
         <span class="o-line hidden" id="l3"><span class="o-key">REQUEST_HASH</span>=<span class="o-same">SAME</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a=7b30b0d2...&nbsp;&nbsp;b=7b30b0d2...</span>
         <span class="o-line hidden" id="l4"><span class="o-key">RESPONSE_HASH</span>=<span class="o-diff">DIFFERENT</span>&nbsp;&nbsp;&nbsp;a=2f1563cc...&nbsp;&nbsp;b=c41d8e3b...</span>
-        <span class="o-line hidden" id="l5"><span class="o-key">INTERPRETATION</span>=<span class="o-interp">Same canonical request scope produced a different recorded response</span></span>
+        <span class="o-line hidden" id="l5"><span class="o-key">INTERPRETATION</span>=<span class="o-interp">Same canonicalized request input produced a different recorded response</span></span>
         <span class="o-line hidden" id="l6">&nbsp;</span>
         <span class="o-line hidden" id="l7"><span class="o-comment"># Behavior changed between verified runs.</span></span>
       </div>
@@ -651,7 +651,7 @@
   <div class="section-wrap">
     <div class="section-label">The problem</div>
     <h2>Here's what actually<br><span class="accent">happens with a live model.</span></h2>
-    <p class="section-sub">Suppose a provider updates a model between two runs. Your evals look fine. But the recorded response for the same canonical request scope is different. Your observability tool shows that the call happened. It may not preserve tamper-evident evidence of the recorded output.</p>
+    <p class="section-sub">Suppose a provider updates a model between two runs. Your evals look fine. But the recorded response for the same canonicalized request input is different. Your observability tool shows that the call happened. It may not preserve tamper-evident evidence of the recorded output.</p>
     <div class="problem-cards">
       <div class="p-card">
         <span class="p-card-tag tag-a">Run 1 — March 3</span>
@@ -669,9 +669,9 @@
     <div class="problem-verdict">
       <span class="icon">→</span>
       <div class="problem-verdict-text">
-        <strong>request_hash = SAME.</strong> Same canonical request scope: identical model + messages.
+        <strong>request_hash = SAME.</strong> Same canonicalized request input: identical model + messages.
         <strong> response_hash = DIFFERENT.</strong> The recorded response is different.
-        AELITIUM detects changes between verified captures.
+        AELITIUM detects differences between recorded responses for the same canonicalized request input.
       </div>
     </div>
   </div>
@@ -682,7 +682,7 @@
   <div class="section-wrap">
     <div class="section-label">Interactive demo</div>
     <h2>SHA-256 is deterministic.<br><span class="accent">Edit anything — watch what changes.</span></h2>
-    <p class="section-sub">The same text always produces the same hash. Paste two recorded responses from the same canonical request scope and compare them deterministically. Runs in your browser, no install needed.</p>
+    <p class="section-sub">The same text always produces the same hash. Paste two recorded responses from the same canonicalized request input and compare them deterministically. Runs in your browser, no install needed.</p>
     <div class="demo-card">
       <div class="demo-card-header">
         <svg width="14" height="14" viewBox="0 0 16 16" fill="var(--green)"><circle cx="8" cy="8" r="8"/></svg>
@@ -719,7 +719,7 @@
       <div class="flow-step">
         <div class="step-num">2</div>
         <div class="step-title">Bundle written to disk</div>
-        <p class="step-desc">SHA-256 of the request. SHA-256 of the response. A binding_hash links both. When enabled, Ed25519 adds signer authenticity on top of bundle integrity.</p>
+        <p class="step-desc">SHA-256 of the request. SHA-256 of the response. A binding_hash links both. Optional Ed25519 signatures add signer authenticity when configured.</p>
         <div class="step-code">request_hash + response_hash<br>→ binding_hash → signature</div>
       </div>
       <div class="flow-step">
@@ -731,7 +731,7 @@
       <div class="flow-step">
         <div class="step-num">4</div>
         <div class="step-title">Catch silent model changes</div>
-        <p class="step-desc">Same request, different response? AELITIUM detects changes between verified captures - by comparing bundle hashes, not log text.</p>
+        <p class="step-desc">Same request, different response? AELITIUM detects differences between recorded responses for the same canonicalized request input - by comparing bundle hashes, not log text.</p>
         <div class="step-code">aelitium compare ./run_a ./run_b<br>→ STATUS=CHANGED</div>
       </div>
     </div>
@@ -780,7 +780,7 @@
             <td class="td-ael"><span class="check-ael">✓</span></td>
           </tr>
           <tr>
-            <td>Scan codebase for uninstrumented calls</td>
+            <td>Can help identify uninstrumented calls</td>
             <td><span class="cross">✗</span></td>
             <td class="td-ael"><span class="check-ael">✓</span></td>
           </tr>
@@ -800,7 +800,7 @@
   <div class="section-wrap">
     <div class="section-label">Compliance</div>
     <h2>In regulated environments,<br><span class="accent">auditability and traceability requirements make this increasingly relevant.</span></h2>
-    <p class="section-sub">If you're building AI into anything regulated, someone is going to ask you to preserve tamper-evident evidence of what was recorded. AELITIUM bundles can help answer that.</p>
+    <p class="section-sub">If you're building AI into anything regulated, someone is going to ask you to preserve tamper-evident evidence of what was recorded. AELITIUM bundles provide tamper-evident records that can support these requirements.</p>
     <div class="comp-grid">
       <div class="comp-card">
         <div class="comp-fw">EU AI Act · Art. 12</div>
@@ -890,7 +890,7 @@ async function updateDemo() {
 <span class="r-key">RESPONSE_HASH</span>=<span class="${same?'r-same':'r-diff'}">${same?'SAME':'DIFFERENT'}</span><br>
 <span class="r-hash">&nbsp;&nbsp;a=${ha.substring(0,40)}…</span><br>
 <span class="r-hash">&nbsp;&nbsp;b=${hb.substring(0,40)}…</span><br>
-<span class="r-key">INTERPRETATION</span>=${same?'Responses are identical':'Same canonical request scope produced a different recorded response'}`;
+<span class="r-key">INTERPRETATION</span>=${same?'Responses are identical':'Same canonicalized request input produced a different recorded response'}`;
 }
 updateDemo();
 </script>
