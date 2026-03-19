@@ -708,7 +708,7 @@
   <div class="section-wrap">
     <div class="section-label">How it works</div>
     <h2>One import.<br><span class="accent">Minimal changes in supported integrations.</span></h2>
-    <p class="section-sub">In supported integrations, adoption can be minimal. AELITIUM wraps the call path, hashes the canonical request scope and response, and writes a bundle you can verify offline.</p>
+    <p class="section-sub">In supported integrations, adoption can be minimal. AELITIUM wraps the call path, hashes the canonicalized request input and recorded response, and writes a bundle you can verify offline.</p>
     <div class="flow-grid">
       <div class="flow-step">
         <div class="step-num">1</div>
@@ -720,7 +720,7 @@
         <div class="step-num">2</div>
         <div class="step-title">Bundle written to disk</div>
         <p class="step-desc">SHA-256 of the request. SHA-256 of the response. A binding_hash links both. Optional Ed25519 signatures add signer authenticity when configured.</p>
-        <div class="step-code">request_hash + response_hash<br>→ binding_hash → signature</div>
+        <div class="step-code">request_hash + response_hash<br>→ binding_hash = SHA256(request_hash || response_hash)<br>→ optional signature</div>
       </div>
       <div class="flow-step">
         <div class="step-num">3</div>
@@ -734,6 +734,22 @@
         <p class="step-desc">Same request, different response? AELITIUM detects differences between recorded responses for the same canonicalized request input - by comparing bundle hashes, not log text.</p>
         <div class="step-code">aelitium compare ./run_a ./run_b<br>→ STATUS=CHANGED</div>
       </div>
+    </div>
+    <div style="margin-top:32px;border:1px solid var(--border);background:var(--panel);border-radius:20px;padding:24px;">
+      <div class="section-label">Trust model</div>
+      <p class="section-sub" style="margin-top:12px;">AELITIUM provides these guarantees:</p>
+      <p class="step-desc">- Any post-capture modification is detectable</p>
+      <p class="section-sub" style="margin-top:18px;">AELITIUM does NOT guarantee:</p>
+      <p class="step-desc">- That the LLM actually produced the response</p>
+      <p class="step-desc">- That the response is correct or truthful</p>
+      <p class="step-desc">- That the provider did not change behavior</p>
+      <p class="section-sub" style="margin-top:18px;">Verification is offline and does not trust:</p>
+      <p class="step-desc">- the runtime that produced the bundle</p>
+      <p class="step-desc">- the model provider</p>
+      <p class="step-desc">- your infrastructure</p>
+      <p class="section-sub" style="margin-top:18px;">AELITIUM covers two cases:</p>
+      <p class="step-desc">- Tamper detection: modified recorded output</p>
+      <p class="step-desc">- Behavior drift: same canonicalized request input, different recorded response</p>
     </div>
   </div>
 </div>
@@ -800,7 +816,7 @@
   <div class="section-wrap">
     <div class="section-label">Compliance</div>
     <h2>In regulated environments,<br><span class="accent">auditability and traceability requirements make this increasingly relevant.</span></h2>
-    <p class="section-sub">If you're building AI into anything regulated, someone is going to ask you to preserve tamper-evident evidence of what was recorded. AELITIUM bundles provide tamper-evident records that can support these requirements.</p>
+    <p class="section-sub">If you're building AI into anything regulated, someone is going to ask you to preserve tamper-evident evidence of what was recorded. AELITIUM provides tamper-evident evidence that can be verified offline, making it suitable for audit and compliance workflows.</p>
     <div class="comp-grid">
       <div class="comp-card">
         <div class="comp-fw">EU AI Act · Art. 12</div>
@@ -820,7 +836,7 @@
       <div class="comp-card">
         <div class="comp-fw">NIST AI RMF · MG 2.2</div>
         <div class="comp-req">Traceability of AI decisions</div>
-        <div class="comp-desc">Full evidence bundle: canonical request scope, response material, binding hash, and optional Ed25519 signature when configured.</div>
+        <div class="comp-desc">Full evidence bundle: canonicalized request input, recorded response material, binding hash, and optional Ed25519 signature when configured.</div>
       </div>
     </div>
   </div>
