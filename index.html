@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AELITIUM - Verify recorded LLM output</title>
-<meta name="description" content="Cryptographic integrity for LLM outputs. Detect behavior changes between verified captures - offline, tamper-evident, no server required.">
+<meta name="description" content="Cryptographic integrity for LLM outputs. Detect differences between recorded responses for the same canonicalized request input - offline, tamper-evident, no server required.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -720,7 +720,7 @@
         <div class="step-num">2</div>
         <div class="step-title">Bundle written to disk</div>
         <p class="step-desc">SHA-256 of the request. SHA-256 of the response. A binding_hash links both. Optional Ed25519 signatures add signer authenticity when configured.</p>
-        <div class="step-code">request_hash + response_hash<br>→ binding_hash = SHA256(request_hash || response_hash)<br>→ optional signature</div>
+        <div class="step-code">binding_hash = SHA256(canonical({request_hash, response_hash}))<br>→ optional signature</div>
       </div>
       <div class="flow-step">
         <div class="step-num">3</div>

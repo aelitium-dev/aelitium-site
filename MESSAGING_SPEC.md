@@ -9,7 +9,7 @@ offline verification of recorded outputs.
 ## Scope words (use these)
 - evidence bundle
 - recorded response
-- canonical request scope (model + messages)
+- canonicalized request input (model + messages)
 - tamper-evident
 - offline verification
 
@@ -21,8 +21,8 @@ offline verification of recorded outputs.
 
 ## Allowed claims (examples)
 - "Verify recorded LLM output offline."
-- "Detect behavior changes between verified captures."
-- "Hashes cover the canonical request scope (model + messages) and recorded response."
+- "Detect differences between recorded responses for the same canonicalized request input."
+- "Hashes cover the canonicalized request input (model + messages) and recorded response."
 - "Ed25519 signatures are optional and add signer authenticity when enabled."
 - "Supported OpenAI-compatible call paths."
 
@@ -37,7 +37,7 @@ offline verification of recorded outputs.
 ## Wording swaps
 - "verify it" -> "verify the evidence"
 - "response" -> "recorded response"
-- "same prompt" -> "same canonical request scope"
+- "same prompt" -> "same canonicalized request input"
 - "verifiable record" -> "tamper-evident evidence bundle"
 
 ## Compliance framing
