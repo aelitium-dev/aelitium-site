@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AELITIUM - Tamper-evident evidence for AI interactions</title>
-<meta name="description" content="AELITIUM generates tamper-evident evidence bundles for AI interactions so anyone can verify the recorded result offline, without a vendor server.">
+<title>AELITIUM - Verify what was recorded</title>
+<meta name="description" content="AELITIUM generates tamper-evident evidence bundles for AI interactions so you can verify what was recorded offline.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -457,14 +457,8 @@
     line-height: 1.5;
   }
 
-  /* ── WHY / TRUST ── */
-  .why-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1rem;
-    margin-top: 2.5rem;
-  }
-  .why-card,
+  /* ── TRUST ── */
+  .limits-grid,
   .trust-card {
     background: var(--white);
     border: 1.5px solid var(--border);
@@ -472,21 +466,27 @@
     padding: 1.5rem;
     box-shadow: var(--shadow);
   }
-  .why-title,
+  .limits-title,
   .trust-title {
     font-size: 1rem;
     font-weight: 700;
     margin-bottom: 0.55rem;
   }
-  .why-desc,
+  .limits-desc,
   .trust-desc {
     font-size: 0.9rem;
     color: var(--muted);
     line-height: 1.65;
   }
+  .limits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
   .trust-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1rem;
     margin-top: 2.5rem;
   }
@@ -592,9 +592,8 @@
 <nav>
   <a class="nav-logo" href="#"><span>AELITIUM</span></a>
   <ul class="nav-links">
-    <li><a href="#how">How it works</a></li>
+    <li><a href="#mechanism">How it works</a></li>
     <li><a href="#demo">Live demo</a></li>
-    <li><a href="#why">Why verification matters</a></li>
     <li><a href="https://github.com/aelitium-dev/aelitium-v3/tree/main/docs">Docs</a></li>
   </ul>
   <div class="nav-right">
@@ -612,8 +611,8 @@
     <span class="badge-dot"></span>
     v0.2.4 · 206 tests passing · Apache 2.0
   </div>
-  <h1>Same request.<br><span class="accent">Different response.</span><br>Can you prove what was recorded?</h1>
-  <p class="hero-sub">AELITIUM generates a tamper-evident evidence bundle for AI interactions. It hashes the canonicalized request input and the recorded response so anyone can verify the result offline, with no vendor server required.</p>
+  <h1>Same request.<br><span class="accent">Different response.</span><br>Can you verify what was recorded?</h1>
+  <p class="hero-sub">AELITIUM generates tamper-evident evidence bundles for AI interactions, so you can verify what was recorded offline.</p>
   <div class="hero-actions">
     <a class="hero-btn-primary" href="#demo">See it live →</a>
     <a class="hero-btn-secondary" href="https://github.com/aelitium-dev/aelitium-v3">
@@ -653,6 +652,7 @@
       <span class="copied">Copied!</span>
     </div>
   </div>
+  <p class="section-sub" style="margin-top:1rem;max-width:none;">No vendor server required.</p>
 </div>
 
 <!-- PROBLEM -->
@@ -680,7 +680,7 @@
       <div class="problem-verdict-text">
         <strong>request_hash = SAME.</strong> Same canonicalized request input: identical model + messages.
         <strong> response_hash = DIFFERENT.</strong> The recorded response is different.
-        AELITIUM detects changes between recorded outputs for the same canonicalized request input.
+        AELITIUM helps you verify that the recorded output changed.
       </div>
     </div>
   </div>
@@ -713,58 +713,35 @@
 </div>
 
 <!-- HOW IT WORKS -->
-<div id="how">
+<div id="mechanism">
   <div class="section-wrap">
-    <div class="section-label">How it works</div>
-    <h2>One import.<br><span class="accent">Minimal changes in supported integrations.</span></h2>
-    <p class="section-sub">In supported integrations, adoption can be minimal. AELITIUM wraps the call path, hashes the canonicalized request input and recorded response, and writes a bundle you can verify offline.</p>
+    <div class="section-label">Minimal mechanism</div>
+    <h2>One import.<br><span class="accent">Four steps.</span></h2>
+    <p class="section-sub">AELITIUM hashes the canonicalized request input and the recorded response, writes a bundle, and lets you verify it offline.</p>
     <div class="flow-grid">
       <div class="flow-step">
         <div class="step-num">1</div>
         <div class="step-title">Add one import</div>
-        <p class="step-desc">One line near the top of your existing code. In supported integrations, changes can be minimal. Provider API keys and normal runtime config still apply.</p>
+        <p class="step-desc">One line near the top of your existing code.</p>
         <div class="step-code">from aelitium import capture_openai</div>
       </div>
       <div class="flow-step">
         <div class="step-num">2</div>
         <div class="step-title">Bundle written to disk</div>
-        <p class="step-desc">SHA-256 of the canonicalized request input. SHA-256 of the recorded response. A binding hash links both. When enabled, Ed25519 adds signer authenticity on top of bundle integrity.</p>
-        <div class="step-code">request_hash + response_hash<br>→ binding_hash → signature</div>
+        <p class="step-desc">Request hash. Response hash. Binding hash.</p>
+        <div class="step-code">request_hash + response_hash<br>→ binding_hash</div>
       </div>
       <div class="flow-step">
         <div class="step-num">3</div>
         <div class="step-title">Verify anywhere, offline</div>
-        <p class="step-desc">Hand the bundle to your auditor, your client, your lawyer. They can verify the bundle themselves offline, without calling your server.</p>
+        <p class="step-desc">Verify the bundle without calling a vendor server.</p>
         <div class="step-code">aelitium verify-bundle ./evidence<br>→ STATUS=VALID</div>
       </div>
       <div class="flow-step">
         <div class="step-num">4</div>
         <div class="step-title">Catch silent model changes</div>
-        <p class="step-desc">Same request, different response? AELITIUM detects changes between recorded outputs for the same canonicalized request input by comparing bundle hashes, not log text.</p>
+        <p class="step-desc">Compare two runs for the same request and check whether the recorded output changed.</p>
         <div class="step-code">aelitium compare ./run_a ./run_b<br>→ STATUS=CHANGED</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- WHY -->
-<div style="background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);" id="why">
-  <div class="section-wrap">
-    <div class="section-label">Why verification matters</div>
-    <h2>Logs help you observe.<br><span class="accent">Proof helps you verify.</span></h2>
-    <p class="section-sub">Teams often keep logs of AI calls. But a log is not the same thing as independently verifiable evidence. AELITIUM produces deterministic evidence bundles that can be verified offline, without relying on the system that recorded them.</p>
-    <div class="why-grid">
-      <div class="why-card">
-        <div class="why-title">What you can verify</div>
-        <div class="why-desc">Whether the recorded response still matches the captured bundle, and whether two bundles for the same canonicalized request input differ.</div>
-      </div>
-      <div class="why-card">
-        <div class="why-title">Why offline matters</div>
-        <div class="why-desc">Verification does not depend on your vendor, your runtime, or your infrastructure still being available months later.</div>
-      </div>
-      <div class="why-card">
-        <div class="why-title">Where this helps</div>
-        <div class="why-desc">Audit, review, incident analysis, regulated workflows, and any moment where someone asks you to prove what was actually recorded.</div>
       </div>
     </div>
   </div>
@@ -773,64 +750,25 @@
 <!-- TRUST MODEL -->
 <div>
   <div class="section-wrap">
-    <div class="section-label">Trust model and limits</div>
-    <h2>What AELITIUM proves.<br><span class="accent">And what it does not.</span></h2>
-    <p class="section-sub">The trust boundary is explicit. AELITIUM is about tamper-evident evidence of what was recorded, not about claiming model authenticity or truth.</p>
+    <div class="section-label">Short limits</div>
+    <h2>What it proves.<br><span class="accent">What it does not.</span></h2>
+    <p class="section-sub">A short boundary for the homepage.</p>
     <div class="trust-grid">
       <div class="trust-card">
-        <div class="trust-title">AELITIUM provides these guarantees</div>
+        <div class="trust-title">AELITIUM helps you verify</div>
         <ul class="trust-list">
-          <li>Any post-capture modification is detectable.</li>
-          <li>The canonicalized request input and recorded response are bound together deterministically.</li>
-          <li>Bundles can be verified offline, without a vendor server.</li>
+          <li>whether recorded evidence changed after capture</li>
+          <li>whether the same request led to a different recorded response</li>
+          <li>whether the bundle is still valid offline</li>
         </ul>
       </div>
       <div class="trust-card">
-        <div class="trust-title">AELITIUM does not guarantee</div>
+        <div class="trust-title">AELITIUM does not claim</div>
         <ul class="trust-list">
-          <li>That the model actually produced the response.</li>
-          <li>That the response is correct or truthful.</li>
-          <li>That the provider did not change behavior.</li>
+          <li>model truth</li>
+          <li>provider authenticity</li>
+          <li>compliance by itself</li>
         </ul>
-      </div>
-      <div class="trust-card">
-        <div class="trust-title">Verification does not trust</div>
-        <ul class="trust-list">
-          <li>The runtime that produced the bundle.</li>
-          <li>The model provider.</li>
-          <li>Your infrastructure.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- COMPLIANCE -->
-<div>
-  <div class="section-wrap">
-    <div class="section-label">Why this matters</div>
-    <h2>In regulated or audit-sensitive environments,<br><span class="accent">being able to verify recorded AI evidence matters.</span></h2>
-    <p class="section-sub">AELITIUM is not a compliance shortcut. It is a way to preserve tamper-evident evidence that can support audit, traceability, and review workflows when recorded AI output matters.</p>
-    <div class="comp-grid">
-      <div class="comp-card">
-        <div class="comp-fw">EU AI Act · Art. 12</div>
-        <div class="comp-req">Logging & traceability</div>
-        <div class="comp-desc">High-risk AI systems require logged, traceable records. AELITIUM adds tamper-evident evidence around what was recorded.</div>
-      </div>
-      <div class="comp-card">
-        <div class="comp-fw">SOC 2 · CC7</div>
-        <div class="comp-req">System monitoring & integrity</div>
-        <div class="comp-desc">Audit questions often turn into integrity questions. Offline verification helps show whether recorded evidence was modified after capture.</div>
-      </div>
-      <div class="comp-card">
-        <div class="comp-fw">ISO 42001</div>
-        <div class="comp-req">AI management auditability</div>
-        <div class="comp-desc">Third-party reviewers do not need live access to your infrastructure to validate the bundle they received.</div>
-      </div>
-      <div class="comp-card">
-        <div class="comp-fw">NIST AI RMF · MG 2.2</div>
-        <div class="comp-req">Traceability of AI decisions</div>
-        <div class="comp-desc">Traceability improves when the canonicalized request input, recorded response, and bundle binding can be verified independently.</div>
       </div>
     </div>
   </div>
