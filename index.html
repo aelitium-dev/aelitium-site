@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AELITIUM - Verify recorded LLM output</title>
-<meta name="description" content="Cryptographic integrity for LLM outputs. Detect differences between recorded responses for the same canonicalized request input - offline, tamper-evident, no server required.">
+<title>AELITIUM - Tamper-evident evidence for AI interactions</title>
+<meta name="description" content="AELITIUM generates tamper-evident evidence bundles for AI interactions so anyone can verify the recorded result offline, without a vendor server.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -457,40 +457,49 @@
     line-height: 1.5;
   }
 
-  /* ── VS TABLE ── */
-  .vs-wrap {
-    margin-top: 3rem;
+  /* ── WHY / TRUST ── */
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+  .why-card,
+  .trust-card {
+    background: var(--white);
     border: 1.5px solid var(--border);
     border-radius: var(--radius);
-    overflow: hidden;
+    padding: 1.5rem;
     box-shadow: var(--shadow);
   }
-  table { width: 100%; border-collapse: collapse; }
-  thead th {
-    background: var(--bg);
-    padding: 1rem 1.5rem;
-    text-align: left;
-    font-size: 0.8rem; font-weight: 700;
-    color: var(--muted); letter-spacing: 0.04em;
-    border-bottom: 1.5px solid var(--border);
+  .why-title,
+  .trust-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.55rem;
   }
-  thead th.th-ael {
-    color: var(--green);
-    background: var(--green-light);
+  .why-desc,
+  .trust-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.65;
   }
-  tbody td {
-    padding: 0.9rem 1.5rem;
-    font-size: 0.875rem;
-    border-bottom: 1px solid var(--border);
-    vertical-align: middle;
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-top: 2.5rem;
   }
-  tbody tr:last-child td { border-bottom: none; }
-  tbody tr:hover td { background: var(--bg); }
-  .td-ael { background: rgba(209,250,229,0.25); }
-  .td-ael:hover { background: rgba(209,250,229,0.45) !important; }
-  .check { color: var(--green); font-weight: 700; }
-  .cross { color: var(--muted2); }
-  .check-ael { color: var(--green); font-weight: 700; }
+  .trust-list {
+    margin-top: 0.85rem;
+    padding-left: 1.1rem;
+    color: var(--text2);
+  }
+  .trust-list li {
+    margin-top: 0.45rem;
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
 
   /* ── COMPLIANCE ── */
   .comp-grid {
@@ -585,7 +594,7 @@
   <ul class="nav-links">
     <li><a href="#how">How it works</a></li>
     <li><a href="#demo">Live demo</a></li>
-    <li><a href="#compare">vs observability</a></li>
+    <li><a href="#why">Why verification matters</a></li>
     <li><a href="https://github.com/aelitium-dev/aelitium-v3/tree/main/docs">Docs</a></li>
   </ul>
   <div class="nav-right">
@@ -603,8 +612,8 @@
     <span class="badge-dot"></span>
     v0.2.4 · 206 tests passing · Apache 2.0
   </div>
-  <h1>Same request.<br><span class="accent">Different response.</span><br>Can you verify the evidence?</h1>
-  <p class="hero-sub">A CLI that integrates with supported OpenAI-compatible clients and produces a tamper-evident evidence bundle - hash of the canonicalized request input (model + messages) and hash of the recorded response. Offline verification. No vendor server required.</p>
+  <h1>Same request.<br><span class="accent">Different response.</span><br>Can you prove what was recorded?</h1>
+  <p class="hero-sub">AELITIUM generates a tamper-evident evidence bundle for AI interactions. It hashes the canonicalized request input and the recorded response so anyone can verify the result offline, with no vendor server required.</p>
   <div class="hero-actions">
     <a class="hero-btn-primary" href="#demo">See it live →</a>
     <a class="hero-btn-secondary" href="https://github.com/aelitium-dev/aelitium-v3">
@@ -650,8 +659,8 @@
 <div style="background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
   <div class="section-wrap">
     <div class="section-label">The problem</div>
-    <h2>Here's what actually<br><span class="accent">happens with a live model.</span></h2>
-    <p class="section-sub">Suppose a provider updates a model between two runs. Your evals look fine. But the recorded response for the same canonicalized request input is different. Your observability tool shows that the call happened. It may not preserve tamper-evident evidence of the recorded output.</p>
+    <h2>What happens when the same request<br><span class="accent">produces a different recorded response.</span></h2>
+    <p class="section-sub">Suppose a provider updates a model between two runs. Your evals still pass. But the recorded response for the same canonicalized request input is now different. A log may tell you the call happened. It does not necessarily give you independently verifiable evidence of what was recorded.</p>
     <div class="problem-cards">
       <div class="p-card">
         <span class="p-card-tag tag-a">Run 1 — March 3</span>
@@ -671,7 +680,7 @@
       <div class="problem-verdict-text">
         <strong>request_hash = SAME.</strong> Same canonicalized request input: identical model + messages.
         <strong> response_hash = DIFFERENT.</strong> The recorded response is different.
-        AELITIUM detects differences between recorded responses for the same canonicalized request input.
+        AELITIUM detects changes between recorded outputs for the same canonicalized request input.
       </div>
     </div>
   </div>
@@ -682,7 +691,7 @@
   <div class="section-wrap">
     <div class="section-label">Interactive demo</div>
     <h2>SHA-256 is deterministic.<br><span class="accent">Edit anything — watch what changes.</span></h2>
-    <p class="section-sub">The same text always produces the same hash. Paste two recorded responses from the same canonicalized request input and compare them deterministically. Runs in your browser, no install needed.</p>
+    <p class="section-sub">The same input always produces the same SHA-256 hash. Paste two recorded responses from the same canonicalized request input and compare them deterministically. Runs in your browser, no install needed.</p>
     <div class="demo-card">
       <div class="demo-card-header">
         <svg width="14" height="14" viewBox="0 0 16 16" fill="var(--green)"><circle cx="8" cy="8" r="8"/></svg>
@@ -719,8 +728,8 @@
       <div class="flow-step">
         <div class="step-num">2</div>
         <div class="step-title">Bundle written to disk</div>
-        <p class="step-desc">SHA-256 of the request. SHA-256 of the response. A binding_hash links both. Optional Ed25519 signatures add signer authenticity when configured.</p>
-        <div class="step-code">binding_hash = SHA256(canonical({request_hash, response_hash}))<br>→ optional signature</div>
+        <p class="step-desc">SHA-256 of the canonicalized request input. SHA-256 of the recorded response. A binding hash links both. When enabled, Ed25519 adds signer authenticity on top of bundle integrity.</p>
+        <div class="step-code">request_hash + response_hash<br>→ binding_hash → signature</div>
       </div>
       <div class="flow-step">
         <div class="step-num">3</div>
@@ -731,82 +740,67 @@
       <div class="flow-step">
         <div class="step-num">4</div>
         <div class="step-title">Catch silent model changes</div>
-        <p class="step-desc">Same request, different response? AELITIUM detects differences between recorded responses for the same canonicalized request input - by comparing bundle hashes, not log text.</p>
+        <p class="step-desc">Same request, different response? AELITIUM detects changes between recorded outputs for the same canonicalized request input by comparing bundle hashes, not log text.</p>
         <div class="step-code">aelitium compare ./run_a ./run_b<br>→ STATUS=CHANGED</div>
       </div>
-    </div>
-    <div style="margin-top:32px;border:1px solid var(--border);background:var(--panel);border-radius:20px;padding:24px;">
-      <div class="section-label">Trust model</div>
-      <p class="section-sub" style="margin-top:12px;">AELITIUM provides these guarantees:</p>
-      <p class="step-desc">- Any post-capture modification is detectable</p>
-      <p class="section-sub" style="margin-top:18px;">AELITIUM does NOT guarantee:</p>
-      <p class="step-desc">- That the LLM actually produced the response</p>
-      <p class="step-desc">- That the response is correct or truthful</p>
-      <p class="step-desc">- That the provider did not change behavior</p>
-      <p class="section-sub" style="margin-top:18px;">Verification is offline and does not trust:</p>
-      <p class="step-desc">- the runtime that produced the bundle</p>
-      <p class="step-desc">- the model provider</p>
-      <p class="step-desc">- your infrastructure</p>
-      <p class="section-sub" style="margin-top:18px;">AELITIUM covers two cases:</p>
-      <p class="step-desc">- Tamper detection: modified recorded output</p>
-      <p class="step-desc">- Behavior drift: same canonicalized request input, different recorded response</p>
     </div>
   </div>
 </div>
 
-<!-- VS TABLE -->
-<div style="background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);" id="compare">
+<!-- WHY -->
+<div style="background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);" id="why">
   <div class="section-wrap">
-    <div class="section-label">Positioning</div>
-    <h2>Observability tools<br><span class="accent">weren't built for this.</span></h2>
-    <p class="section-sub">Langfuse, Helicone, LangSmith — great for debugging latency and costs. But they run on servers. They are not designed to provide offline, tamper-evident verification of recorded outputs months later.</p>
-    <div class="vs-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Capability</th>
-            <th>Langfuse / Helicone / LangSmith</th>
-            <th class="th-ael">AELITIUM</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Traces, metrics & dashboards</td>
-            <td><span class="check">✓</span></td>
-            <td class="td-ael"><span class="cross">—</span></td>
-          </tr>
-          <tr>
-            <td>Cryptographic integrity of recorded LLM output</td>
-            <td><span class="cross">✗</span></td>
-            <td class="td-ael"><span class="check-ael">✓</span></td>
-          </tr>
-          <tr>
-            <td>Tamper-evident record</td>
-            <td><span class="cross">✗</span></td>
-            <td class="td-ael"><span class="check-ael">✓</span></td>
-          </tr>
-          <tr>
-            <td>Offline verification (no vendor server required)</td>
-            <td><span class="cross">✗</span></td>
-            <td class="td-ael"><span class="check-ael">✓</span></td>
-          </tr>
-          <tr>
-            <td>Drift detection by hash comparison</td>
-            <td><span class="cross">✗</span></td>
-            <td class="td-ael"><span class="check-ael">✓</span></td>
-          </tr>
-          <tr>
-            <td>Can help identify uninstrumented calls</td>
-            <td><span class="cross">✗</span></td>
-            <td class="td-ael"><span class="check-ael">✓</span></td>
-          </tr>
-          <tr>
-            <td>Vendor trust dependency</td>
-            <td><span style="color:var(--amber);">✓ server-based</span></td>
-            <td class="td-ael"><span class="check-ael">✗ offline-first</span></td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="section-label">Why verification matters</div>
+    <h2>Logs help you observe.<br><span class="accent">Proof helps you verify.</span></h2>
+    <p class="section-sub">Teams often keep logs of AI calls. But a log is not the same thing as independently verifiable evidence. AELITIUM produces deterministic evidence bundles that can be verified offline, without relying on the system that recorded them.</p>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-title">What you can verify</div>
+        <div class="why-desc">Whether the recorded response still matches the captured bundle, and whether two bundles for the same canonicalized request input differ.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-title">Why offline matters</div>
+        <div class="why-desc">Verification does not depend on your vendor, your runtime, or your infrastructure still being available months later.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-title">Where this helps</div>
+        <div class="why-desc">Audit, review, incident analysis, regulated workflows, and any moment where someone asks you to prove what was actually recorded.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRUST MODEL -->
+<div>
+  <div class="section-wrap">
+    <div class="section-label">Trust model and limits</div>
+    <h2>What AELITIUM proves.<br><span class="accent">And what it does not.</span></h2>
+    <p class="section-sub">The trust boundary is explicit. AELITIUM is about tamper-evident evidence of what was recorded, not about claiming model authenticity or truth.</p>
+    <div class="trust-grid">
+      <div class="trust-card">
+        <div class="trust-title">AELITIUM provides these guarantees</div>
+        <ul class="trust-list">
+          <li>Any post-capture modification is detectable.</li>
+          <li>The canonicalized request input and recorded response are bound together deterministically.</li>
+          <li>Bundles can be verified offline, without a vendor server.</li>
+        </ul>
+      </div>
+      <div class="trust-card">
+        <div class="trust-title">AELITIUM does not guarantee</div>
+        <ul class="trust-list">
+          <li>That the model actually produced the response.</li>
+          <li>That the response is correct or truthful.</li>
+          <li>That the provider did not change behavior.</li>
+        </ul>
+      </div>
+      <div class="trust-card">
+        <div class="trust-title">Verification does not trust</div>
+        <ul class="trust-list">
+          <li>The runtime that produced the bundle.</li>
+          <li>The model provider.</li>
+          <li>Your infrastructure.</li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
@@ -814,29 +808,29 @@
 <!-- COMPLIANCE -->
 <div>
   <div class="section-wrap">
-    <div class="section-label">Compliance</div>
-    <h2>In regulated environments,<br><span class="accent">auditability and traceability requirements make this increasingly relevant.</span></h2>
-    <p class="section-sub">If you're building AI into anything regulated, someone is going to ask you to preserve tamper-evident evidence of what was recorded. AELITIUM provides tamper-evident evidence that can be verified offline, making it suitable for audit and compliance workflows.</p>
+    <div class="section-label">Why this matters</div>
+    <h2>In regulated or audit-sensitive environments,<br><span class="accent">being able to verify recorded AI evidence matters.</span></h2>
+    <p class="section-sub">AELITIUM is not a compliance shortcut. It is a way to preserve tamper-evident evidence that can support audit, traceability, and review workflows when recorded AI output matters.</p>
     <div class="comp-grid">
       <div class="comp-card">
         <div class="comp-fw">EU AI Act · Art. 12</div>
         <div class="comp-req">Logging & traceability</div>
-        <div class="comp-desc">Requires logged, traceable records of high-risk AI outputs. AELITIUM bundles are tamper-evident by design - modifications to packed evidence are detectable.</div>
+        <div class="comp-desc">High-risk AI systems require logged, traceable records. AELITIUM adds tamper-evident evidence around what was recorded.</div>
       </div>
       <div class="comp-card">
         <div class="comp-fw">SOC 2 · CC7</div>
         <div class="comp-req">System monitoring & integrity</div>
-        <div class="comp-desc">SOC 2 auditors ask whether your logs could have been altered. Offline verification is the cleanest answer to that question.</div>
+        <div class="comp-desc">Audit questions often turn into integrity questions. Offline verification helps show whether recorded evidence was modified after capture.</div>
       </div>
       <div class="comp-card">
         <div class="comp-fw">ISO 42001</div>
         <div class="comp-req">AI management auditability</div>
-        <div class="comp-desc">Third-party auditors don't need access to your infrastructure. They get the evidence bundle and verify it offline.</div>
+        <div class="comp-desc">Third-party reviewers do not need live access to your infrastructure to validate the bundle they received.</div>
       </div>
       <div class="comp-card">
         <div class="comp-fw">NIST AI RMF · MG 2.2</div>
         <div class="comp-req">Traceability of AI decisions</div>
-        <div class="comp-desc">Full evidence bundle: canonicalized request input, recorded response material, binding hash, and optional Ed25519 signature when configured.</div>
+        <div class="comp-desc">Traceability improves when the canonicalized request input, recorded response, and bundle binding can be verified independently.</div>
       </div>
     </div>
   </div>
@@ -844,8 +838,8 @@
 
 <!-- CTA -->
 <div class="cta-wrap">
-  <h2>Try it on your<br><span class="accent">next API call.</span></h2>
-  <p>Open source · Apache 2.0 · 177 tests · If it doesn't do what it says, open an issue.</p>
+  <h2>Try it on one call.<br><span class="accent">Verify the result offline.</span></h2>
+  <p>Open source · Apache 2.0 · 206 tests passing · Install it, run it once, and inspect the evidence bundle yourself.</p>
   <div class="cta-btns">
     <a class="cta-btn-main" href="https://github.com/aelitium-dev/aelitium-v3">View on GitHub</a>
     <a class="cta-btn-ghost" href="https://github.com/aelitium-dev/aelitium-v3/tree/main/docs">Read the docs</a>
