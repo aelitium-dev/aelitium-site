@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AELITIUM - Verify what was recorded</title>
-<meta name="description" content="AELITIUM generates tamper-evident evidence bundles for AI interactions so you can verify what was recorded offline.">
+<meta name="description" content="AELITIUM generates tamper-evident bundles for recorded AI output so the bundle can be checked offline.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -612,7 +612,7 @@
     v0.2.4 · 206 tests passing · Apache 2.0
   </div>
   <h1>Same request.<br><span class="accent">Different response.</span><br>Can you verify what was recorded?</h1>
-  <p class="hero-sub">AELITIUM generates tamper-evident evidence bundles for AI interactions, so you can verify what was recorded offline.</p>
+  <p class="hero-sub">AELITIUM generates tamper-evident bundles for recorded AI output, so the bundle can be checked offline.</p>
   <div class="hero-actions">
     <a class="hero-btn-primary" href="#demo">See it live →</a>
     <a class="hero-btn-secondary" href="https://github.com/aelitium-dev/aelitium-v3">
@@ -655,12 +655,12 @@
   <p class="section-sub" style="margin-top:1rem;max-width:none;">No vendor server required.</p>
 </div>
 
-<!-- PROBLEM -->
+<!-- EXAMPLE -->
 <div style="background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
   <div class="section-wrap">
-    <div class="section-label">The problem</div>
-    <h2>What happens when the same request<br><span class="accent">produces a different recorded response.</span></h2>
-    <p class="section-sub">Suppose a provider updates a model between two runs. Your evals still pass. But the recorded response for the same canonicalized request input is now different. A log may tell you the call happened. It does not necessarily give you independently verifiable evidence of what was recorded.</p>
+    <div class="section-label">Example</div>
+    <h2>The same request.<br><span class="accent">A different recorded response.</span></h2>
+    <p class="section-sub">A model changes between two runs. The request stays the same. The recorded response does not.</p>
     <div class="problem-cards">
       <div class="p-card">
         <span class="p-card-tag tag-a">Run 1 — March 3</span>
@@ -669,7 +669,7 @@
         <div class="p-card-hash">response_hash: <span class="hval">2f1563cc8c0b7b71…</span></div>
       </div>
       <div class="p-card">
-        <span class="p-card-tag tag-b">Run 2 — March 10 · same prompt</span>
+        <span class="p-card-tag tag-b">Run 2 — March 10</span>
         <p class="p-card-q">"Summarise the key risks of deploying LLMs in production in one sentence."</p>
         <p class="p-card-a">Primary risks are hallucination, data leakage, adversarial prompt injection, and unpredictable behaviour changes following silent model updates.</p>
         <div class="p-card-hash">response_hash: <span class="hval">c41d8e3b5f9a2201…</span></div>
@@ -680,7 +680,7 @@
       <div class="problem-verdict-text">
         <strong>request_hash = SAME.</strong> Same canonicalized request input: identical model + messages.
         <strong> response_hash = DIFFERENT.</strong> The recorded response is different.
-        AELITIUM helps you verify that the recorded output changed.
+        AELITIUM detects a change in the recorded output.
       </div>
     </div>
   </div>
@@ -689,13 +689,13 @@
 <!-- LIVE DEMO -->
 <div class="demo-bg" id="demo">
   <div class="section-wrap">
-    <div class="section-label">Interactive demo</div>
-    <h2>SHA-256 is deterministic.<br><span class="accent">Edit anything — watch what changes.</span></h2>
-    <p class="section-sub">The same input always produces the same SHA-256 hash. Paste two recorded responses from the same canonicalized request input and compare them deterministically. Runs in your browser, no install needed.</p>
+    <div class="section-label">Live demo</div>
+    <h2>Edit anything.<br><span class="accent">Watch the hash change.</span></h2>
+    <p class="section-sub">Paste two recorded responses and compare them in the browser.</p>
     <div class="demo-card">
       <div class="demo-card-header">
         <svg width="14" height="14" viewBox="0 0 16 16" fill="var(--green)"><circle cx="8" cy="8" r="8"/></svg>
-        Live · SHA-256 comparison running in your browser - simplified view of how aelitium compare works
+        Live · SHA-256 comparison running in your browser
       </div>
       <div class="demo-inputs">
         <div class="demo-col">
@@ -715,33 +715,38 @@
 <!-- HOW IT WORKS -->
 <div id="mechanism">
   <div class="section-wrap">
-    <div class="section-label">Minimal mechanism</div>
-    <h2>One import.<br><span class="accent">Four steps.</span></h2>
-    <p class="section-sub">AELITIUM hashes the canonicalized request input and the recorded response, writes a bundle, and lets you verify it offline.</p>
+    <div class="section-label">How it works</div>
+    <h2>Minimal mechanism.<br><span class="accent">Nothing more than you need.</span></h2>
+    <p class="section-sub">Capture. Hash. Bind. Verify.</p>
     <div class="flow-grid">
       <div class="flow-step">
         <div class="step-num">1</div>
-        <div class="step-title">Add one import</div>
-        <p class="step-desc">One line near the top of your existing code.</p>
+        <div class="step-title">Capture</div>
+        <p class="step-desc">Records the request input and response output.</p>
         <div class="step-code">from aelitium import capture_openai</div>
       </div>
       <div class="flow-step">
         <div class="step-num">2</div>
-        <div class="step-title">Bundle written to disk</div>
-        <p class="step-desc">Request hash. Response hash. Binding hash.</p>
-        <div class="step-code">request_hash + response_hash<br>→ binding_hash</div>
+        <div class="step-title">Hash</div>
+        <p class="step-desc">Computes `request_hash` and `response_hash`.</p>
+        <div class="step-code">request_hash<br>response_hash</div>
       </div>
       <div class="flow-step">
         <div class="step-num">3</div>
-        <div class="step-title">Verify anywhere, offline</div>
-        <p class="step-desc">Verify the bundle without calling a vendor server.</p>
-        <div class="step-code">aelitium verify-bundle ./evidence<br>→ STATUS=VALID</div>
+        <div class="step-title">Bind</div>
+        <p class="step-desc">Links both with `binding_hash`.</p>
+        <div class="step-code">request_hash + response_hash<br>→ binding_hash</div>
       </div>
       <div class="flow-step">
         <div class="step-num">4</div>
-        <div class="step-title">Catch silent model changes</div>
-        <p class="step-desc">Compare two runs for the same request and check whether the recorded output changed.</p>
-        <div class="step-code">aelitium compare ./run_a ./run_b<br>→ STATUS=CHANGED</div>
+        <div class="step-title">Verify</div>
+        <p class="step-desc">The bundle can be checked offline.</p>
+        <div class="step-code">aelitium verify-bundle ./evidence<br>→ STATUS=VALID</div>
+      </div>
+    </div>
+    <div class="install-row" style="margin-top:2rem;">
+      <div class="install-chip" style="cursor:default;">
+        <span>binding_hash = SHA256(canonical({request_hash, response_hash}))</span>
       </div>
     </div>
   </div>
@@ -750,24 +755,24 @@
 <!-- TRUST MODEL -->
 <div>
   <div class="section-wrap">
-    <div class="section-label">Short limits</div>
-    <h2>What it proves.<br><span class="accent">What it does not.</span></h2>
-    <p class="section-sub">A short boundary for the homepage.</p>
+    <div class="section-label">Limits</div>
+    <h2>What it does.<br><span class="accent">What it does not do.</span></h2>
+    <p class="section-sub">Short boundary. Nothing more.</p>
     <div class="trust-grid">
       <div class="trust-card">
-        <div class="trust-title">AELITIUM helps you verify</div>
+        <div class="trust-title">AELITIUM does</div>
         <ul class="trust-list">
           <li>detects post-capture modification</li>
-          <li>whether the same request led to a different recorded response</li>
-          <li>whether the bundle is still valid offline</li>
+          <li>verifies offline from the bundle</li>
+          <li>detects changed recorded output for the same request</li>
         </ul>
       </div>
       <div class="trust-card">
-        <div class="trust-title">AELITIUM does not claim</div>
+        <div class="trust-title">AELITIUM does not</div>
         <ul class="trust-list">
-          <li>model truth</li>
-          <li>provider authenticity</li>
-          <li>compliance by itself</li>
+          <li>prove model truth</li>
+          <li>prove provider authenticity</li>
+          <li>prove the model actually produced the response</li>
         </ul>
       </div>
     </div>
@@ -777,7 +782,7 @@
 <!-- CTA -->
 <div class="cta-wrap">
   <h2>Try it on one call.<br><span class="accent">Verify the result offline.</span></h2>
-  <p>Open source · Apache 2.0 · 206 tests passing · Install it, run it once, and inspect the evidence bundle yourself.</p>
+  <p>Open source. Run it once. Inspect the bundle yourself.</p>
   <div class="cta-btns">
     <a class="cta-btn-main" href="https://github.com/aelitium-dev/aelitium-v3">View on GitHub</a>
     <a class="cta-btn-ghost" href="https://github.com/aelitium-dev/aelitium-v3/tree/main/docs">Read the docs</a>
