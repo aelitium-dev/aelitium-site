@@ -1,0 +1,16 @@
+# Local backups
+*.bak
+*.bak.*
+*~
+
+# macOS / Windows noise
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.temp
