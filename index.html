@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AELITIUM - Verify what was recorded</title>
-<meta name="description" content="AELITIUM generates tamper-evident bundles for recorded AI output so the bundle can be checked offline.">
+<title>AELITIUM - Check recorded evidence offline</title>
+<meta name="description" content="AELITIUM produces and verifies internally consistent, offline-verifiable evidence bundles for recorded AI interactions.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -121,8 +121,14 @@
     font-weight: 600;
     padding: 0.35rem 0.875rem;
     border-radius: 100px;
-    margin-bottom: 2rem;
+    margin-bottom: 0.6rem;
     letter-spacing: 0.02em;
+  }
+  .release-note {
+    margin: 0 auto 2rem;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.75rem;
   }
   .badge-dot {
     width: 6px; height: 6px; border-radius: 50%;
@@ -609,10 +615,10 @@
 <div class="hero">
   <div class="hero-badge">
     <span class="badge-dot"></span>
-    v0.2.4 · 206 tests passing · Apache 2.0
+    Latest release v0.3.0 · Apache 2.0
   </div>
-  <h1>Same request.<br><span class="accent">Different response.</span><br>Can you verify what was recorded?</h1>
-  <p class="hero-sub">AELITIUM generates tamper-evident bundles for recorded AI output, so the bundle can be checked offline.</p>
+  <h1>Same request hash.<br><span class="accent">Different response hash.</span><br>Check what was recorded.</h1>
+  <p class="hero-sub">A library and CLI for producing and verifying internally consistent, offline-verifiable evidence bundles for recorded AI interactions.</p>
   <div class="hero-actions">
     <a class="hero-btn-primary" href="#demo">See it live →</a>
     <a class="hero-btn-secondary" href="https://github.com/aelitium-dev/aelitium-v3">
@@ -634,9 +640,9 @@
         <span class="o-line hidden" id="l2"><span class="o-key">STATUS</span>=<span class="o-changed">CHANGED</span>&nbsp;&nbsp;rc=2</span>
         <span class="o-line hidden" id="l3"><span class="o-key">REQUEST_HASH</span>=<span class="o-same">SAME</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a=7b30b0d2...&nbsp;&nbsp;b=7b30b0d2...</span>
         <span class="o-line hidden" id="l4"><span class="o-key">RESPONSE_HASH</span>=<span class="o-diff">DIFFERENT</span>&nbsp;&nbsp;&nbsp;a=2f1563cc...&nbsp;&nbsp;b=c41d8e3b...</span>
-        <span class="o-line hidden" id="l5"><span class="o-key">INTERPRETATION</span>=<span class="o-interp">Same canonicalized request input produced a different recorded response</span></span>
+        <span class="o-line hidden" id="l5"><span class="o-key">INTERPRETATION</span>=<span class="o-interp">Same request_hash with different response_hash observed</span></span>
         <span class="o-line hidden" id="l6">&nbsp;</span>
-        <span class="o-line hidden" id="l7"><span class="o-comment"># Recorded response differs between verified runs.</span></span>
+        <span class="o-line hidden" id="l7"><span class="o-comment"># Compared bundles contain different recorded response hashes.</span></span>
       </div>
     </div>
   </div>
@@ -652,20 +658,20 @@
       <span class="copied">Copied!</span>
     </div>
   </div>
-  <p class="section-sub" style="margin-top:1rem;max-width:none;">No vendor server required.</p>
+  <p class="section-sub" style="margin-top:1rem;max-width:none;">Offline bundle verification requires no vendor server.</p>
 </div>
 
 <!-- EXAMPLE -->
 <div style="background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
   <div class="section-wrap">
     <div class="section-label">Example</div>
-    <h2>The same request.<br><span class="accent">A different recorded response.</span></h2>
-    <p class="section-sub">Two verified runs of the same canonicalized request can produce different recorded responses.</p>
+    <h2>The same request hash.<br><span class="accent">A different recorded response hash.</span></h2>
+    <p class="section-sub">Two bundles with the same recorded request hash can contain different recorded response hashes.</p>
     <div class="problem-cards">
       <div class="p-card">
         <span class="p-card-tag tag-a">Run 1 — March 3</span>
         <p class="p-card-q">"Summarise the key risks of deploying LLMs in production in one sentence."</p>
-        <p class="p-card-a">Key risks include non-deterministic outputs, prompt injection vulnerabilities, hallucinated facts, and the absence of tamper-evident logging.</p>
+        <p class="p-card-a">Key risks include non-deterministic outputs, prompt injection vulnerabilities, hallucinated facts, and the absence of inspectable evidence records.</p>
         <div class="p-card-hash">response_hash: <span class="hval">2f1563cc8c0b7b71…</span></div>
       </div>
       <div class="p-card">
@@ -678,9 +684,9 @@
     <div class="problem-verdict">
       <span class="icon">→</span>
       <div class="problem-verdict-text">
-        <strong>request_hash = SAME.</strong> Same canonicalized request input: identical model + messages.
-        <strong> response_hash = DIFFERENT.</strong> The recorded response is different.
-        AELITIUM detects a change in the recorded output.
+        <strong>request_hash = SAME.</strong> The selected recorded request fields have the same v1 hash.
+        <strong> response_hash = DIFFERENT.</strong> The recorded response hashes differ.
+        AELITIUM reports the compared fields and does not attribute the cause.
       </div>
     </div>
   </div>
@@ -700,7 +706,7 @@
       <div class="demo-inputs">
         <div class="demo-col">
           <label>Response <span class="badge badge-a">A</span> &nbsp;bundle_last_week</label>
-          <textarea id="textA" oninput="updateDemo()">Key risks include non-deterministic outputs, prompt injection vulnerabilities, hallucinated facts, and the absence of tamper-evident logging.</textarea>
+          <textarea id="textA" oninput="updateDemo()">Key risks include non-deterministic outputs, prompt injection vulnerabilities, hallucinated facts, and the absence of inspectable evidence records.</textarea>
         </div>
         <div class="demo-col">
           <label>Response <span class="badge badge-b">B</span> &nbsp;bundle_today</label>
@@ -722,7 +728,7 @@
       <div class="flow-step">
         <div class="step-num">1</div>
         <div class="step-title">Capture</div>
-        <p class="step-desc">Records the request input and response output.</p>
+        <p class="step-desc">Records selected request and response fields on supported paths.</p>
         <div class="step-code">from aelitium import capture_openai</div>
       </div>
       <div class="flow-step">
@@ -740,7 +746,7 @@
       <div class="flow-step">
         <div class="step-num">4</div>
         <div class="step-title">Verify</div>
-        <p class="step-desc">The bundle can be checked offline.</p>
+        <p class="step-desc">Checks the bundle's internal consistency offline.</p>
         <div class="step-code">aelitium verify-bundle ./evidence<br>→ STATUS=VALID</div>
       </div>
     </div>
@@ -762,17 +768,17 @@
       <div class="trust-card">
         <div class="trust-title">AELITIUM does</div>
         <ul class="trust-list">
-          <li>detects post-capture modification</li>
-          <li>verifies offline from the bundle</li>
-          <li>detects changed recorded output for the same request</li>
+          <li>detects changes inconsistent with the recorded evidence contract</li>
+          <li>checks internal consistency offline from the bundle</li>
+          <li>compares recorded response hashes for the same request hash</li>
         </ul>
       </div>
       <div class="trust-card">
         <div class="trust-title">AELITIUM does not</div>
         <ul class="trust-list">
-          <li>prove model truth</li>
-          <li>prove provider authenticity</li>
-          <li>prove the model actually produced the response</li>
+          <li>prove provider execution or response causation</li>
+          <li>prove trusted historical time or non-modification</li>
+          <li>prove complete capture or legal compliance</li>
         </ul>
       </div>
     </div>
@@ -781,7 +787,7 @@
 
 <!-- CTA -->
 <div class="cta-wrap">
-  <h2>Try it on one call.<br><span class="accent">Verify the result offline.</span></h2>
+  <h2>Try it on one call.<br><span class="accent">Check the bundle offline.</span></h2>
   <p>Open source. Run it once. Inspect the bundle yourself.</p>
   <div class="cta-btns">
     <a class="cta-btn-main" href="https://github.com/aelitium-dev/aelitium-v3">View on GitHub</a>
@@ -839,11 +845,11 @@ async function updateDemo() {
   const same = ha === hb;
   document.getElementById('demoResult').innerHTML = `
 <span class="r-key">STATUS</span>=<span class="${same?'r-status-ok':'r-status-changed'}">${same?'UNCHANGED  rc=0':'CHANGED  rc=2'}</span><br>
-<span class="r-key">REQUEST_HASH</span>=<span class="r-same">SAME</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(canonicalized request — identical in both runs)<br>
-<span class="r-key">RESPONSE_HASH</span>=<span class="${same?'r-same':'r-diff'}">${same?'SAME':'DIFFERENT'}</span><br>
+<span class="r-key">REQUEST_HASH</span>=<span class="r-same">SAME</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fixed demo assumption; not computed here)<br>
+<span class="r-key">RESPONSE_TEXT_SHA256</span>=<span class="${same?'r-same':'r-diff'}">${same?'SAME':'DIFFERENT'}</span><br>
 <span class="r-hash">&nbsp;&nbsp;a=${ha.substring(0,40)}…</span><br>
 <span class="r-hash">&nbsp;&nbsp;b=${hb.substring(0,40)}…</span><br>
-<span class="r-key">INTERPRETATION</span>=${same?'Responses are identical':'Same canonicalized request input produced a different recorded response'}`;
+<span class="r-key">INTERPRETATION</span>=${same?'Compared response text hashes are identical':'Compared response text hashes differ; no cause is attributed'}`;
 }
 updateDemo();
 </script>
