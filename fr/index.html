@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AELITIUM: Offline evidence verification for recorded LLM interactions</title>
-<meta name="description" content="AELITIUM is an open-source Python library and CLI for producing evidence bundles and checking the internal consistency of recorded LLM interactions offline.">
-<link rel="canonical" href="https://aelitium.com/">
+<title>AELITIUM : contrôle hors ligne des éléments de preuve d’interactions LLM enregistrées</title>
+<meta name="description" content="AELITIUM est une bibliothèque Python open source et une CLI qui produisent des bundles d’éléments de preuve et en contrôlent hors ligne la cohérence interne selon un schéma gouverné et un contrat de canonicalisation.">
+<link rel="canonical" href="https://aelitium.com/fr/">
 <link rel="alternate" hreflang="en" href="https://aelitium.com/">
 <link rel="alternate" hreflang="fr" href="https://aelitium.com/fr/">
 <link rel="alternate" hreflang="x-default" href="https://aelitium.com/">
@@ -1548,19 +1548,19 @@
 </style>
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
+<a class="skip-link" href="#main">Aller au contenu</a>
 
-<nav class="site-nav" aria-label="Primary navigation">
+<nav class="site-nav" aria-label="Navigation principale">
   <div class="container nav-inner">
     <a class="nav-logo" href="#top">AELITIUM <span class="nav-version">v0.3.0</span></a>
     <div class="nav-links">
-      <a class="nav-link nav-optional" href="#demo">Demo</a>
+      <a class="nav-link nav-optional" href="#demo">Démo</a>
       <a class="nav-link" href="https://github.com/aelitium-dev/aelitium-v3/tree/main/docs">Docs</a>
       <a class="nav-link nav-optional" href="https://pypi.org/project/aelitium/">PyPI</a>
       <a class="nav-link nav-link-strong" href="https://github.com/aelitium-dev/aelitium-v3">GitHub</a>
-      <div class="language-switcher" aria-label="Language">
-        <a class="language-option" href="/" hreflang="en" lang="en" aria-current="page">EN</a>
-        <a class="language-option" href="/fr/" hreflang="fr" lang="fr">FR</a>
+      <div class="language-switcher" aria-label="Langue">
+        <a class="language-option" href="/" hreflang="en" lang="en">EN</a>
+        <a class="language-option" href="/fr/" hreflang="fr" lang="fr" aria-current="page">FR</a>
       </div>
     </div>
   </div>
@@ -1570,44 +1570,44 @@
   <header class="hero" id="top">
     <div class="container hero-grid">
       <div class="hero-copy">
-        <p class="hero-eyebrow">AELITIUM / release v0.3.0 / Apache-2.0</p>
-        <h1>Evidence for recorded LLM interactions, checked offline.</h1>
-        <p class="hero-sub">An open-source Python library and CLI that produces evidence bundles and checks their internal consistency under a governed schema and canonicalization contract.</p>
-        <p class="hero-usecase"><strong>Same request hash. Different response hash.</strong> One concrete use case within a broader assurance model.</p>
+        <p class="hero-eyebrow">AELITIUM / version v0.3.0 / Apache-2.0</p>
+        <h1>Éléments de preuve d’interactions LLM enregistrées, contrôlés hors ligne.</h1>
+        <p class="hero-sub">Une bibliothèque Python open source et une CLI qui produisent des bundles d’éléments de preuve et contrôlent leur cohérence interne selon un schéma gouverné et un contrat de canonicalisation.</p>
+        <p class="hero-usecase"><strong>Même hash de requête. Hash de réponse différent.</strong> Un cas d’usage concret au sein d’un modèle d’évaluation plus large.</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="https://github.com/aelitium-dev/aelitium-v3">View on GitHub</a>
-          <a class="button button-secondary" href="#demo">See verification demo</a>
+          <a class="button button-primary" href="https://github.com/aelitium-dev/aelitium-v3">Voir sur GitHub</a>
+          <a class="button button-secondary" href="#demo">Voir la démo de vérification</a>
         </div>
-        <button class="install-command" type="button" data-copy-command="pip install aelitium" aria-label="Copy pip install aelitium command">
+        <button class="install-command" type="button" data-copy-command="pip install aelitium" aria-label="Copier la commande pip install aelitium">
           <span class="install-prompt" aria-hidden="true">$</span>
           <code>pip install aelitium</code>
-          <span class="copy-label" aria-live="polite">Copy</span>
+          <span class="copy-label" aria-live="polite">Copier</span>
         </button>
       </div>
 
       <figure class="evidence-panel" aria-labelledby="evidence-panel-title">
         <figcaption class="panel-header">
-          <span class="panel-label" id="evidence-panel-title">Sample assurance report</span>
+          <span class="panel-label" id="evidence-panel-title">Exemple de rapport d’évaluation</span>
           <span class="panel-command">aelitium verify-bundle ./evidence</span>
         </figcaption>
         <div class="evidence-pipeline">
           <div class="pipeline-node">
-            <span>Supported capture</span>
+            <span>Capture prise en charge</span>
             <strong>OpenAI / Anthropic / LiteLLM</strong>
           </div>
           <span class="pipeline-arrow" aria-hidden="true">→</span>
           <div class="pipeline-node">
-            <span>AELITIUM evidence</span>
-            <strong>canonical payload + manifest</strong>
+            <span>Éléments de preuve AELITIUM</span>
+            <strong>payload canonique + manifeste</strong>
           </div>
           <span class="pipeline-arrow" aria-hidden="true">→</span>
           <div class="pipeline-node">
-            <span>Offline verifier</span>
-            <strong>separate assurance states</strong>
+            <span>Vérificateur hors ligne</span>
+            <strong>états d’évaluation distincts</strong>
           </div>
         </div>
         <div class="assurance-report">
-          <p class="report-caption">Core consistency</p>
+          <p class="report-caption">Cohérence principale</p>
           <dl>
             <div class="report-row">
               <dt>payload_integrity</dt>
@@ -1626,7 +1626,7 @@
               <dd class="state-valid">VALID</dd>
             </div>
           </dl>
-          <p class="report-caption">Optional / policy-dependent</p>
+          <p class="report-caption">Optionnel / selon la politique</p>
           <dl>
             <div class="report-row">
               <dt>signature_validity</dt>
@@ -1646,33 +1646,33 @@
             </div>
           </dl>
         </div>
-        <p class="panel-note">Illustrative state mix. Optional and policy-dependent dimensions vary with bundle evidence and explicitly supplied verifier inputs.</p>
+        <p class="panel-note">Combinaison d’états fournie à titre d’exemple. Les dimensions optionnelles et dépendantes de la politique varient selon les éléments présents dans le bundle et les paramètres explicitement fournis au vérificateur.</p>
       </figure>
     </div>
   </header>
 
   <section class="proof" aria-labelledby="proof-title">
-    <h2 class="sr-only" id="proof-title">Engineering proof</h2>
+    <h2 class="sr-only" id="proof-title">Indicateurs d’ingénierie</h2>
     <div class="container proof-grid">
       <div class="proof-item">
         <span class="proof-value proof-value-accent">v0.3.0</span>
-        <span class="proof-label">Published release</span>
+        <span class="proof-label">Version publiée</span>
       </div>
       <div class="proof-item">
         <span class="proof-value">529</span>
-        <span class="proof-label">Tests per Python version</span>
+        <span class="proof-label">Tests par version de Python</span>
       </div>
       <div class="proof-item">
         <span class="proof-value">3.10 to 3.12</span>
-        <span class="proof-label">Python CI</span>
+        <span class="proof-label">CI Python</span>
       </div>
       <div class="proof-item">
         <span class="proof-value">OpenAI · Anthropic · LiteLLM</span>
-        <span class="proof-label">Supported capture integrations</span>
+        <span class="proof-label">Intégrations de capture prises en charge</span>
       </div>
       <div class="proof-item">
         <span class="proof-value">release audit + public-claims guardrail</span>
-        <span class="proof-label">Public release checks</span>
+        <span class="proof-label">Contrôles de publication</span>
       </div>
     </div>
   </section>
@@ -1680,46 +1680,46 @@
   <section class="section" id="release" aria-labelledby="release-title">
     <div class="container">
       <div class="section-header">
-        <p class="section-eyebrow">Current release</p>
+        <p class="section-eyebrow">Version actuelle</p>
         <div>
-          <h2 class="section-title" id="release-title">What v0.3.0 adds</h2>
-          <p class="section-intro">v0.3.0 adds separate assurance checks beyond the core hash flow.</p>
+          <h2 class="section-title" id="release-title">Ce qu’ajoute v0.3.0</h2>
+          <p class="section-intro">v0.3.0 ajoute des contrôles d’évaluation distincts au-delà du flux de hash principal.</p>
         </div>
       </div>
       <div class="release-index">
         <article class="release-item">
           <span class="release-number">01 / 04</span>
-          <h3 class="release-title">Evidence integrity</h3>
+          <h3 class="release-title">Intégrité des éléments de preuve</h3>
           <ul class="technical-list">
-            <li>Deterministic canonical hashing</li>
-            <li>Stored request/response binding checks</li>
-            <li>Fail-closed offline bundle verification</li>
+            <li>Hash canonique déterministe</li>
+            <li>Contrôles de la liaison requête/réponse enregistrée</li>
+            <li>Vérification hors ligne du bundle en mode fail-closed</li>
           </ul>
         </article>
         <article class="release-item">
           <span class="release-number">02 / 04</span>
-          <h3 class="release-title">Invocation assurance</h3>
+          <h3 class="release-title">Cohérence de l’invocation</h3>
           <ul class="technical-list">
-            <li>Versioned invocation identity</li>
-            <li>Invocation identity hash consistency</li>
-            <li>Stored invocation-identity-to-response binding consistency</li>
+            <li>Identité d’invocation versionnée</li>
+            <li>Cohérence du hash d’identité d’invocation</li>
+            <li>Cohérence de la liaison enregistrée entre le hash d’identité d’invocation et le hash de réponse</li>
           </ul>
         </article>
         <article class="release-item">
           <span class="release-number">03 / 04</span>
-          <h3 class="release-title">Trust &amp; policy</h3>
+          <h3 class="release-title">Confiance et politique</h3>
           <ul class="technical-list">
-            <li>Ed25519 signature validity</li>
-            <li>Explicit external trust-store matching</li>
-            <li>Declared-time freshness under explicit policy inputs</li>
+            <li>Validité de la signature Ed25519</li>
+            <li>Correspondance avec un trust store externe explicite</li>
+            <li>Récence de l’horodatage déclaré selon des paramètres de politique explicites</li>
           </ul>
         </article>
         <article class="release-item">
           <span class="release-number">04 / 04</span>
-          <h3 class="release-title">Provider coverage</h3>
+          <h3 class="release-title">Couverture des fournisseurs</h3>
           <ul class="technical-list">
-            <li>OpenAI, Anthropic and LiteLLM capture paths</li>
-            <li>Static scanning for potential uncaptured Python LLM call sites</li>
+            <li>Parcours de capture OpenAI, Anthropic et LiteLLM</li>
+            <li>Analyse statique des sites d’appel LLM Python potentiellement non capturés</li>
           </ul>
         </article>
       </div>
@@ -1729,83 +1729,83 @@
   <section class="section section-white" id="assurance" aria-labelledby="assurance-title">
     <div class="container">
       <div class="section-header">
-        <p class="section-eyebrow">Assurance model</p>
+        <p class="section-eyebrow">Modèle d’évaluation</p>
         <div>
-          <h2 class="section-title" id="assurance-title">Eight dimensions, reported separately.</h2>
-          <p class="section-intro">Each dimension is reported separately. Depending on the dimension, evidence and verifier inputs, a state can be valid, invalid, absent, unestablished or not evaluated.</p>
+          <h2 class="section-title" id="assurance-title">Huit dimensions, rapportées séparément.</h2>
+          <p class="section-intro">Chaque dimension est rapportée séparément. Selon la dimension, les éléments présents et les paramètres fournis au vérificateur, un état peut être VALID, INVALID, ABSENT, UNESTABLISHED ou NOT_EVALUATED.</p>
         </div>
       </div>
 
       <div class="assurance-grid">
         <section class="assurance-group" aria-labelledby="core-assurance-title">
           <div class="assurance-group-header">
-            <span class="group-kicker">Core consistency checks</span>
-            <h3 id="core-assurance-title">Stored evidence contract</h3>
-            <p>Evaluated independently when their prerequisites are present.</p>
+            <span class="group-kicker">Contrôles de cohérence principaux</span>
+            <h3 id="core-assurance-title">Contrat des éléments de preuve enregistrés</h3>
+            <p>Évalués indépendamment lorsque leurs prérequis sont présents.</p>
           </div>
           <div class="dimension-row">
             <div class="dimension-head">
               <code class="dimension-name">payload_integrity</code>
-              <span class="dimension-condition">bundle check</span>
+              <span class="dimension-condition">contrôle du bundle</span>
             </div>
-            <p>Payload, schema, canonical bytes, manifest and payload-hash consistency.</p>
+            <p>Cohérence du payload, du schéma, des octets canoniques, du manifeste et du hash du payload.</p>
           </div>
           <div class="dimension-row">
             <div class="dimension-head">
               <code class="dimension-name">binding_field_consistency</code>
-              <span class="dimension-condition">when present</span>
+              <span class="dimension-condition">si présent</span>
             </div>
-            <p>Consistency among stored v1 request, response and binding hash fields.</p>
+            <p>Cohérence entre les champs enregistrés de hash de requête, de réponse et de liaison v1.</p>
           </div>
           <div class="dimension-row">
             <div class="dimension-head">
               <code class="dimension-name">invocation_identity_consistency</code>
-              <span class="dimension-condition">when present</span>
+              <span class="dimension-condition">si présent</span>
             </div>
-            <p>Stored versioned invocation identity structure and hash consistency.</p>
+            <p>Cohérence de la structure et du hash de l’identité d’invocation versionnée enregistrée.</p>
           </div>
           <div class="dimension-row">
             <div class="dimension-head">
               <code class="dimension-name">invocation_binding_consistency</code>
-              <span class="dimension-condition">when present</span>
+              <span class="dimension-condition">si présent</span>
             </div>
-            <p>Stored invocation identity hash-to-response hash link consistency.</p>
+            <p>Cohérence du lien enregistré entre le hash d’identité d’invocation et le hash de réponse.</p>
           </div>
         </section>
 
         <section class="assurance-group assurance-group-policy" aria-labelledby="policy-assurance-title">
           <div class="assurance-group-header">
-            <span class="group-kicker">Optional / policy-dependent</span>
-            <h3 id="policy-assurance-title">Explicit evidence and inputs</h3>
-            <p>These checks depend on explicit evidence or verifier inputs.</p>
+            <span class="group-kicker">Optionnel / selon la politique</span>
+            <h3 id="policy-assurance-title">Éléments et paramètres explicites</h3>
+            <p>Ces contrôles dépendent d’éléments explicites ou de paramètres fournis au vérificateur.</p>
           </div>
           <div class="dimension-row">
             <div class="dimension-head">
               <code class="dimension-name">signature_validity</code>
-              <span class="dimension-condition dimension-condition-warning">when present</span>
+              <span class="dimension-condition dimension-condition-warning">si présent</span>
             </div>
-            <p>Checks Ed25519 signature validity when signature material is present. The dimension can be ABSENT unless a signature is required.</p>
+            <p>Contrôle la validité de la signature Ed25519 lorsque le matériel de signature est présent. La dimension peut être ABSENT sauf si une signature est exigée.</p>
           </div>
           <div class="dimension-row">
             <div class="dimension-head">
               <code class="dimension-name">trusted_signer_identity</code>
-              <span class="dimension-condition dimension-condition-warning">external input</span>
+              <span class="dimension-condition dimension-condition-warning">paramètre externe</span>
             </div>
-            <p>Exact key-fingerprint match against an explicitly supplied external trust store; otherwise UNESTABLISHED.</p>
+            <p>Correspondance exacte de l’empreinte de clé avec un trust store externe explicitement fourni. Sinon, l’état est UNESTABLISHED.</p>
           </div>
           <div class="dimension-row">
             <div class="dimension-head">
               <code class="dimension-name">freshness</code>
-              <span class="dimension-condition dimension-condition-warning">explicit policy</span>
+              <span class="dimension-condition dimension-condition-warning">politique explicite</span>
             </div>
-            <p>Freshness uses an explicit maximum age and UTC reference time. No implicit clock is used.</p>
+            <p>La récence de l’horodatage déclaré utilise un âge maximal et une heure de référence UTC explicites. Aucune horloge implicite n’est utilisée.</p>
           </div>
           <div class="dimension-row">
             <div class="dimension-head">
               <code class="dimension-name">authorization</code>
-              <span class="dimension-condition dimension-condition-neutral">not evaluated</span>
+              <span class="dimension-condition dimension-condition-neutral">non évalué</span>
             </div>
-            <p>No authorization decision is implemented; this dimension is always NOT_EVALUATED in v0.3.0.</p>
+            <p>Aucune décision d’autorisation n’est implémentée. Cette dimension reste toujours NOT_EVALUATED dans v0.3.0.</p>
           </div>
         </section>
       </div>
@@ -1815,17 +1815,17 @@
   <section class="section" id="uses" aria-labelledby="uses-title">
     <div class="container">
       <div class="section-header">
-        <p class="section-eyebrow">Where it fits</p>
+        <p class="section-eyebrow">Où l’utiliser</p>
         <div>
-          <h2 class="section-title" id="uses-title">Practical uses</h2>
-          <p class="section-intro">Four concrete developer workflows supported by v0.3.0.</p>
+          <h2 class="section-title" id="uses-title">Usages concrets</h2>
+          <p class="section-intro">Quatre workflows concrets pour les développeurs, disponibles dans v0.3.0.</p>
         </div>
       </div>
 
       <div class="practical-grid">
         <article class="practical-item">
           <span class="practical-number">01 / 04</span>
-          <h3 class="practical-title">Compare recorded runs</h3>
+          <h3 class="practical-title">Comparer des exécutions enregistrées</h3>
           <div class="practical-visual practical-signal">
             <div class="practical-signal-row">
               <code>REQUEST_HASH</code>
@@ -1836,46 +1836,46 @@
               <strong class="practical-different">DIFFERENT</strong>
             </div>
           </div>
-          <p class="practical-copy">Compare evidence from two runs and detect when the same recorded request hash is associated with different recorded response hashes. AELITIUM reports the difference without attributing a cause.</p>
+          <p class="practical-copy">Comparer les éléments de preuve de deux exécutions et détecter lorsqu’un même hash de requête enregistrée est associé à des hash de réponse enregistrée différents. AELITIUM signale la différence sans en attribuer la cause.</p>
         </article>
 
         <article class="practical-item">
           <span class="practical-number">02 / 04</span>
-          <h3 class="practical-title">Check evidence offline</h3>
+          <h3 class="practical-title">Contrôler un bundle hors ligne</h3>
           <div class="practical-visual practical-flow">
-            <span>evidence bundle</span>
+            <span>bundle d’éléments de preuve</span>
             <span class="practical-arrow" aria-hidden="true">→</span>
             <code>aelitium verify-bundle</code>
             <span class="practical-arrow" aria-hidden="true">→</span>
-            <span>assurance states</span>
+            <span>états d’évaluation</span>
           </div>
-          <p class="practical-copy">Check the internal consistency of a governed evidence bundle offline before using it in a review, investigation or downstream workflow.</p>
+          <p class="practical-copy">Contrôler hors ligne la cohérence interne d’un bundle d’éléments de preuve régi par le contrat avant de l’utiliser dans une revue, une investigation ou un workflow en aval.</p>
         </article>
 
         <article class="practical-item">
           <span class="practical-number">03 / 04</span>
-          <h3 class="practical-title">Find potential capture gaps</h3>
+          <h3 class="practical-title">Repérer des lacunes potentielles de capture</h3>
           <div class="practical-visual practical-flow">
-            <span>Python source</span>
+            <span>source Python</span>
             <span class="practical-arrow" aria-hidden="true">→</span>
             <code>aelitium scan</code>
             <span class="practical-arrow" aria-hidden="true">→</span>
-            <span>potential call sites</span>
+            <span>sites d’appel potentiels</span>
           </div>
-          <p class="practical-copy">Scan Python source for potential LLM call sites that may not use a supported AELITIUM capture path.</p>
+          <p class="practical-copy">Analyser le code source Python à la recherche de sites d’appel LLM potentiels qui peuvent ne pas utiliser un parcours de capture AELITIUM pris en charge.</p>
         </article>
 
         <article class="practical-item">
           <span class="practical-number">04 / 04</span>
-          <h3 class="practical-title">Check coverage in CI</h3>
+          <h3 class="practical-title">Contrôler la couverture dans la CI</h3>
           <div class="practical-visual practical-flow">
             <span>pull request</span>
             <span class="practical-arrow" aria-hidden="true">→</span>
             <code>aelitium scan ./src --ci</code>
             <span class="practical-arrow" aria-hidden="true">→</span>
-            <span>CI result</span>
+            <span>résultat CI</span>
           </div>
-          <p class="practical-copy">Run the AELITIUM scanner in CI to surface potential Python LLM call sites without supported capture instrumentation.</p>
+          <p class="practical-copy">Exécuter le scanner AELITIUM dans la CI pour signaler les sites d’appel LLM Python potentiels sans instrumentation de capture prise en charge.</p>
         </article>
       </div>
     </div>
@@ -1884,32 +1884,32 @@
   <section class="section" id="example" aria-labelledby="example-title">
     <div class="container">
       <div class="section-header">
-        <p class="section-eyebrow">Concrete use case</p>
+        <p class="section-eyebrow">Cas concret</p>
         <div>
-          <h2 class="section-title" id="example-title">Same request hash. Different recorded response hash.</h2>
-          <p class="section-intro">Two bundles can have the same stored request hash and different recorded response hashes. The comparison does not attribute a cause.</p>
+          <h2 class="section-title" id="example-title">Même hash de requête. Hash de réponse enregistrée différent.</h2>
+          <p class="section-intro">Deux bundles peuvent avoir le même hash de requête enregistrée et des hash de réponse enregistrée différents. La comparaison n’attribue aucune cause.</p>
         </div>
       </div>
 
       <div class="comparison-shell">
         <div class="comparison-runs">
           <article class="comparison-run">
-            <h3 class="run-label"><span class="run-index">A</span> Run A</h3>
-            <p class="comparison-question">“Summarise the key risks of deploying LLMs in production in one sentence.”</p>
-            <p class="comparison-response">Key risks include non-deterministic outputs, prompt injection vulnerabilities, hallucinated facts, and the absence of inspectable evidence records.</p>
+            <h3 class="run-label"><span class="run-index">A</span> Exécution A</h3>
+            <p class="comparison-question">« Résumez en une phrase les principaux risques liés au déploiement de LLM en production. »</p>
+            <p class="comparison-response">Les principaux risques comprennent les sorties non déterministes, les vulnérabilités d’injection de prompt, les faits hallucinés et l’absence d’éléments de preuve inspectables.</p>
             <p class="comparison-hash">response_hash: 2f1563cc8c0b7b71…</p>
           </article>
           <article class="comparison-run">
-            <h3 class="run-label"><span class="run-index">B</span> Run B</h3>
-            <p class="comparison-question">“Summarise the key risks of deploying LLMs in production in one sentence.”</p>
-            <p class="comparison-response">Primary risks are hallucination, data leakage, adversarial prompt injection, and unpredictable behaviour changes following silent model updates.</p>
+            <h3 class="run-label"><span class="run-index">B</span> Exécution B</h3>
+            <p class="comparison-question">« Résumez en une phrase les principaux risques liés au déploiement de LLM en production. »</p>
+            <p class="comparison-response">Les principaux risques sont les hallucinations, les fuites de données, les injections de prompt adverses et les changements de comportement imprévisibles après des mises à jour silencieuses du modèle.</p>
             <p class="comparison-hash">response_hash: c41d8e3b5f9a2201…</p>
           </article>
         </div>
         <div class="comparison-verdict">
           <span class="comparison-fact fact-same">REQUEST_HASH=SAME</span>
           <span class="comparison-fact fact-different">RESPONSE_HASH=DIFFERENT</span>
-          <p>The selected recorded request fields have the same v1 request hash. The recorded response hashes differ. AELITIUM reports the compared fields without attributing a cause.</p>
+          <p>Les champs sélectionnés de la requête enregistrée ont le même hash de requête v1. Les hash de réponse enregistrée diffèrent. AELITIUM rapporte les champs comparés sans attribuer de cause.</p>
         </div>
       </div>
     </div>
@@ -1918,26 +1918,26 @@
   <section class="section section-white" id="demo" aria-labelledby="demo-title">
     <div class="container">
       <div class="section-header">
-        <p class="section-eyebrow">Interactive demo</p>
+        <p class="section-eyebrow">Démo interactive</p>
         <div>
-          <h2 class="section-title" id="demo-title">Inspect a response-text hash change.</h2>
-          <p class="section-intro" id="demo-description">Edit either recorded response. This browser demo compares response-text SHA-256 values; it does not perform bundle verification.</p>
+          <h2 class="section-title" id="demo-title">Examiner une variation du hash response-text.</h2>
+          <p class="section-intro" id="demo-description">Modifiez l’une des réponses enregistrées. Cette démo dans le navigateur compare les valeurs SHA-256 du texte de réponse. Elle n’effectue pas de vérification de bundle.</p>
         </div>
       </div>
 
       <div class="demo-shell">
         <div class="demo-header">
-          <strong>LOCAL BROWSER DEMO</strong>
-          <span>No text leaves the page. The request hash shown below is a fixed demo assumption and is not computed here.</span>
+          <strong>DÉMO LOCALE DANS LE NAVIGATEUR</strong>
+          <span>Aucun texte ne quitte la page. Le hash de requête affiché ci-dessous est une hypothèse fixe de la démo et n’est pas calculé ici.</span>
         </div>
         <div class="demo-inputs">
           <div class="demo-field">
-            <label for="textA">Recorded response A <span>RUN A</span></label>
-            <textarea id="textA" aria-describedby="demo-description">Key risks include non-deterministic outputs, prompt injection vulnerabilities, hallucinated facts, and the absence of inspectable evidence records.</textarea>
+            <label for="textA">Réponse enregistrée A <span>EXÉCUTION A</span></label>
+            <textarea id="textA" aria-describedby="demo-description">Les principaux risques comprennent les sorties non déterministes, les vulnérabilités d’injection de prompt, les faits hallucinés et l’absence d’éléments de preuve inspectables.</textarea>
           </div>
           <div class="demo-field">
-            <label for="textB">Recorded response B <span>RUN B</span></label>
-            <textarea id="textB" aria-describedby="demo-description">Primary risks are hallucination, data leakage, adversarial prompt injection, and unpredictable behaviour changes following silent model updates.</textarea>
+            <label for="textB">Réponse enregistrée B <span>EXÉCUTION B</span></label>
+            <textarea id="textB" aria-describedby="demo-description">Les principaux risques sont les hallucinations, les fuites de données, les injections de prompt adverses et les changements de comportement imprévisibles après des mises à jour silencieuses du modèle.</textarea>
           </div>
         </div>
         <div class="demo-result" id="demoResult" role="status" aria-live="polite" aria-atomic="true"></div>
@@ -1948,10 +1948,10 @@
   <section class="section" id="mechanism" aria-labelledby="mechanism-title">
     <div class="container">
       <div class="section-header">
-        <p class="section-eyebrow">Mechanism</p>
+        <p class="section-eyebrow">Mécanisme</p>
         <div>
           <h2 class="section-title" id="mechanism-title">Capture → Hash → Bind → Verify</h2>
-          <p class="section-intro flow-positioning">AELITIUM creates evidence bundles for recorded LLM interactions and checks payload integrity plus stored binding and invocation consistency offline, with separate results for optional signatures, explicit external trust-store matching and declared-time freshness.</p>
+          <p class="section-intro flow-positioning">AELITIUM crée des bundles d’éléments de preuve pour les interactions LLM enregistrées et contrôle hors ligne l’intégrité du payload ainsi que la cohérence des liaisons et des données d’invocation enregistrées. Les résultats restent séparés pour les signatures optionnelles, la correspondance avec un trust store externe explicite et la récence de l’horodatage déclaré.</p>
         </div>
       </div>
 
@@ -1959,25 +1959,25 @@
         <article class="flow-step">
           <span class="step-num">01</span>
           <h3 class="step-title">Capture</h3>
-          <p class="step-desc">Records selected request and response fields on supported adapter paths.</p>
+          <p class="step-desc">Enregistre des champs sélectionnés de la requête et de la réponse sur les parcours d’adaptateur pris en charge.</p>
           <code class="step-code">from aelitium import capture_openai</code>
         </article>
         <article class="flow-step">
           <span class="step-num">02</span>
           <h3 class="step-title">Hash</h3>
-          <p class="step-desc">Computes deterministic request_hash and response_hash values.</p>
+          <p class="step-desc">Calcule des valeurs request_hash et response_hash déterministes.</p>
           <code class="step-code">request_hash<br>response_hash</code>
         </article>
         <article class="flow-step">
           <span class="step-num">03</span>
           <h3 class="step-title">Bind</h3>
-          <p class="step-desc">Links the stored request and recorded response hashes with binding_hash.</p>
+          <p class="step-desc">Relie les hash de la requête enregistrée et de la réponse enregistrée avec binding_hash.</p>
           <code class="step-code">request_hash + response_hash<br>→ binding_hash</code>
         </article>
         <article class="flow-step">
           <span class="step-num">04</span>
           <h3 class="step-title">Verify</h3>
-          <p class="step-desc">Checks governed bundle consistency offline and fails closed on invalid evidence.</p>
+          <p class="step-desc">Contrôle hors ligne la cohérence d’un bundle régi par le contrat et échoue en mode fail-closed si les éléments de preuve sont invalides.</p>
           <code class="step-code">aelitium verify-bundle ./evidence</code>
         </article>
       </div>
@@ -1988,30 +1988,30 @@
   <section class="section section-white" id="boundaries" aria-labelledby="boundaries-title">
     <div class="container">
       <div class="section-header">
-        <p class="section-eyebrow">Explicit boundary</p>
+        <p class="section-eyebrow">Limite explicite</p>
         <div>
-          <h2 class="section-title" id="boundaries-title">What AELITIUM verifies and what it does not claim.</h2>
-          <p class="section-intro">Internal consistency is deliberately separate from claims about provider execution or historical non-modification.</p>
+          <h2 class="section-title" id="boundaries-title">Ce qu’AELITIUM vérifie et ce qu’il ne prétend pas établir.</h2>
+          <p class="section-intro">La cohérence interne est délibérément distincte des affirmations sur l’exécution par le fournisseur ou l’absence de modification historique.</p>
         </div>
       </div>
 
       <div class="boundary-grid">
         <section class="boundary-column" aria-labelledby="verifies-title">
-          <h3 id="verifies-title">What AELITIUM verifies</h3>
+          <h3 id="verifies-title">Ce qu’AELITIUM vérifie</h3>
           <ul class="boundary-list">
-            <li>Governed payload, canonical representation, manifest and payload-hash consistency.</li>
-            <li>Stored v1 request, response and binding-field consistency when binding evidence is present.</li>
-            <li>Stored versioned invocation identity and invocation-identity-to-response binding consistency when present.</li>
-            <li>Mathematical signature validity when material is present, plus external trust-store matching and declared-time freshness when explicit inputs are supplied.</li>
+            <li>Cohérence du payload régi par le contrat, de la représentation canonique, du manifeste et du hash du payload.</li>
+            <li>Cohérence des champs enregistrés de requête, de réponse et de liaison v1 lorsque les éléments de liaison sont présents.</li>
+            <li>Cohérence de l’identité d’invocation versionnée enregistrée et de la liaison enregistrée entre l’identité d’invocation et la réponse lorsqu’elles sont présentes.</li>
+            <li>Validité mathématique de la signature lorsque le matériel est présent, ainsi que la correspondance avec un trust store externe et la récence de l’horodatage déclaré lorsque des paramètres explicites sont fournis.</li>
           </ul>
         </section>
         <section class="boundary-column boundary-column-limit" aria-labelledby="limits-title">
-          <h3 id="limits-title">What AELITIUM does not claim</h3>
+          <h3 id="limits-title">Ce qu’AELITIUM ne prétend pas établir</h3>
           <ul class="boundary-list">
-            <li>Provider authenticity, provider execution or response causation.</li>
-            <li>Output truth, safety or semantic correctness.</li>
-            <li>Trusted historical time or historical non-modification from the bundle alone.</li>
-            <li>Authorization, legal compliance or complete capture of real-world events.</li>
+            <li>L’authenticité du fournisseur, l’exécution par le fournisseur ou un lien de causalité avec la réponse.</li>
+            <li>La véracité, la sûreté ou la correction sémantique du résultat.</li>
+            <li>Une référence temporelle historique fiable ou l’absence de modification historique à partir du seul bundle.</li>
+            <li>L’autorisation, la conformité juridique ou la capture complète des événements réels.</li>
           </ul>
         </section>
       </div>
@@ -2021,14 +2021,14 @@
   <section class="cta" aria-labelledby="cta-title">
     <div class="container cta-inner">
       <div>
-        <p class="section-eyebrow">Get started</p>
-        <h2 id="cta-title">Inspect one evidence bundle yourself.</h2>
-        <p>Install the Python package, capture a supported call path and check the resulting bundle offline.</p>
-        <div class="cta-utility">$ pip install aelitium · also on <a href="https://pypi.org/project/aelitium/">PyPI</a></div>
+        <p class="section-eyebrow">Commencer</p>
+        <h2 id="cta-title">Examinez vous-même un bundle d’éléments de preuve.</h2>
+        <p>Installez le package Python, capturez un parcours d’appel pris en charge et contrôlez hors ligne le bundle obtenu.</p>
+        <div class="cta-utility">$ pip install aelitium · également sur <a href="https://pypi.org/project/aelitium/">PyPI</a></div>
       </div>
       <div class="cta-actions">
-        <a class="button button-primary" href="https://github.com/aelitium-dev/aelitium-v3">View on GitHub</a>
-        <a class="button button-secondary" href="https://github.com/aelitium-dev/aelitium-v3/tree/main/docs">Read the docs</a>
+        <a class="button button-primary" href="https://github.com/aelitium-dev/aelitium-v3">Voir sur GitHub</a>
+        <a class="button button-secondary" href="https://github.com/aelitium-dev/aelitium-v3/tree/main/docs">Lire la documentation</a>
       </div>
     </div>
   </section>
@@ -2052,15 +2052,15 @@ const copyLabel = copyButton.querySelector('.copy-label');
 copyButton.addEventListener('click', async () => {
   try {
     if (!navigator.clipboard) {
-      throw new Error('Clipboard API unavailable');
+      throw new Error('API du presse-papiers indisponible');
     }
     await navigator.clipboard.writeText(copyButton.dataset.copyCommand);
-    copyLabel.textContent = 'Copied';
+    copyLabel.textContent = 'Copié';
   } catch (error) {
-    copyLabel.textContent = 'Select';
+    copyLabel.textContent = 'Sélectionner';
   }
   window.setTimeout(() => {
-    copyLabel.textContent = 'Copy';
+    copyLabel.textContent = 'Copier';
   }, 1600);
 });
 
@@ -2094,11 +2094,11 @@ async function updateDemo() {
 
   demoResult.innerHTML = [
     '<span class="result-line"><span class="result-key">DEMO_RESULT</span>=<span class="' + resultClass + '">' + resultText + '</span></span>',
-    '<span class="result-line"><span class="result-key">REQUEST_HASH</span>=<span class="result-same">SAME</span> (fixed demo assumption; not computed here)</span>',
+    '<span class="result-line"><span class="result-key">REQUEST_HASH</span>=<span class="result-same">SAME</span> (hypothèse fixe de la démo, non calculée ici)</span>',
     '<span class="result-line"><span class="result-key">RESPONSE_TEXT_SHA256</span>=<span class="' + resultClass + '">' + (same ? 'SAME' : 'DIFFERENT') + '</span></span>',
     '<span class="result-line result-hash">a=' + hashA + '</span>',
     '<span class="result-line result-hash">b=' + hashB + '</span>',
-    '<span class="result-line"><span class="result-key">SCOPE</span>=browser text-hash comparison; bundle verification not performed</span>',
+    '<span class="result-line"><span class="result-key">SCOPE</span>=comparaison de hash de texte dans le navigateur; vérification de bundle non effectuée</span>',
   ].join('');
 }
 
