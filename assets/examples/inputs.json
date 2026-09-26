@@ -1,0 +1,20 @@
+{
+  "record-a": {
+    "request": "What is the main conclusion of this incident report? Findings: duplicate requests, unhandled timeouts, and unredacted prompt logs.",
+    "response": "The report identifies three operational risks.",
+    "model": "gpt-4o-mini",
+    "declared_time": "2026-09-03T12:00:00Z"
+  },
+  "record-b": {
+    "request": "What is the main conclusion of this incident report? Findings: duplicate requests, unhandled timeouts, and unredacted prompt logs.",
+    "response": "The report identifies four operational risks.",
+    "model": "gpt-4o-mini",
+    "declared_time": "2026-09-03T12:00:00Z"
+  },
+  "record-c": {
+    "request": "How many operational risks does this incident report identify? Findings: duplicate requests, unhandled timeouts, and unredacted prompt logs.",
+    "response": "The report identifies four operational risks.",
+    "model": "gpt-4o-mini",
+    "declared_time": "2026-09-03T12:00:00Z"
+  }
+}

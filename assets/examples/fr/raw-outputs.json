@@ -1,0 +1,212 @@
+{
+  "verify-record-a": {
+    "argv": [
+      "C:\\Users\\CATARINA-AELITIUM\\Documents\\Codex\\2026-09-25\\referenced-chatgpt-conversation-this-is-an\\work\\fixtures-venv\\Scripts\\python.exe",
+      "-m",
+      "engine.ai_cli",
+      "verify-bundle",
+      "record-a",
+      "--json"
+    ],
+    "cwd": "assets/examples/fr",
+    "stdout": "{\"ai_hash_sha256\": \"0e4621d024174b7dd151e3f1a34b7ff27cdeb6983dbed9e9266ebfc3a9788b29\", \"authorization\": \"NOT_EVALUATED\", \"binding_field_consistency\": \"VALID\", \"binding_hash\": \"4cf337083be5632c6431aa56013472a5fbfe3769fadb245f3324c8a4732cd9e4\", \"freshness\": \"NOT_EVALUATED\", \"invocation_binding_consistency\": \"VALID\", \"invocation_identity_consistency\": \"VALID\", \"payload_integrity\": \"VALID\", \"rc\": 0, \"signature\": \"NONE\", \"signature_validity\": \"ABSENT\", \"status\": \"VALID\", \"trusted_signer_identity\": \"UNESTABLISHED\"}\n",
+    "stderr": "",
+    "rc": 0
+  },
+  "api-verify-record-a": {
+    "api": "engine.ai_verify.verify_ai_bundle",
+    "input": "record-a",
+    "result": {
+      "valid": true,
+      "reason": "OK",
+      "payload_integrity": "VALID",
+      "binding_field_consistency": "VALID",
+      "invocation_identity_consistency": "VALID",
+      "invocation_binding_consistency": "VALID",
+      "signature_validity": "ABSENT",
+      "trusted_signer_identity": "UNESTABLISHED",
+      "freshness": "NOT_EVALUATED",
+      "authorization": "NOT_EVALUATED"
+    }
+  },
+  "verify-record-a-copy": {
+    "argv": [
+      "C:\\Users\\CATARINA-AELITIUM\\Documents\\Codex\\2026-09-25\\referenced-chatgpt-conversation-this-is-an\\work\\fixtures-venv\\Scripts\\python.exe",
+      "-m",
+      "engine.ai_cli",
+      "verify-bundle",
+      "record-a-copy",
+      "--json"
+    ],
+    "cwd": "assets/examples/fr",
+    "stdout": "{\"ai_hash_sha256\": \"0e4621d024174b7dd151e3f1a34b7ff27cdeb6983dbed9e9266ebfc3a9788b29\", \"authorization\": \"NOT_EVALUATED\", \"binding_field_consistency\": \"VALID\", \"binding_hash\": \"4cf337083be5632c6431aa56013472a5fbfe3769fadb245f3324c8a4732cd9e4\", \"freshness\": \"NOT_EVALUATED\", \"invocation_binding_consistency\": \"VALID\", \"invocation_identity_consistency\": \"VALID\", \"payload_integrity\": \"VALID\", \"rc\": 0, \"signature\": \"NONE\", \"signature_validity\": \"ABSENT\", \"status\": \"VALID\", \"trusted_signer_identity\": \"UNESTABLISHED\"}\n",
+    "stderr": "",
+    "rc": 0
+  },
+  "api-verify-record-a-copy": {
+    "api": "engine.ai_verify.verify_ai_bundle",
+    "input": "record-a-copy",
+    "result": {
+      "valid": true,
+      "reason": "OK",
+      "payload_integrity": "VALID",
+      "binding_field_consistency": "VALID",
+      "invocation_identity_consistency": "VALID",
+      "invocation_binding_consistency": "VALID",
+      "signature_validity": "ABSENT",
+      "trusted_signer_identity": "UNESTABLISHED",
+      "freshness": "NOT_EVALUATED",
+      "authorization": "NOT_EVALUATED"
+    }
+  },
+  "verify-record-b": {
+    "argv": [
+      "C:\\Users\\CATARINA-AELITIUM\\Documents\\Codex\\2026-09-25\\referenced-chatgpt-conversation-this-is-an\\work\\fixtures-venv\\Scripts\\python.exe",
+      "-m",
+      "engine.ai_cli",
+      "verify-bundle",
+      "record-b",
+      "--json"
+    ],
+    "cwd": "assets/examples/fr",
+    "stdout": "{\"ai_hash_sha256\": \"6206f1f489c380b70cfdd6a1ff8033671e34d7a47b586fb88fe216b4f5dcafef\", \"authorization\": \"NOT_EVALUATED\", \"binding_field_consistency\": \"VALID\", \"binding_hash\": \"9753c6492e28ed858bfcccb6125c2b52ce62635a8589dc5f71a6c3cc8b0213b2\", \"freshness\": \"NOT_EVALUATED\", \"invocation_binding_consistency\": \"VALID\", \"invocation_identity_consistency\": \"VALID\", \"payload_integrity\": \"VALID\", \"rc\": 0, \"signature\": \"NONE\", \"signature_validity\": \"ABSENT\", \"status\": \"VALID\", \"trusted_signer_identity\": \"UNESTABLISHED\"}\n",
+    "stderr": "",
+    "rc": 0
+  },
+  "api-verify-record-b": {
+    "api": "engine.ai_verify.verify_ai_bundle",
+    "input": "record-b",
+    "result": {
+      "valid": true,
+      "reason": "OK",
+      "payload_integrity": "VALID",
+      "binding_field_consistency": "VALID",
+      "invocation_identity_consistency": "VALID",
+      "invocation_binding_consistency": "VALID",
+      "signature_validity": "ABSENT",
+      "trusted_signer_identity": "UNESTABLISHED",
+      "freshness": "NOT_EVALUATED",
+      "authorization": "NOT_EVALUATED"
+    }
+  },
+  "verify-record-c": {
+    "argv": [
+      "C:\\Users\\CATARINA-AELITIUM\\Documents\\Codex\\2026-09-25\\referenced-chatgpt-conversation-this-is-an\\work\\fixtures-venv\\Scripts\\python.exe",
+      "-m",
+      "engine.ai_cli",
+      "verify-bundle",
+      "record-c",
+      "--json"
+    ],
+    "cwd": "assets/examples/fr",
+    "stdout": "{\"ai_hash_sha256\": \"c02130d805b1ff3dd84835f7dad60afb8f6bc83dfaeb774c3594370da36bcf47\", \"authorization\": \"NOT_EVALUATED\", \"binding_field_consistency\": \"VALID\", \"binding_hash\": \"593f1c35ad164e443dad0744b874e8a7f2779f214d0f10795a107154b6368d5d\", \"freshness\": \"NOT_EVALUATED\", \"invocation_binding_consistency\": \"VALID\", \"invocation_identity_consistency\": \"VALID\", \"payload_integrity\": \"VALID\", \"rc\": 0, \"signature\": \"NONE\", \"signature_validity\": \"ABSENT\", \"status\": \"VALID\", \"trusted_signer_identity\": \"UNESTABLISHED\"}\n",
+    "stderr": "",
+    "rc": 0
+  },
+  "api-verify-record-c": {
+    "api": "engine.ai_verify.verify_ai_bundle",
+    "input": "record-c",
+    "result": {
+      "valid": true,
+      "reason": "OK",
+      "payload_integrity": "VALID",
+      "binding_field_consistency": "VALID",
+      "invocation_identity_consistency": "VALID",
+      "invocation_binding_consistency": "VALID",
+      "signature_validity": "ABSENT",
+      "trusted_signer_identity": "UNESTABLISHED",
+      "freshness": "NOT_EVALUATED",
+      "authorization": "NOT_EVALUATED"
+    }
+  },
+  "verify-record-a-modified": {
+    "argv": [
+      "C:\\Users\\CATARINA-AELITIUM\\Documents\\Codex\\2026-09-25\\referenced-chatgpt-conversation-this-is-an\\work\\fixtures-venv\\Scripts\\python.exe",
+      "-m",
+      "engine.ai_cli",
+      "verify-bundle",
+      "record-a-modified",
+      "--json"
+    ],
+    "cwd": "assets/examples/fr",
+    "stdout": "STATUS=INVALID rc=2 reason=HASH_MISMATCH\nDETAIL=expected=0e4621d024174b7d... got=a1ade9be82e1c9a6...\nPAYLOAD_INTEGRITY=INVALID\nBINDING_FIELD_CONSISTENCY=NOT_EVALUATED\nINVOCATION_IDENTITY_CONSISTENCY=NOT_EVALUATED\nINVOCATION_BINDING_CONSISTENCY=NOT_EVALUATED\nSIGNATURE_VALIDITY=ABSENT\nTRUSTED_SIGNER_IDENTITY=UNESTABLISHED\nFRESHNESS=NOT_EVALUATED\nAUTHORIZATION=NOT_EVALUATED\n",
+    "stderr": "",
+    "rc": 2
+  },
+  "api-verify-record-a-modified": {
+    "api": "engine.ai_verify.verify_ai_bundle",
+    "input": "record-a-modified",
+    "result": {
+      "valid": false,
+      "reason": "HASH_MISMATCH",
+      "payload_integrity": "INVALID",
+      "binding_field_consistency": "NOT_EVALUATED",
+      "invocation_identity_consistency": "NOT_EVALUATED",
+      "invocation_binding_consistency": "NOT_EVALUATED",
+      "signature_validity": "ABSENT",
+      "trusted_signer_identity": "UNESTABLISHED",
+      "freshness": "NOT_EVALUATED",
+      "authorization": "NOT_EVALUATED"
+    }
+  },
+  "compare-changed": {
+    "argv": [
+      "C:\\Users\\CATARINA-AELITIUM\\Documents\\Codex\\2026-09-25\\referenced-chatgpt-conversation-this-is-an\\work\\fixtures-venv\\Scripts\\python.exe",
+      "-m",
+      "engine.ai_cli",
+      "compare",
+      "record-a",
+      "record-b",
+      "--json"
+    ],
+    "cwd": "assets/examples/fr",
+    "stdout": "{\"binding_hash\": \"DIFFERENT\", \"comparison_basis\": \"INVOCATION_IDENTITY_V1\", \"comparison_contract\": \"aelitium-compare-v1\", \"comparison_mode\": \"INVOCATION_FIRST\", \"comparison_reason\": \"RESPONSE_HASH_DIFFERENT\", \"interpretation\": \"Under the reported comparison basis, the selected comparison identity hashes match and selected response_hash values differ. This does not identify a cause.\", \"invocation_binding_consistency_a\": \"VALID\", \"invocation_binding_consistency_b\": \"VALID\", \"invocation_identity_consistency_a\": \"VALID\", \"invocation_identity_consistency_b\": \"VALID\", \"invocation_identity_hash\": \"SAME\", \"invocation_identity_hash_a\": \"4497e9ad205e2ad350d051a74b9091df3396de1868b8c5eb281109a373bbf6f6\", \"invocation_identity_hash_b\": \"4497e9ad205e2ad350d051a74b9091df3396de1868b8c5eb281109a373bbf6f6\", \"rc\": 2, \"request_hash\": \"SAME\", \"request_hash_a\": \"11f65c6455ed4be4070a71b0d472e0d0504ab056c2f3878fb5b951a1556a4dd8\", \"request_hash_b\": \"11f65c6455ed4be4070a71b0d472e0d0504ab056c2f3878fb5b951a1556a4dd8\", \"required_comparison_basis\": null, \"response_hash\": \"DIFFERENT\", \"response_hash_a\": \"36bac257eb0ab7045da5536cd9ebc7d5b556b397d9b373786e9e49d42b7e269e\", \"response_hash_b\": \"6fc601d469774f528790c93b15f79c87b60abd11116148ce0f8b7ccc7b9ce582\", \"status\": \"CHANGED\", \"ts_utc_a\": \"2026-09-03T12:00:00Z\", \"ts_utc_b\": \"2026-09-03T12:00:00Z\"}\n",
+    "stderr": "",
+    "rc": 2
+  },
+  "compare-not-comparable": {
+    "argv": [
+      "C:\\Users\\CATARINA-AELITIUM\\Documents\\Codex\\2026-09-25\\referenced-chatgpt-conversation-this-is-an\\work\\fixtures-venv\\Scripts\\python.exe",
+      "-m",
+      "engine.ai_cli",
+      "compare",
+      "record-a",
+      "record-c",
+      "--json"
+    ],
+    "cwd": "assets/examples/fr",
+    "stdout": "{\"binding_hash\": \"DIFFERENT\", \"comparison_basis\": \"INVOCATION_IDENTITY_V1\", \"comparison_contract\": \"aelitium-compare-v1\", \"comparison_mode\": \"INVOCATION_FIRST\", \"comparison_reason\": \"INVOCATION_IDENTITY_HASH_DIFFERENT\", \"interpretation\": \"No response-change conclusion is made because the selected comparison identity hashes differ or the comparison mode's required evidence is unavailable.\", \"invocation_binding_consistency_a\": \"VALID\", \"invocation_binding_consistency_b\": \"VALID\", \"invocation_identity_consistency_a\": \"VALID\", \"invocation_identity_consistency_b\": \"VALID\", \"invocation_identity_hash\": \"DIFFERENT\", \"invocation_identity_hash_a\": \"4497e9ad205e2ad350d051a74b9091df3396de1868b8c5eb281109a373bbf6f6\", \"invocation_identity_hash_b\": \"1e6ee0810dfe5ceced0d7bbd7d640452f4254d358de00b0d3eac16242c8349b8\", \"rc\": 1, \"request_hash\": \"DIFFERENT\", \"request_hash_a\": \"11f65c6455ed4be4070a71b0d472e0d0504ab056c2f3878fb5b951a1556a4dd8\", \"request_hash_b\": \"8ed1f5a232ad70048a8ce40aa8a1430a7adb496635e845a0e8fb42633e8514c3\", \"required_comparison_basis\": null, \"response_hash\": \"DIFFERENT\", \"response_hash_a\": \"36bac257eb0ab7045da5536cd9ebc7d5b556b397d9b373786e9e49d42b7e269e\", \"response_hash_b\": \"6fc601d469774f528790c93b15f79c87b60abd11116148ce0f8b7ccc7b9ce582\", \"status\": \"NOT_COMPARABLE\", \"ts_utc_a\": \"2026-09-03T12:00:00Z\", \"ts_utc_b\": \"2026-09-03T12:00:00Z\"}\n",
+    "stderr": "",
+    "rc": 1
+  },
+  "compare-unchanged": {
+    "argv": [
+      "C:\\Users\\CATARINA-AELITIUM\\Documents\\Codex\\2026-09-25\\referenced-chatgpt-conversation-this-is-an\\work\\fixtures-venv\\Scripts\\python.exe",
+      "-m",
+      "engine.ai_cli",
+      "compare",
+      "record-a",
+      "record-a-copy",
+      "--json"
+    ],
+    "cwd": "assets/examples/fr",
+    "stdout": "{\"binding_hash\": \"SAME\", \"comparison_basis\": \"INVOCATION_IDENTITY_V1\", \"comparison_contract\": \"aelitium-compare-v1\", \"comparison_mode\": \"INVOCATION_FIRST\", \"comparison_reason\": \"RESPONSE_HASH_SAME\", \"interpretation\": \"Under the reported comparison basis, the selected comparison identity hashes and selected response_hash values match. This does not establish unchanged invocation configuration or unchanged model behavior.\", \"invocation_binding_consistency_a\": \"VALID\", \"invocation_binding_consistency_b\": \"VALID\", \"invocation_identity_consistency_a\": \"VALID\", \"invocation_identity_consistency_b\": \"VALID\", \"invocation_identity_hash\": \"SAME\", \"invocation_identity_hash_a\": \"4497e9ad205e2ad350d051a74b9091df3396de1868b8c5eb281109a373bbf6f6\", \"invocation_identity_hash_b\": \"4497e9ad205e2ad350d051a74b9091df3396de1868b8c5eb281109a373bbf6f6\", \"rc\": 0, \"request_hash\": \"SAME\", \"request_hash_a\": \"11f65c6455ed4be4070a71b0d472e0d0504ab056c2f3878fb5b951a1556a4dd8\", \"request_hash_b\": \"11f65c6455ed4be4070a71b0d472e0d0504ab056c2f3878fb5b951a1556a4dd8\", \"required_comparison_basis\": null, \"response_hash\": \"SAME\", \"response_hash_a\": \"36bac257eb0ab7045da5536cd9ebc7d5b556b397d9b373786e9e49d42b7e269e\", \"response_hash_b\": \"36bac257eb0ab7045da5536cd9ebc7d5b556b397d9b373786e9e49d42b7e269e\", \"status\": \"UNCHANGED\", \"ts_utc_a\": \"2026-09-03T12:00:00Z\", \"ts_utc_b\": \"2026-09-03T12:00:00Z\"}\n",
+    "stderr": "",
+    "rc": 0
+  },
+  "compare-invalid": {
+    "argv": [
+      "C:\\Users\\CATARINA-AELITIUM\\Documents\\Codex\\2026-09-25\\referenced-chatgpt-conversation-this-is-an\\work\\fixtures-venv\\Scripts\\python.exe",
+      "-m",
+      "engine.ai_cli",
+      "compare",
+      "record-a",
+      "record-a-modified",
+      "--json"
+    ],
+    "cwd": "assets/examples/fr",
+    "stdout": "{\"comparison_basis\": \"NONE\", \"comparison_contract\": \"aelitium-compare-v1\", \"comparison_mode\": \"INVOCATION_FIRST\", \"comparison_reason\": \"BUNDLE_VERIFICATION_FAILED\", \"detail\": \"b=HASH_MISMATCH\", \"interpretation\": \"Comparison was not performed because one or both bundles failed verification\", \"invocation_binding_consistency_a\": \"VALID\", \"invocation_binding_consistency_b\": \"NOT_EVALUATED\", \"invocation_identity_consistency_a\": \"VALID\", \"invocation_identity_consistency_b\": \"NOT_EVALUATED\", \"invocation_identity_hash\": \"UNAVAILABLE\", \"invocation_identity_hash_a\": null, \"invocation_identity_hash_b\": null, \"rc\": 2, \"required_comparison_basis\": null, \"status\": \"INVALID_BUNDLE\"}\n",
+    "stderr": "",
+    "rc": 2
+  }
+}

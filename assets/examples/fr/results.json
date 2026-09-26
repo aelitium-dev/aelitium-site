@@ -1,0 +1,466 @@
+{
+  "release": "0.4.0",
+  "commit": "3506a4fdd8adc6a4c4aec25799cd2add2b2a1f73",
+  "language": "fr",
+  "records": {
+    "record-a": {
+      "payload": {
+        "metadata": {
+          "binding_hash": "4cf337083be5632c6431aa56013472a5fbfe3769fadb245f3324c8a4732cd9e4",
+          "captured_at_utc": "2026-09-03T12:00:00Z",
+          "finish_reason": "stop",
+          "invocation_binding": {
+            "format": "aelitium-invocation-binding-v1",
+            "hash_sha256": "541d42b13aeeaa424ce0e2e1d7015a62b67518eaf0c4ebb350be0c1a6ae7c480",
+            "invocation_hash": "4497e9ad205e2ad350d051a74b9091df3396de1868b8c5eb281109a373bbf6f6",
+            "response_hash": "36bac257eb0ab7045da5536cd9ebc7d5b556b397d9b373786e9e49d42b7e269e"
+          },
+          "invocation_identity": {
+            "format": "aelitium-invocation-v1",
+            "hash_sha256": "4497e9ad205e2ad350d051a74b9091df3396de1868b8c5eb281109a373bbf6f6",
+            "mode": "sync_non_streaming",
+            "request": {
+              "messages": [
+                {
+                  "content": "Quelle est la conclusion de ce rapport d’incident ? Constats : requêtes en double, délais dépassés sans traitement et journaux de prompts non expurgés.",
+                  "role": "user"
+                }
+              ],
+              "model": "gpt-4o-mini"
+            },
+            "surface": "openai.chat.completions"
+          },
+          "provider": "openai",
+          "provider_created_at": null,
+          "request_hash": "11f65c6455ed4be4070a71b0d472e0d0504ab056c2f3878fb5b951a1556a4dd8",
+          "response_hash": "36bac257eb0ab7045da5536cd9ebc7d5b556b397d9b373786e9e49d42b7e269e",
+          "response_id": "synthetic-website-example",
+          "sdk": "openai-python",
+          "usage": null
+        },
+        "model": "gpt-4o-mini",
+        "output": "Le rapport relève trois risques opérationnels.",
+        "prompt": "[{\"content\":\"Quelle est la conclusion de ce rapport d’incident ? Constats : requêtes en double, délais dépassés sans traitement et journaux de prompts non expurgés.\",\"role\":\"user\"}]",
+        "schema_version": "ai_output_v1",
+        "ts_utc": "2026-09-03T12:00:00Z"
+      },
+      "manifest": {
+        "ai_hash_sha256": "0e4621d024174b7dd151e3f1a34b7ff27cdeb6983dbed9e9266ebfc3a9788b29",
+        "binding_hash": "4cf337083be5632c6431aa56013472a5fbfe3769fadb245f3324c8a4732cd9e4",
+        "canonicalization": "json_sorted_keys_no_whitespace_utf8",
+        "input_schema": "ai_output_v1",
+        "schema": "ai_pack_manifest_v1",
+        "ts_utc": "2026-09-03T12:00:00Z"
+      },
+      "verification": {
+        "valid": true,
+        "reason": "OK",
+        "payload_integrity": "VALID",
+        "binding_field_consistency": "VALID",
+        "invocation_identity_consistency": "VALID",
+        "invocation_binding_consistency": "VALID",
+        "signature_validity": "ABSENT",
+        "trusted_signer_identity": "UNESTABLISHED",
+        "freshness": "NOT_EVALUATED",
+        "authorization": "NOT_EVALUATED"
+      },
+      "recomputed_payload_hash": "0e4621d024174b7dd151e3f1a34b7ff27cdeb6983dbed9e9266ebfc3a9788b29"
+    },
+    "record-a-copy": {
+      "payload": {
+        "metadata": {
+          "binding_hash": "4cf337083be5632c6431aa56013472a5fbfe3769fadb245f3324c8a4732cd9e4",
+          "captured_at_utc": "2026-09-03T12:00:00Z",
+          "finish_reason": "stop",
+          "invocation_binding": {
+            "format": "aelitium-invocation-binding-v1",
+            "hash_sha256": "541d42b13aeeaa424ce0e2e1d7015a62b67518eaf0c4ebb350be0c1a6ae7c480",
+            "invocation_hash": "4497e9ad205e2ad350d051a74b9091df3396de1868b8c5eb281109a373bbf6f6",
+            "response_hash": "36bac257eb0ab7045da5536cd9ebc7d5b556b397d9b373786e9e49d42b7e269e"
+          },
+          "invocation_identity": {
+            "format": "aelitium-invocation-v1",
+            "hash_sha256": "4497e9ad205e2ad350d051a74b9091df3396de1868b8c5eb281109a373bbf6f6",
+            "mode": "sync_non_streaming",
+            "request": {
+              "messages": [
+                {
+                  "content": "Quelle est la conclusion de ce rapport d’incident ? Constats : requêtes en double, délais dépassés sans traitement et journaux de prompts non expurgés.",
+                  "role": "user"
+                }
+              ],
+              "model": "gpt-4o-mini"
+            },
+            "surface": "openai.chat.completions"
+          },
+          "provider": "openai",
+          "provider_created_at": null,
+          "request_hash": "11f65c6455ed4be4070a71b0d472e0d0504ab056c2f3878fb5b951a1556a4dd8",
+          "response_hash": "36bac257eb0ab7045da5536cd9ebc7d5b556b397d9b373786e9e49d42b7e269e",
+          "response_id": "synthetic-website-example",
+          "sdk": "openai-python",
+          "usage": null
+        },
+        "model": "gpt-4o-mini",
+        "output": "Le rapport relève trois risques opérationnels.",
+        "prompt": "[{\"content\":\"Quelle est la conclusion de ce rapport d’incident ? Constats : requêtes en double, délais dépassés sans traitement et journaux de prompts non expurgés.\",\"role\":\"user\"}]",
+        "schema_version": "ai_output_v1",
+        "ts_utc": "2026-09-03T12:00:00Z"
+      },
+      "manifest": {
+        "ai_hash_sha256": "0e4621d024174b7dd151e3f1a34b7ff27cdeb6983dbed9e9266ebfc3a9788b29",
+        "binding_hash": "4cf337083be5632c6431aa56013472a5fbfe3769fadb245f3324c8a4732cd9e4",
+        "canonicalization": "json_sorted_keys_no_whitespace_utf8",
+        "input_schema": "ai_output_v1",
+        "schema": "ai_pack_manifest_v1",
+        "ts_utc": "2026-09-03T12:00:00Z"
+      },
+      "verification": {
+        "valid": true,
+        "reason": "OK",
+        "payload_integrity": "VALID",
+        "binding_field_consistency": "VALID",
+        "invocation_identity_consistency": "VALID",
+        "invocation_binding_consistency": "VALID",
+        "signature_validity": "ABSENT",
+        "trusted_signer_identity": "UNESTABLISHED",
+        "freshness": "NOT_EVALUATED",
+        "authorization": "NOT_EVALUATED"
+      },
+      "recomputed_payload_hash": "0e4621d024174b7dd151e3f1a34b7ff27cdeb6983dbed9e9266ebfc3a9788b29"
+    },
+    "record-b": {
+      "payload": {
+        "metadata": {
+          "binding_hash": "9753c6492e28ed858bfcccb6125c2b52ce62635a8589dc5f71a6c3cc8b0213b2",
+          "captured_at_utc": "2026-09-03T12:00:00Z",
+          "finish_reason": "stop",
+          "invocation_binding": {
+            "format": "aelitium-invocation-binding-v1",
+            "hash_sha256": "8c1c5d73ecc70099c05febd7e05b349743c91d5160d19d0756b59f8ff66a1ea1",
+            "invocation_hash": "4497e9ad205e2ad350d051a74b9091df3396de1868b8c5eb281109a373bbf6f6",
+            "response_hash": "6fc601d469774f528790c93b15f79c87b60abd11116148ce0f8b7ccc7b9ce582"
+          },
+          "invocation_identity": {
+            "format": "aelitium-invocation-v1",
+            "hash_sha256": "4497e9ad205e2ad350d051a74b9091df3396de1868b8c5eb281109a373bbf6f6",
+            "mode": "sync_non_streaming",
+            "request": {
+              "messages": [
+                {
+                  "content": "Quelle est la conclusion de ce rapport d’incident ? Constats : requêtes en double, délais dépassés sans traitement et journaux de prompts non expurgés.",
+                  "role": "user"
+                }
+              ],
+              "model": "gpt-4o-mini"
+            },
+            "surface": "openai.chat.completions"
+          },
+          "provider": "openai",
+          "provider_created_at": null,
+          "request_hash": "11f65c6455ed4be4070a71b0d472e0d0504ab056c2f3878fb5b951a1556a4dd8",
+          "response_hash": "6fc601d469774f528790c93b15f79c87b60abd11116148ce0f8b7ccc7b9ce582",
+          "response_id": "synthetic-website-example",
+          "sdk": "openai-python",
+          "usage": null
+        },
+        "model": "gpt-4o-mini",
+        "output": "Le rapport relève quatre risques opérationnels.",
+        "prompt": "[{\"content\":\"Quelle est la conclusion de ce rapport d’incident ? Constats : requêtes en double, délais dépassés sans traitement et journaux de prompts non expurgés.\",\"role\":\"user\"}]",
+        "schema_version": "ai_output_v1",
+        "ts_utc": "2026-09-03T12:00:00Z"
+      },
+      "manifest": {
+        "ai_hash_sha256": "6206f1f489c380b70cfdd6a1ff8033671e34d7a47b586fb88fe216b4f5dcafef",
+        "binding_hash": "9753c6492e28ed858bfcccb6125c2b52ce62635a8589dc5f71a6c3cc8b0213b2",
+        "canonicalization": "json_sorted_keys_no_whitespace_utf8",
+        "input_schema": "ai_output_v1",
+        "schema": "ai_pack_manifest_v1",
+        "ts_utc": "2026-09-03T12:00:00Z"
+      },
+      "verification": {
+        "valid": true,
+        "reason": "OK",
+        "payload_integrity": "VALID",
+        "binding_field_consistency": "VALID",
+        "invocation_identity_consistency": "VALID",
+        "invocation_binding_consistency": "VALID",
+        "signature_validity": "ABSENT",
+        "trusted_signer_identity": "UNESTABLISHED",
+        "freshness": "NOT_EVALUATED",
+        "authorization": "NOT_EVALUATED"
+      },
+      "recomputed_payload_hash": "6206f1f489c380b70cfdd6a1ff8033671e34d7a47b586fb88fe216b4f5dcafef"
+    },
+    "record-c": {
+      "payload": {
+        "metadata": {
+          "binding_hash": "593f1c35ad164e443dad0744b874e8a7f2779f214d0f10795a107154b6368d5d",
+          "captured_at_utc": "2026-09-03T12:00:00Z",
+          "finish_reason": "stop",
+          "invocation_binding": {
+            "format": "aelitium-invocation-binding-v1",
+            "hash_sha256": "4cfd7b42a84e708c6c4324fa66e6fc58029436395a704614de61c0bd9766e158",
+            "invocation_hash": "1e6ee0810dfe5ceced0d7bbd7d640452f4254d358de00b0d3eac16242c8349b8",
+            "response_hash": "6fc601d469774f528790c93b15f79c87b60abd11116148ce0f8b7ccc7b9ce582"
+          },
+          "invocation_identity": {
+            "format": "aelitium-invocation-v1",
+            "hash_sha256": "1e6ee0810dfe5ceced0d7bbd7d640452f4254d358de00b0d3eac16242c8349b8",
+            "mode": "sync_non_streaming",
+            "request": {
+              "messages": [
+                {
+                  "content": "Combien de risques ce rapport d’incident relève-t-il ? Constats : requêtes en double, délais dépassés sans traitement et journaux de prompts non expurgés.",
+                  "role": "user"
+                }
+              ],
+              "model": "gpt-4o-mini"
+            },
+            "surface": "openai.chat.completions"
+          },
+          "provider": "openai",
+          "provider_created_at": null,
+          "request_hash": "8ed1f5a232ad70048a8ce40aa8a1430a7adb496635e845a0e8fb42633e8514c3",
+          "response_hash": "6fc601d469774f528790c93b15f79c87b60abd11116148ce0f8b7ccc7b9ce582",
+          "response_id": "synthetic-website-example",
+          "sdk": "openai-python",
+          "usage": null
+        },
+        "model": "gpt-4o-mini",
+        "output": "Le rapport relève quatre risques opérationnels.",
+        "prompt": "[{\"content\":\"Combien de risques ce rapport d’incident relève-t-il ? Constats : requêtes en double, délais dépassés sans traitement et journaux de prompts non expurgés.\",\"role\":\"user\"}]",
+        "schema_version": "ai_output_v1",
+        "ts_utc": "2026-09-03T12:00:00Z"
+      },
+      "manifest": {
+        "ai_hash_sha256": "c02130d805b1ff3dd84835f7dad60afb8f6bc83dfaeb774c3594370da36bcf47",
+        "binding_hash": "593f1c35ad164e443dad0744b874e8a7f2779f214d0f10795a107154b6368d5d",
+        "canonicalization": "json_sorted_keys_no_whitespace_utf8",
+        "input_schema": "ai_output_v1",
+        "schema": "ai_pack_manifest_v1",
+        "ts_utc": "2026-09-03T12:00:00Z"
+      },
+      "verification": {
+        "valid": true,
+        "reason": "OK",
+        "payload_integrity": "VALID",
+        "binding_field_consistency": "VALID",
+        "invocation_identity_consistency": "VALID",
+        "invocation_binding_consistency": "VALID",
+        "signature_validity": "ABSENT",
+        "trusted_signer_identity": "UNESTABLISHED",
+        "freshness": "NOT_EVALUATED",
+        "authorization": "NOT_EVALUATED"
+      },
+      "recomputed_payload_hash": "c02130d805b1ff3dd84835f7dad60afb8f6bc83dfaeb774c3594370da36bcf47"
+    },
+    "record-a-modified": {
+      "payload": {
+        "metadata": {
+          "binding_hash": "4cf337083be5632c6431aa56013472a5fbfe3769fadb245f3324c8a4732cd9e4",
+          "captured_at_utc": "2026-09-03T12:00:00Z",
+          "finish_reason": "stop",
+          "invocation_binding": {
+            "format": "aelitium-invocation-binding-v1",
+            "hash_sha256": "541d42b13aeeaa424ce0e2e1d7015a62b67518eaf0c4ebb350be0c1a6ae7c480",
+            "invocation_hash": "4497e9ad205e2ad350d051a74b9091df3396de1868b8c5eb281109a373bbf6f6",
+            "response_hash": "36bac257eb0ab7045da5536cd9ebc7d5b556b397d9b373786e9e49d42b7e269e"
+          },
+          "invocation_identity": {
+            "format": "aelitium-invocation-v1",
+            "hash_sha256": "4497e9ad205e2ad350d051a74b9091df3396de1868b8c5eb281109a373bbf6f6",
+            "mode": "sync_non_streaming",
+            "request": {
+              "messages": [
+                {
+                  "content": "Quelle est la conclusion de ce rapport d’incident ? Constats : requêtes en double, délais dépassés sans traitement et journaux de prompts non expurgés.",
+                  "role": "user"
+                }
+              ],
+              "model": "gpt-4o-mini"
+            },
+            "surface": "openai.chat.completions"
+          },
+          "provider": "openai",
+          "provider_created_at": null,
+          "request_hash": "11f65c6455ed4be4070a71b0d472e0d0504ab056c2f3878fb5b951a1556a4dd8",
+          "response_hash": "36bac257eb0ab7045da5536cd9ebc7d5b556b397d9b373786e9e49d42b7e269e",
+          "response_id": "synthetic-website-example",
+          "sdk": "openai-python",
+          "usage": null
+        },
+        "model": "gpt-4o-mini",
+        "output": "Le rapport relève quatre risques opérationnels.",
+        "prompt": "[{\"content\":\"Quelle est la conclusion de ce rapport d’incident ? Constats : requêtes en double, délais dépassés sans traitement et journaux de prompts non expurgés.\",\"role\":\"user\"}]",
+        "schema_version": "ai_output_v1",
+        "ts_utc": "2026-09-03T12:00:00Z"
+      },
+      "manifest": {
+        "ai_hash_sha256": "0e4621d024174b7dd151e3f1a34b7ff27cdeb6983dbed9e9266ebfc3a9788b29",
+        "binding_hash": "4cf337083be5632c6431aa56013472a5fbfe3769fadb245f3324c8a4732cd9e4",
+        "canonicalization": "json_sorted_keys_no_whitespace_utf8",
+        "input_schema": "ai_output_v1",
+        "schema": "ai_pack_manifest_v1",
+        "ts_utc": "2026-09-03T12:00:00Z"
+      },
+      "verification": {
+        "valid": false,
+        "reason": "HASH_MISMATCH",
+        "payload_integrity": "INVALID",
+        "binding_field_consistency": "NOT_EVALUATED",
+        "invocation_identity_consistency": "NOT_EVALUATED",
+        "invocation_binding_consistency": "NOT_EVALUATED",
+        "signature_validity": "ABSENT",
+        "trusted_signer_identity": "UNESTABLISHED",
+        "freshness": "NOT_EVALUATED",
+        "authorization": "NOT_EVALUATED"
+      },
+      "recomputed_payload_hash": "a1ade9be82e1c9a655fe8ced520e1b7b96f59b5115bd286ee2657f2603cb7011"
+    }
+  },
+  "comparisons": {
+    "changed": {
+      "a": "record-a",
+      "b": "record-b",
+      "result": {
+        "binding_hash": "DIFFERENT",
+        "comparison_basis": "INVOCATION_IDENTITY_V1",
+        "comparison_contract": "aelitium-compare-v1",
+        "comparison_mode": "INVOCATION_FIRST",
+        "comparison_reason": "RESPONSE_HASH_DIFFERENT",
+        "interpretation": "Under the reported comparison basis, the selected comparison identity hashes match and selected response_hash values differ. This does not identify a cause.",
+        "invocation_binding_consistency_a": "VALID",
+        "invocation_binding_consistency_b": "VALID",
+        "invocation_identity_consistency_a": "VALID",
+        "invocation_identity_consistency_b": "VALID",
+        "invocation_identity_hash": "SAME",
+        "invocation_identity_hash_a": "4497e9ad205e2ad350d051a74b9091df3396de1868b8c5eb281109a373bbf6f6",
+        "invocation_identity_hash_b": "4497e9ad205e2ad350d051a74b9091df3396de1868b8c5eb281109a373bbf6f6",
+        "rc": 2,
+        "request_hash": "SAME",
+        "request_hash_a": "11f65c6455ed4be4070a71b0d472e0d0504ab056c2f3878fb5b951a1556a4dd8",
+        "request_hash_b": "11f65c6455ed4be4070a71b0d472e0d0504ab056c2f3878fb5b951a1556a4dd8",
+        "required_comparison_basis": null,
+        "response_hash": "DIFFERENT",
+        "response_hash_a": "36bac257eb0ab7045da5536cd9ebc7d5b556b397d9b373786e9e49d42b7e269e",
+        "response_hash_b": "6fc601d469774f528790c93b15f79c87b60abd11116148ce0f8b7ccc7b9ce582",
+        "status": "CHANGED",
+        "ts_utc_a": "2026-09-03T12:00:00Z",
+        "ts_utc_b": "2026-09-03T12:00:00Z"
+      }
+    },
+    "not-comparable": {
+      "a": "record-a",
+      "b": "record-c",
+      "result": {
+        "binding_hash": "DIFFERENT",
+        "comparison_basis": "INVOCATION_IDENTITY_V1",
+        "comparison_contract": "aelitium-compare-v1",
+        "comparison_mode": "INVOCATION_FIRST",
+        "comparison_reason": "INVOCATION_IDENTITY_HASH_DIFFERENT",
+        "interpretation": "No response-change conclusion is made because the selected comparison identity hashes differ or the comparison mode's required evidence is unavailable.",
+        "invocation_binding_consistency_a": "VALID",
+        "invocation_binding_consistency_b": "VALID",
+        "invocation_identity_consistency_a": "VALID",
+        "invocation_identity_consistency_b": "VALID",
+        "invocation_identity_hash": "DIFFERENT",
+        "invocation_identity_hash_a": "4497e9ad205e2ad350d051a74b9091df3396de1868b8c5eb281109a373bbf6f6",
+        "invocation_identity_hash_b": "1e6ee0810dfe5ceced0d7bbd7d640452f4254d358de00b0d3eac16242c8349b8",
+        "rc": 1,
+        "request_hash": "DIFFERENT",
+        "request_hash_a": "11f65c6455ed4be4070a71b0d472e0d0504ab056c2f3878fb5b951a1556a4dd8",
+        "request_hash_b": "8ed1f5a232ad70048a8ce40aa8a1430a7adb496635e845a0e8fb42633e8514c3",
+        "required_comparison_basis": null,
+        "response_hash": "DIFFERENT",
+        "response_hash_a": "36bac257eb0ab7045da5536cd9ebc7d5b556b397d9b373786e9e49d42b7e269e",
+        "response_hash_b": "6fc601d469774f528790c93b15f79c87b60abd11116148ce0f8b7ccc7b9ce582",
+        "status": "NOT_COMPARABLE",
+        "ts_utc_a": "2026-09-03T12:00:00Z",
+        "ts_utc_b": "2026-09-03T12:00:00Z"
+      }
+    },
+    "unchanged": {
+      "a": "record-a",
+      "b": "record-a-copy",
+      "result": {
+        "binding_hash": "SAME",
+        "comparison_basis": "INVOCATION_IDENTITY_V1",
+        "comparison_contract": "aelitium-compare-v1",
+        "comparison_mode": "INVOCATION_FIRST",
+        "comparison_reason": "RESPONSE_HASH_SAME",
+        "interpretation": "Under the reported comparison basis, the selected comparison identity hashes and selected response_hash values match. This does not establish unchanged invocation configuration or unchanged model behavior.",
+        "invocation_binding_consistency_a": "VALID",
+        "invocation_binding_consistency_b": "VALID",
+        "invocation_identity_consistency_a": "VALID",
+        "invocation_identity_consistency_b": "VALID",
+        "invocation_identity_hash": "SAME",
+        "invocation_identity_hash_a": "4497e9ad205e2ad350d051a74b9091df3396de1868b8c5eb281109a373bbf6f6",
+        "invocation_identity_hash_b": "4497e9ad205e2ad350d051a74b9091df3396de1868b8c5eb281109a373bbf6f6",
+        "rc": 0,
+        "request_hash": "SAME",
+        "request_hash_a": "11f65c6455ed4be4070a71b0d472e0d0504ab056c2f3878fb5b951a1556a4dd8",
+        "request_hash_b": "11f65c6455ed4be4070a71b0d472e0d0504ab056c2f3878fb5b951a1556a4dd8",
+        "required_comparison_basis": null,
+        "response_hash": "SAME",
+        "response_hash_a": "36bac257eb0ab7045da5536cd9ebc7d5b556b397d9b373786e9e49d42b7e269e",
+        "response_hash_b": "36bac257eb0ab7045da5536cd9ebc7d5b556b397d9b373786e9e49d42b7e269e",
+        "status": "UNCHANGED",
+        "ts_utc_a": "2026-09-03T12:00:00Z",
+        "ts_utc_b": "2026-09-03T12:00:00Z"
+      }
+    },
+    "invalid": {
+      "a": "record-a",
+      "b": "record-a-modified",
+      "result": {
+        "comparison_basis": "NONE",
+        "comparison_contract": "aelitium-compare-v1",
+        "comparison_mode": "INVOCATION_FIRST",
+        "comparison_reason": "BUNDLE_VERIFICATION_FAILED",
+        "detail": "b=HASH_MISMATCH",
+        "interpretation": "Comparison was not performed because one or both bundles failed verification",
+        "invocation_binding_consistency_a": "VALID",
+        "invocation_binding_consistency_b": "NOT_EVALUATED",
+        "invocation_identity_consistency_a": "VALID",
+        "invocation_identity_consistency_b": "NOT_EVALUATED",
+        "invocation_identity_hash": "UNAVAILABLE",
+        "invocation_identity_hash_a": null,
+        "invocation_identity_hash_b": null,
+        "rc": 2,
+        "required_comparison_basis": null,
+        "status": "INVALID_BUNDLE"
+      }
+    }
+  },
+  "inspector": {
+    "source": "record-a/ai_canonical.json",
+    "canonical_utf8": "{\"metadata\":{\"binding_hash\":\"4cf337083be5632c6431aa56013472a5fbfe3769fadb245f3324c8a4732cd9e4\",\"captured_at_utc\":\"2026-09-03T12:00:00Z\",\"finish_reason\":\"stop\",\"invocation_binding\":{\"format\":\"aelitium-invocation-binding-v1\",\"hash_sha256\":\"541d42b13aeeaa424ce0e2e1d7015a62b67518eaf0c4ebb350be0c1a6ae7c480\",\"invocation_hash\":\"4497e9ad205e2ad350d051a74b9091df3396de1868b8c5eb281109a373bbf6f6\",\"response_hash\":\"36bac257eb0ab7045da5536cd9ebc7d5b556b397d9b373786e9e49d42b7e269e\"},\"invocation_identity\":{\"format\":\"aelitium-invocation-v1\",\"hash_sha256\":\"4497e9ad205e2ad350d051a74b9091df3396de1868b8c5eb281109a373bbf6f6\",\"mode\":\"sync_non_streaming\",\"request\":{\"messages\":[{\"content\":\"Quelle est la conclusion de ce rapport d’incident ? Constats : requêtes en double, délais dépassés sans traitement et journaux de prompts non expurgés.\",\"role\":\"user\"}],\"model\":\"gpt-4o-mini\"},\"surface\":\"openai.chat.completions\"},\"provider\":\"openai\",\"provider_created_at\":null,\"request_hash\":\"11f65c6455ed4be4070a71b0d472e0d0504ab056c2f3878fb5b951a1556a4dd8\",\"response_hash\":\"36bac257eb0ab7045da5536cd9ebc7d5b556b397d9b373786e9e49d42b7e269e\",\"response_id\":\"synthetic-website-example\",\"sdk\":\"openai-python\",\"usage\":null},\"model\":\"gpt-4o-mini\",\"output\":\"Le rapport relève trois risques opérationnels.\",\"prompt\":\"[{\\\"content\\\":\\\"Quelle est la conclusion de ce rapport d’incident ? Constats : requêtes en double, délais dépassés sans traitement et journaux de prompts non expurgés.\\\",\\\"role\\\":\\\"user\\\"}]\",\"schema_version\":\"ai_output_v1\",\"ts_utc\":\"2026-09-03T12:00:00Z\"}",
+    "byte_ranges": {
+      "/metadata": {
+        "start": 12,
+        "end": 1199
+      },
+      "/model": {
+        "start": 1208,
+        "end": 1221
+      },
+      "/output": {
+        "start": 1231,
+        "end": 1281
+      },
+      "/prompt": {
+        "start": 1291,
+        "end": 1489
+      },
+      "/schema_version": {
+        "start": 1507,
+        "end": 1521
+      },
+      "/ts_utc": {
+        "start": 1531,
+        "end": 1553
+      }
+    }
+  }
+}

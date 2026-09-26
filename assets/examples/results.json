@@ -1,0 +1,466 @@
+{
+  "release": "0.4.0",
+  "commit": "3506a4fdd8adc6a4c4aec25799cd2add2b2a1f73",
+  "language": "en",
+  "records": {
+    "record-a": {
+      "payload": {
+        "metadata": {
+          "binding_hash": "d953f0b8018dab1bc75403a07e59746f8e9b13e261589d42ffac4be4097a6323",
+          "captured_at_utc": "2026-09-03T12:00:00Z",
+          "finish_reason": "stop",
+          "invocation_binding": {
+            "format": "aelitium-invocation-binding-v1",
+            "hash_sha256": "0bd29b19af9c9aa8003d6209979376cf27b864fe3a34434493605f5c661bd26a",
+            "invocation_hash": "6646d975b60bec6cc44a3a11c3a19e292480df10f8b6c1ee1861b160bae726bd",
+            "response_hash": "17c0dc59aed7ec2b6b7f82d01594152436ce513d9e79f5b1161729eb28027f53"
+          },
+          "invocation_identity": {
+            "format": "aelitium-invocation-v1",
+            "hash_sha256": "6646d975b60bec6cc44a3a11c3a19e292480df10f8b6c1ee1861b160bae726bd",
+            "mode": "sync_non_streaming",
+            "request": {
+              "messages": [
+                {
+                  "content": "What is the main conclusion of this incident report? Findings: duplicate requests, unhandled timeouts, and unredacted prompt logs.",
+                  "role": "user"
+                }
+              ],
+              "model": "gpt-4o-mini"
+            },
+            "surface": "openai.chat.completions"
+          },
+          "provider": "openai",
+          "provider_created_at": null,
+          "request_hash": "4128f9bd8b20a21fc337147742ba9a41a54ab37a36862c18f252998578bc8cb7",
+          "response_hash": "17c0dc59aed7ec2b6b7f82d01594152436ce513d9e79f5b1161729eb28027f53",
+          "response_id": "synthetic-website-example",
+          "sdk": "openai-python",
+          "usage": null
+        },
+        "model": "gpt-4o-mini",
+        "output": "The report identifies three operational risks.",
+        "prompt": "[{\"content\":\"What is the main conclusion of this incident report? Findings: duplicate requests, unhandled timeouts, and unredacted prompt logs.\",\"role\":\"user\"}]",
+        "schema_version": "ai_output_v1",
+        "ts_utc": "2026-09-03T12:00:00Z"
+      },
+      "manifest": {
+        "ai_hash_sha256": "bd6f64079095a44b8582ad84ca9cb901a4d97028f4d6730deefc65587ba4b2bd",
+        "binding_hash": "d953f0b8018dab1bc75403a07e59746f8e9b13e261589d42ffac4be4097a6323",
+        "canonicalization": "json_sorted_keys_no_whitespace_utf8",
+        "input_schema": "ai_output_v1",
+        "schema": "ai_pack_manifest_v1",
+        "ts_utc": "2026-09-03T12:00:00Z"
+      },
+      "verification": {
+        "valid": true,
+        "reason": "OK",
+        "payload_integrity": "VALID",
+        "binding_field_consistency": "VALID",
+        "invocation_identity_consistency": "VALID",
+        "invocation_binding_consistency": "VALID",
+        "signature_validity": "ABSENT",
+        "trusted_signer_identity": "UNESTABLISHED",
+        "freshness": "NOT_EVALUATED",
+        "authorization": "NOT_EVALUATED"
+      },
+      "recomputed_payload_hash": "bd6f64079095a44b8582ad84ca9cb901a4d97028f4d6730deefc65587ba4b2bd"
+    },
+    "record-a-copy": {
+      "payload": {
+        "metadata": {
+          "binding_hash": "d953f0b8018dab1bc75403a07e59746f8e9b13e261589d42ffac4be4097a6323",
+          "captured_at_utc": "2026-09-03T12:00:00Z",
+          "finish_reason": "stop",
+          "invocation_binding": {
+            "format": "aelitium-invocation-binding-v1",
+            "hash_sha256": "0bd29b19af9c9aa8003d6209979376cf27b864fe3a34434493605f5c661bd26a",
+            "invocation_hash": "6646d975b60bec6cc44a3a11c3a19e292480df10f8b6c1ee1861b160bae726bd",
+            "response_hash": "17c0dc59aed7ec2b6b7f82d01594152436ce513d9e79f5b1161729eb28027f53"
+          },
+          "invocation_identity": {
+            "format": "aelitium-invocation-v1",
+            "hash_sha256": "6646d975b60bec6cc44a3a11c3a19e292480df10f8b6c1ee1861b160bae726bd",
+            "mode": "sync_non_streaming",
+            "request": {
+              "messages": [
+                {
+                  "content": "What is the main conclusion of this incident report? Findings: duplicate requests, unhandled timeouts, and unredacted prompt logs.",
+                  "role": "user"
+                }
+              ],
+              "model": "gpt-4o-mini"
+            },
+            "surface": "openai.chat.completions"
+          },
+          "provider": "openai",
+          "provider_created_at": null,
+          "request_hash": "4128f9bd8b20a21fc337147742ba9a41a54ab37a36862c18f252998578bc8cb7",
+          "response_hash": "17c0dc59aed7ec2b6b7f82d01594152436ce513d9e79f5b1161729eb28027f53",
+          "response_id": "synthetic-website-example",
+          "sdk": "openai-python",
+          "usage": null
+        },
+        "model": "gpt-4o-mini",
+        "output": "The report identifies three operational risks.",
+        "prompt": "[{\"content\":\"What is the main conclusion of this incident report? Findings: duplicate requests, unhandled timeouts, and unredacted prompt logs.\",\"role\":\"user\"}]",
+        "schema_version": "ai_output_v1",
+        "ts_utc": "2026-09-03T12:00:00Z"
+      },
+      "manifest": {
+        "ai_hash_sha256": "bd6f64079095a44b8582ad84ca9cb901a4d97028f4d6730deefc65587ba4b2bd",
+        "binding_hash": "d953f0b8018dab1bc75403a07e59746f8e9b13e261589d42ffac4be4097a6323",
+        "canonicalization": "json_sorted_keys_no_whitespace_utf8",
+        "input_schema": "ai_output_v1",
+        "schema": "ai_pack_manifest_v1",
+        "ts_utc": "2026-09-03T12:00:00Z"
+      },
+      "verification": {
+        "valid": true,
+        "reason": "OK",
+        "payload_integrity": "VALID",
+        "binding_field_consistency": "VALID",
+        "invocation_identity_consistency": "VALID",
+        "invocation_binding_consistency": "VALID",
+        "signature_validity": "ABSENT",
+        "trusted_signer_identity": "UNESTABLISHED",
+        "freshness": "NOT_EVALUATED",
+        "authorization": "NOT_EVALUATED"
+      },
+      "recomputed_payload_hash": "bd6f64079095a44b8582ad84ca9cb901a4d97028f4d6730deefc65587ba4b2bd"
+    },
+    "record-b": {
+      "payload": {
+        "metadata": {
+          "binding_hash": "8543e7f59bd4dbf5c1b0f258c0c9b4591c43b7a178f3da1eb330c87c6899f9e2",
+          "captured_at_utc": "2026-09-03T12:00:00Z",
+          "finish_reason": "stop",
+          "invocation_binding": {
+            "format": "aelitium-invocation-binding-v1",
+            "hash_sha256": "680cd52d700e62448538497605f99ff1f811029e5462798e24ea9be91638b3c9",
+            "invocation_hash": "6646d975b60bec6cc44a3a11c3a19e292480df10f8b6c1ee1861b160bae726bd",
+            "response_hash": "bacd8292508650428fb9a7129bd88e3e0d7494fa92baec4d40c9a09df04ba25f"
+          },
+          "invocation_identity": {
+            "format": "aelitium-invocation-v1",
+            "hash_sha256": "6646d975b60bec6cc44a3a11c3a19e292480df10f8b6c1ee1861b160bae726bd",
+            "mode": "sync_non_streaming",
+            "request": {
+              "messages": [
+                {
+                  "content": "What is the main conclusion of this incident report? Findings: duplicate requests, unhandled timeouts, and unredacted prompt logs.",
+                  "role": "user"
+                }
+              ],
+              "model": "gpt-4o-mini"
+            },
+            "surface": "openai.chat.completions"
+          },
+          "provider": "openai",
+          "provider_created_at": null,
+          "request_hash": "4128f9bd8b20a21fc337147742ba9a41a54ab37a36862c18f252998578bc8cb7",
+          "response_hash": "bacd8292508650428fb9a7129bd88e3e0d7494fa92baec4d40c9a09df04ba25f",
+          "response_id": "synthetic-website-example",
+          "sdk": "openai-python",
+          "usage": null
+        },
+        "model": "gpt-4o-mini",
+        "output": "The report identifies four operational risks.",
+        "prompt": "[{\"content\":\"What is the main conclusion of this incident report? Findings: duplicate requests, unhandled timeouts, and unredacted prompt logs.\",\"role\":\"user\"}]",
+        "schema_version": "ai_output_v1",
+        "ts_utc": "2026-09-03T12:00:00Z"
+      },
+      "manifest": {
+        "ai_hash_sha256": "e370de0f0d2218e400dd31676fc811b6651ed053c7485467ccaed3d9723e45dc",
+        "binding_hash": "8543e7f59bd4dbf5c1b0f258c0c9b4591c43b7a178f3da1eb330c87c6899f9e2",
+        "canonicalization": "json_sorted_keys_no_whitespace_utf8",
+        "input_schema": "ai_output_v1",
+        "schema": "ai_pack_manifest_v1",
+        "ts_utc": "2026-09-03T12:00:00Z"
+      },
+      "verification": {
+        "valid": true,
+        "reason": "OK",
+        "payload_integrity": "VALID",
+        "binding_field_consistency": "VALID",
+        "invocation_identity_consistency": "VALID",
+        "invocation_binding_consistency": "VALID",
+        "signature_validity": "ABSENT",
+        "trusted_signer_identity": "UNESTABLISHED",
+        "freshness": "NOT_EVALUATED",
+        "authorization": "NOT_EVALUATED"
+      },
+      "recomputed_payload_hash": "e370de0f0d2218e400dd31676fc811b6651ed053c7485467ccaed3d9723e45dc"
+    },
+    "record-c": {
+      "payload": {
+        "metadata": {
+          "binding_hash": "15617d8de8f0f55a1bb17218c11342d10836842ca0f45bf3fef2c95e64b46a95",
+          "captured_at_utc": "2026-09-03T12:00:00Z",
+          "finish_reason": "stop",
+          "invocation_binding": {
+            "format": "aelitium-invocation-binding-v1",
+            "hash_sha256": "b98df19be26f2a132d47b8de05a8a901fb9c0d5a357bad24b19ce1034685ec91",
+            "invocation_hash": "1a7a34de832925d7c6e937271b11326f390277a0fe07fa663a68fe6537035c22",
+            "response_hash": "bacd8292508650428fb9a7129bd88e3e0d7494fa92baec4d40c9a09df04ba25f"
+          },
+          "invocation_identity": {
+            "format": "aelitium-invocation-v1",
+            "hash_sha256": "1a7a34de832925d7c6e937271b11326f390277a0fe07fa663a68fe6537035c22",
+            "mode": "sync_non_streaming",
+            "request": {
+              "messages": [
+                {
+                  "content": "How many operational risks does this incident report identify? Findings: duplicate requests, unhandled timeouts, and unredacted prompt logs.",
+                  "role": "user"
+                }
+              ],
+              "model": "gpt-4o-mini"
+            },
+            "surface": "openai.chat.completions"
+          },
+          "provider": "openai",
+          "provider_created_at": null,
+          "request_hash": "212bab96aa07c153449cb69219d70161f746159abde923fb556e10b81b58d178",
+          "response_hash": "bacd8292508650428fb9a7129bd88e3e0d7494fa92baec4d40c9a09df04ba25f",
+          "response_id": "synthetic-website-example",
+          "sdk": "openai-python",
+          "usage": null
+        },
+        "model": "gpt-4o-mini",
+        "output": "The report identifies four operational risks.",
+        "prompt": "[{\"content\":\"How many operational risks does this incident report identify? Findings: duplicate requests, unhandled timeouts, and unredacted prompt logs.\",\"role\":\"user\"}]",
+        "schema_version": "ai_output_v1",
+        "ts_utc": "2026-09-03T12:00:00Z"
+      },
+      "manifest": {
+        "ai_hash_sha256": "99bdf0e327795a2ac8905dc4e571101c4b0029655c4f524d18a869de6f5468bb",
+        "binding_hash": "15617d8de8f0f55a1bb17218c11342d10836842ca0f45bf3fef2c95e64b46a95",
+        "canonicalization": "json_sorted_keys_no_whitespace_utf8",
+        "input_schema": "ai_output_v1",
+        "schema": "ai_pack_manifest_v1",
+        "ts_utc": "2026-09-03T12:00:00Z"
+      },
+      "verification": {
+        "valid": true,
+        "reason": "OK",
+        "payload_integrity": "VALID",
+        "binding_field_consistency": "VALID",
+        "invocation_identity_consistency": "VALID",
+        "invocation_binding_consistency": "VALID",
+        "signature_validity": "ABSENT",
+        "trusted_signer_identity": "UNESTABLISHED",
+        "freshness": "NOT_EVALUATED",
+        "authorization": "NOT_EVALUATED"
+      },
+      "recomputed_payload_hash": "99bdf0e327795a2ac8905dc4e571101c4b0029655c4f524d18a869de6f5468bb"
+    },
+    "record-a-modified": {
+      "payload": {
+        "metadata": {
+          "binding_hash": "d953f0b8018dab1bc75403a07e59746f8e9b13e261589d42ffac4be4097a6323",
+          "captured_at_utc": "2026-09-03T12:00:00Z",
+          "finish_reason": "stop",
+          "invocation_binding": {
+            "format": "aelitium-invocation-binding-v1",
+            "hash_sha256": "0bd29b19af9c9aa8003d6209979376cf27b864fe3a34434493605f5c661bd26a",
+            "invocation_hash": "6646d975b60bec6cc44a3a11c3a19e292480df10f8b6c1ee1861b160bae726bd",
+            "response_hash": "17c0dc59aed7ec2b6b7f82d01594152436ce513d9e79f5b1161729eb28027f53"
+          },
+          "invocation_identity": {
+            "format": "aelitium-invocation-v1",
+            "hash_sha256": "6646d975b60bec6cc44a3a11c3a19e292480df10f8b6c1ee1861b160bae726bd",
+            "mode": "sync_non_streaming",
+            "request": {
+              "messages": [
+                {
+                  "content": "What is the main conclusion of this incident report? Findings: duplicate requests, unhandled timeouts, and unredacted prompt logs.",
+                  "role": "user"
+                }
+              ],
+              "model": "gpt-4o-mini"
+            },
+            "surface": "openai.chat.completions"
+          },
+          "provider": "openai",
+          "provider_created_at": null,
+          "request_hash": "4128f9bd8b20a21fc337147742ba9a41a54ab37a36862c18f252998578bc8cb7",
+          "response_hash": "17c0dc59aed7ec2b6b7f82d01594152436ce513d9e79f5b1161729eb28027f53",
+          "response_id": "synthetic-website-example",
+          "sdk": "openai-python",
+          "usage": null
+        },
+        "model": "gpt-4o-mini",
+        "output": "The report identifies four operational risks.",
+        "prompt": "[{\"content\":\"What is the main conclusion of this incident report? Findings: duplicate requests, unhandled timeouts, and unredacted prompt logs.\",\"role\":\"user\"}]",
+        "schema_version": "ai_output_v1",
+        "ts_utc": "2026-09-03T12:00:00Z"
+      },
+      "manifest": {
+        "ai_hash_sha256": "bd6f64079095a44b8582ad84ca9cb901a4d97028f4d6730deefc65587ba4b2bd",
+        "binding_hash": "d953f0b8018dab1bc75403a07e59746f8e9b13e261589d42ffac4be4097a6323",
+        "canonicalization": "json_sorted_keys_no_whitespace_utf8",
+        "input_schema": "ai_output_v1",
+        "schema": "ai_pack_manifest_v1",
+        "ts_utc": "2026-09-03T12:00:00Z"
+      },
+      "verification": {
+        "valid": false,
+        "reason": "HASH_MISMATCH",
+        "payload_integrity": "INVALID",
+        "binding_field_consistency": "NOT_EVALUATED",
+        "invocation_identity_consistency": "NOT_EVALUATED",
+        "invocation_binding_consistency": "NOT_EVALUATED",
+        "signature_validity": "ABSENT",
+        "trusted_signer_identity": "UNESTABLISHED",
+        "freshness": "NOT_EVALUATED",
+        "authorization": "NOT_EVALUATED"
+      },
+      "recomputed_payload_hash": "61379fa860b3274c1939227147d6f6e7799ef3397c8a303bff9244a4c7d9f90f"
+    }
+  },
+  "comparisons": {
+    "changed": {
+      "a": "record-a",
+      "b": "record-b",
+      "result": {
+        "binding_hash": "DIFFERENT",
+        "comparison_basis": "INVOCATION_IDENTITY_V1",
+        "comparison_contract": "aelitium-compare-v1",
+        "comparison_mode": "INVOCATION_FIRST",
+        "comparison_reason": "RESPONSE_HASH_DIFFERENT",
+        "interpretation": "Under the reported comparison basis, the selected comparison identity hashes match and selected response_hash values differ. This does not identify a cause.",
+        "invocation_binding_consistency_a": "VALID",
+        "invocation_binding_consistency_b": "VALID",
+        "invocation_identity_consistency_a": "VALID",
+        "invocation_identity_consistency_b": "VALID",
+        "invocation_identity_hash": "SAME",
+        "invocation_identity_hash_a": "6646d975b60bec6cc44a3a11c3a19e292480df10f8b6c1ee1861b160bae726bd",
+        "invocation_identity_hash_b": "6646d975b60bec6cc44a3a11c3a19e292480df10f8b6c1ee1861b160bae726bd",
+        "rc": 2,
+        "request_hash": "SAME",
+        "request_hash_a": "4128f9bd8b20a21fc337147742ba9a41a54ab37a36862c18f252998578bc8cb7",
+        "request_hash_b": "4128f9bd8b20a21fc337147742ba9a41a54ab37a36862c18f252998578bc8cb7",
+        "required_comparison_basis": null,
+        "response_hash": "DIFFERENT",
+        "response_hash_a": "17c0dc59aed7ec2b6b7f82d01594152436ce513d9e79f5b1161729eb28027f53",
+        "response_hash_b": "bacd8292508650428fb9a7129bd88e3e0d7494fa92baec4d40c9a09df04ba25f",
+        "status": "CHANGED",
+        "ts_utc_a": "2026-09-03T12:00:00Z",
+        "ts_utc_b": "2026-09-03T12:00:00Z"
+      }
+    },
+    "not-comparable": {
+      "a": "record-a",
+      "b": "record-c",
+      "result": {
+        "binding_hash": "DIFFERENT",
+        "comparison_basis": "INVOCATION_IDENTITY_V1",
+        "comparison_contract": "aelitium-compare-v1",
+        "comparison_mode": "INVOCATION_FIRST",
+        "comparison_reason": "INVOCATION_IDENTITY_HASH_DIFFERENT",
+        "interpretation": "No response-change conclusion is made because the selected comparison identity hashes differ or the comparison mode's required evidence is unavailable.",
+        "invocation_binding_consistency_a": "VALID",
+        "invocation_binding_consistency_b": "VALID",
+        "invocation_identity_consistency_a": "VALID",
+        "invocation_identity_consistency_b": "VALID",
+        "invocation_identity_hash": "DIFFERENT",
+        "invocation_identity_hash_a": "6646d975b60bec6cc44a3a11c3a19e292480df10f8b6c1ee1861b160bae726bd",
+        "invocation_identity_hash_b": "1a7a34de832925d7c6e937271b11326f390277a0fe07fa663a68fe6537035c22",
+        "rc": 1,
+        "request_hash": "DIFFERENT",
+        "request_hash_a": "4128f9bd8b20a21fc337147742ba9a41a54ab37a36862c18f252998578bc8cb7",
+        "request_hash_b": "212bab96aa07c153449cb69219d70161f746159abde923fb556e10b81b58d178",
+        "required_comparison_basis": null,
+        "response_hash": "DIFFERENT",
+        "response_hash_a": "17c0dc59aed7ec2b6b7f82d01594152436ce513d9e79f5b1161729eb28027f53",
+        "response_hash_b": "bacd8292508650428fb9a7129bd88e3e0d7494fa92baec4d40c9a09df04ba25f",
+        "status": "NOT_COMPARABLE",
+        "ts_utc_a": "2026-09-03T12:00:00Z",
+        "ts_utc_b": "2026-09-03T12:00:00Z"
+      }
+    },
+    "unchanged": {
+      "a": "record-a",
+      "b": "record-a-copy",
+      "result": {
+        "binding_hash": "SAME",
+        "comparison_basis": "INVOCATION_IDENTITY_V1",
+        "comparison_contract": "aelitium-compare-v1",
+        "comparison_mode": "INVOCATION_FIRST",
+        "comparison_reason": "RESPONSE_HASH_SAME",
+        "interpretation": "Under the reported comparison basis, the selected comparison identity hashes and selected response_hash values match. This does not establish unchanged invocation configuration or unchanged model behavior.",
+        "invocation_binding_consistency_a": "VALID",
+        "invocation_binding_consistency_b": "VALID",
+        "invocation_identity_consistency_a": "VALID",
+        "invocation_identity_consistency_b": "VALID",
+        "invocation_identity_hash": "SAME",
+        "invocation_identity_hash_a": "6646d975b60bec6cc44a3a11c3a19e292480df10f8b6c1ee1861b160bae726bd",
+        "invocation_identity_hash_b": "6646d975b60bec6cc44a3a11c3a19e292480df10f8b6c1ee1861b160bae726bd",
+        "rc": 0,
+        "request_hash": "SAME",
+        "request_hash_a": "4128f9bd8b20a21fc337147742ba9a41a54ab37a36862c18f252998578bc8cb7",
+        "request_hash_b": "4128f9bd8b20a21fc337147742ba9a41a54ab37a36862c18f252998578bc8cb7",
+        "required_comparison_basis": null,
+        "response_hash": "SAME",
+        "response_hash_a": "17c0dc59aed7ec2b6b7f82d01594152436ce513d9e79f5b1161729eb28027f53",
+        "response_hash_b": "17c0dc59aed7ec2b6b7f82d01594152436ce513d9e79f5b1161729eb28027f53",
+        "status": "UNCHANGED",
+        "ts_utc_a": "2026-09-03T12:00:00Z",
+        "ts_utc_b": "2026-09-03T12:00:00Z"
+      }
+    },
+    "invalid": {
+      "a": "record-a",
+      "b": "record-a-modified",
+      "result": {
+        "comparison_basis": "NONE",
+        "comparison_contract": "aelitium-compare-v1",
+        "comparison_mode": "INVOCATION_FIRST",
+        "comparison_reason": "BUNDLE_VERIFICATION_FAILED",
+        "detail": "b=HASH_MISMATCH",
+        "interpretation": "Comparison was not performed because one or both bundles failed verification",
+        "invocation_binding_consistency_a": "VALID",
+        "invocation_binding_consistency_b": "NOT_EVALUATED",
+        "invocation_identity_consistency_a": "VALID",
+        "invocation_identity_consistency_b": "NOT_EVALUATED",
+        "invocation_identity_hash": "UNAVAILABLE",
+        "invocation_identity_hash_a": null,
+        "invocation_identity_hash_b": null,
+        "rc": 2,
+        "required_comparison_basis": null,
+        "status": "INVALID_BUNDLE"
+      }
+    }
+  },
+  "inspector": {
+    "source": "record-a/ai_canonical.json",
+    "canonical_utf8": "{\"metadata\":{\"binding_hash\":\"d953f0b8018dab1bc75403a07e59746f8e9b13e261589d42ffac4be4097a6323\",\"captured_at_utc\":\"2026-09-03T12:00:00Z\",\"finish_reason\":\"stop\",\"invocation_binding\":{\"format\":\"aelitium-invocation-binding-v1\",\"hash_sha256\":\"0bd29b19af9c9aa8003d6209979376cf27b864fe3a34434493605f5c661bd26a\",\"invocation_hash\":\"6646d975b60bec6cc44a3a11c3a19e292480df10f8b6c1ee1861b160bae726bd\",\"response_hash\":\"17c0dc59aed7ec2b6b7f82d01594152436ce513d9e79f5b1161729eb28027f53\"},\"invocation_identity\":{\"format\":\"aelitium-invocation-v1\",\"hash_sha256\":\"6646d975b60bec6cc44a3a11c3a19e292480df10f8b6c1ee1861b160bae726bd\",\"mode\":\"sync_non_streaming\",\"request\":{\"messages\":[{\"content\":\"What is the main conclusion of this incident report? Findings: duplicate requests, unhandled timeouts, and unredacted prompt logs.\",\"role\":\"user\"}],\"model\":\"gpt-4o-mini\"},\"surface\":\"openai.chat.completions\"},\"provider\":\"openai\",\"provider_created_at\":null,\"request_hash\":\"4128f9bd8b20a21fc337147742ba9a41a54ab37a36862c18f252998578bc8cb7\",\"response_hash\":\"17c0dc59aed7ec2b6b7f82d01594152436ce513d9e79f5b1161729eb28027f53\",\"response_id\":\"synthetic-website-example\",\"sdk\":\"openai-python\",\"usage\":null},\"model\":\"gpt-4o-mini\",\"output\":\"The report identifies three operational risks.\",\"prompt\":\"[{\\\"content\\\":\\\"What is the main conclusion of this incident report? Findings: duplicate requests, unhandled timeouts, and unredacted prompt logs.\\\",\\\"role\\\":\\\"user\\\"}]\",\"schema_version\":\"ai_output_v1\",\"ts_utc\":\"2026-09-03T12:00:00Z\"}",
+    "byte_ranges": {
+      "/metadata": {
+        "start": 12,
+        "end": 1171
+      },
+      "/model": {
+        "start": 1180,
+        "end": 1193
+      },
+      "/output": {
+        "start": 1203,
+        "end": 1251
+      },
+      "/prompt": {
+        "start": 1261,
+        "end": 1431
+      },
+      "/schema_version": {
+        "start": 1449,
+        "end": 1463
+      },
+      "/ts_utc": {
+        "start": 1473,
+        "end": 1495
+      }
+    }
+  }
+}
