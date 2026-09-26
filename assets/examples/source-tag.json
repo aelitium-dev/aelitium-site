@@ -1,0 +1,10 @@
+{
+  "ref": "refs/tags/v0.4.0",
+  "node_id": "REF_kwDORYKFE7ByZWZzL3RhZ3MvdjAuNC4w",
+  "url": "https://api.github.com/repos/aelitium-dev/aelitium-v3/git/refs/tags/v0.4.0",
+  "object": {
+    "sha": "53d178590bb1cec41f3fca5b4a98dff54305300d",
+    "type": "tag",
+    "url": "https://api.github.com/repos/aelitium-dev/aelitium-v3/git/tags/53d178590bb1cec41f3fca5b4a98dff54305300d"
+  }
+}

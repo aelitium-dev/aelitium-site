@@ -1,0 +1,24 @@
+{
+  "node_id": "TA_kwDORYKFE9oAKDUzZDE3ODU5MGJiMWNlYzQxZjNmY2E1YjRhOThkZmY1NDMwNTMwMGQ",
+  "sha": "53d178590bb1cec41f3fca5b4a98dff54305300d",
+  "url": "https://api.github.com/repos/aelitium-dev/aelitium-v3/git/tags/53d178590bb1cec41f3fca5b4a98dff54305300d",
+  "tagger": {
+    "name": "Catarina Aelitium",
+    "email": "catarina@aelitium.com",
+    "date": "2026-09-03T09:20:48Z"
+  },
+  "object": {
+    "sha": "3506a4fdd8adc6a4c4aec25799cd2add2b2a1f73",
+    "type": "commit",
+    "url": "https://api.github.com/repos/aelitium-dev/aelitium-v3/git/commits/3506a4fdd8adc6a4c4aec25799cd2add2b2a1f73"
+  },
+  "tag": "v0.4.0",
+  "message": "AELITIUM v0.4.0\n-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgfoS6u87oc7GoHzp0++y80WqMYk\nlLKorNKNmxnmIUvm4AAAADZ2l0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5\nAAAAQAYsNvt/vQbe5hoqA4ot4/9XYu8RLeSCeIo9WMxFT12pZFht+jr+V5N8N2L3xqNc1E\nywIuLlBNv2kzLhiJtAYww=\n-----END SSH SIGNATURE-----\n",
+  "verification": {
+    "verified": false,
+    "reason": "unknown_key",
+    "signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgfoS6u87oc7GoHzp0++y80WqMYk\nlLKorNKNmxnmIUvm4AAAADZ2l0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5\nAAAAQAYsNvt/vQbe5hoqA4ot4/9XYu8RLeSCeIo9WMxFT12pZFht+jr+V5N8N2L3xqNc1E\nywIuLlBNv2kzLhiJtAYww=\n-----END SSH SIGNATURE-----\n",
+    "payload": "object 3506a4fdd8adc6a4c4aec25799cd2add2b2a1f73\ntype commit\ntag v0.4.0\ntagger Catarina Aelitium <catarina@aelitium.com> 1788427248 +0200\n\nAELITIUM v0.4.0\n",
+    "verified_at": null
+  }
+}

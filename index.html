@@ -1,2110 +1,630 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AELITIUM: Offline evidence verification for recorded LLM interactions</title>
-<meta name="description" content="AELITIUM is an open-source Python library and CLI for producing evidence bundles and checking the internal consistency of recorded LLM interactions offline.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AELITIUM: Checkable evidence for recorded AI interactions</title>
+<meta name="description" content="Check retained AI interaction evidence offline, with explicit verification rules, separate assurance states and comparison boundaries. AELITIUM v0.4.0.">
 <link rel="canonical" href="https://aelitium.com/">
 <link rel="alternate" hreflang="en" href="https://aelitium.com/">
 <link rel="alternate" hreflang="fr" href="https://aelitium.com/fr/">
 <link rel="alternate" hreflang="x-default" href="https://aelitium.com/">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
-<style>
-  :root {
-    --page: #f6f7f8;
-    --surface: #ffffff;
-    --border: #dde0e6;
-    --border-strong: #c9d0d8;
-    --ink: #111318;
-    --text: #3f4652;
-    --muted: #646b78;
-    --accent: #4355de;
-    --accent-hover: #3347d8;
-    --accent-soft: #eef0ff;
-    --accent-on-dark: #a8b4ff;
-    --accent-on-dark-strong: #cdd3ff;
-    --success: #137a52;
-    --success-soft: #e8f5ef;
-    --warning: #79530f;
-    --warning-soft: #fff3d6;
-    --warning-on-dark: #f0c86e;
-    --danger: #ad2634;
-    --danger-soft: #fcecef;
-    --technical: #0b0e14;
-    --technical-2: #151a22;
-    --technical-border: #303743;
-    --technical-text: #f4f6f8;
-    --technical-muted: #b7c0cd;
-    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    --mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
-    --radius: 9px;
-    --content: 1180px;
-  }
-
-  *, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
-  body {
-    min-width: 320px;
-    overflow-x: hidden;
-    background: var(--page);
-    color: var(--ink);
-    font-family: var(--font);
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  button,
-  textarea {
-    font: inherit;
-  }
-
-  button,
-  a {
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  a {
-    color: inherit;
-  }
-
-  :focus-visible {
-    outline: 3px solid var(--accent);
-    outline-offset: 3px;
-    border-radius: 4px;
-  }
-
-  .skip-link {
-    position: fixed;
-    top: 0.75rem;
-    left: 0.75rem;
-    z-index: 1000;
-    padding: 0.65rem 0.9rem;
-    transform: translateY(-160%);
-    border-radius: 6px;
-    background: var(--ink);
-    color: #fff;
-    font-size: 0.875rem;
-    text-decoration: none;
-  }
-
-  .skip-link:focus {
-    transform: translateY(0);
-  }
-
-  .container {
-    width: min(var(--content), calc(100% - 3rem));
-    margin: 0 auto;
-  }
-
-  .section {
-    padding: 6rem 0;
-    background: var(--page);
-  }
-
-  .section-white {
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    background: var(--page);
-  }
-
-  .section-header {
-    display: grid;
-    grid-template-columns: minmax(150px, 0.35fr) minmax(0, 1fr);
-    gap: 3rem;
-    align-items: start;
-    margin-bottom: 3rem;
-  }
-
-  .section-eyebrow,
-  .panel-label,
-  .group-kicker {
-    color: var(--accent);
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .section-title {
-    max-width: 760px;
-    font-size: clamp(2rem, 3.5vw, 3rem);
-    font-weight: 750;
-    letter-spacing: -0.035em;
-    line-height: 1.12;
-  }
-
-  .section-intro {
-    max-width: 720px;
-    margin-top: 1rem;
-    color: var(--text);
-    font-size: 1.02rem;
-    line-height: 1.75;
-  }
-
-  .mono {
-    font-family: var(--mono);
-  }
-
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
-
-  /* Navigation */
-  .site-nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    border-bottom: 1px solid var(--border);
-    background: rgba(246, 247, 248, 0.97);
-  }
-
-  .nav-inner {
-    min-height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
-  }
-
-  .nav-logo {
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.7rem;
-    color: var(--ink);
-    font-family: var(--mono);
-    font-size: 0.92rem;
-    font-weight: 600;
-    letter-spacing: 0.045em;
-    text-decoration: none;
-  }
-
-  .nav-version {
-    color: var(--muted);
-    font-size: 0.68rem;
-    font-weight: 500;
-    letter-spacing: 0;
-  }
-
-  .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-  }
-
-  .nav-link {
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-    padding: 0 0.7rem;
-    color: var(--muted);
-    font-size: 0.84rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: color 150ms ease;
-  }
-
-  .nav-link:hover {
-    color: var(--ink);
-  }
-
-  .nav-link-strong {
-    min-height: 44px;
-    margin-left: 0.4rem;
-    padding: 0 0.95rem;
-    border: 1px solid var(--border-strong);
-    border-radius: 7px;
-    background: var(--surface);
-    color: var(--ink);
-  }
-
-  .nav-link-strong:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  .language-switcher {
-    display: flex;
-    align-items: center;
-    gap: 0.1rem;
-    margin-left: 0.35rem;
-    padding-left: 0.55rem;
-    border-left: 1px solid var(--border-strong);
-    font-family: var(--mono);
-  }
-
-  .language-option {
-    min-width: 30px;
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--muted);
-    font-size: 0.67rem;
-    font-weight: 600;
-    text-decoration: none;
-  }
-
-  .language-option:hover {
-    color: var(--accent);
-  }
-
-  .language-option[aria-current="page"] {
-    color: var(--ink);
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 4px;
-  }
-
-  /* Hero */
-  .hero {
-    padding: 6rem 0 5rem;
-  }
-
-  .hero-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(440px, 0.95fr);
-    gap: clamp(3rem, 7vw, 6rem);
-    align-items: center;
-  }
-
-  .hero-eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
-    margin-bottom: 1.5rem;
-    color: var(--accent);
-    font-family: var(--mono);
-    font-size: 0.74rem;
-    font-weight: 600;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-  }
-
-  .hero-eyebrow::before {
-    content: '';
-    width: 26px;
-    height: 1px;
-    background: var(--accent);
-  }
-
-  .hero h1 {
-    max-width: 680px;
-    font-size: clamp(2.55rem, 5vw, 3.85rem);
-    font-weight: 780;
-    letter-spacing: -0.045em;
-    line-height: 1.05;
-  }
-
-  .hero-sub {
-    max-width: 650px;
-    margin-top: 1.5rem;
-    color: var(--text);
-    font-size: 1.08rem;
-    line-height: 1.75;
-  }
-
-  .hero-usecase {
-    max-width: 650px;
-    margin-top: 1.35rem;
-    padding-left: 1rem;
-    border-left: 2px solid var(--border-strong);
-    color: var(--muted);
-    font-size: 0.9rem;
-  }
-
-  .hero-usecase strong {
-    color: var(--ink);
-    font-weight: 700;
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 2.25rem;
-  }
-
-  .button {
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.7rem 1.15rem;
-    border: 1px solid transparent;
-    border-radius: 7px;
-    font-size: 0.88rem;
-    font-weight: 700;
-    text-decoration: none;
-    transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
-  }
-
-  .button-primary {
-    background: var(--accent);
-    color: #fff;
-  }
-
-  .button-primary:hover {
-    background: var(--accent-hover);
-  }
-
-  .button-secondary {
-    border-color: var(--border-strong);
-    background: transparent;
-    color: var(--ink);
-  }
-
-  .button-secondary:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  .install-command {
-    max-width: 100%;
-    min-height: 46px;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.7rem;
-    margin-top: 1rem;
-    padding: 0.55rem 0.75rem 0.55rem 0.9rem;
-    border: 1px solid var(--border-strong);
-    border-radius: 7px;
-    background: var(--surface);
-    color: var(--ink);
-    cursor: pointer;
-    text-align: left;
-  }
-
-  .install-command:hover {
-    border-color: var(--accent);
-  }
-
-  .install-prompt {
-    color: var(--accent);
-    font-family: var(--mono);
-  }
-
-  .install-command code {
-    min-width: 0;
-    overflow-wrap: anywhere;
-    font-family: var(--mono);
-    font-size: 0.8rem;
-  }
-
-  .copy-label {
-    min-width: 3.75rem;
-    padding: 0.25rem 0.45rem;
-    border-left: 1px solid var(--border);
-    color: var(--muted);
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-align: center;
-  }
-
-  /* Evidence visual */
-  .evidence-panel {
-    min-width: 0;
-    overflow: hidden;
-    border: 1px solid var(--technical-border);
-    border-radius: var(--radius);
-    background: var(--technical);
-    color: var(--technical-text);
-  }
-
-  .panel-header {
-    min-height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.8rem 1rem;
-    border-bottom: 1px solid var(--technical-border);
-    background: var(--technical-2);
-  }
-
-  .panel-header .panel-label {
-    color: var(--accent-on-dark);
-  }
-
-  .panel-command {
-    min-width: 0;
-    color: var(--technical-muted);
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    overflow-wrap: anywhere;
-    text-align: right;
-  }
-
-  .evidence-pipeline {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
-    gap: 0.55rem;
-    align-items: center;
-    padding: 1.2rem 1rem;
-    border-bottom: 1px solid var(--technical-border);
-  }
-
-  .pipeline-node {
-    min-width: 0;
-  }
-
-  .pipeline-node span {
-    display: block;
-    color: var(--accent-on-dark);
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    font-weight: 600;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-  }
-
-  .pipeline-node strong {
-    display: block;
-    margin-top: 0.2rem;
-    color: var(--technical-text);
-    font-size: 0.7rem;
-    font-weight: 600;
-    line-height: 1.45;
-    overflow-wrap: anywhere;
-  }
-
-  .pipeline-arrow {
-    color: #717b89;
-    font-family: var(--mono);
-    font-size: 0.8rem;
-  }
-
-  .assurance-report {
-    padding: 0.45rem 1rem 0.7rem;
-  }
-
-  .report-caption {
-    padding: 0.65rem 0 0.4rem;
-    color: #818b99;
-    font-family: var(--mono);
-    font-size: 0.59rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .report-row {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 1rem;
-    align-items: center;
-    padding: 0.42rem 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.055);
-  }
-
-  .report-row dt {
-    min-width: 0;
-    color: #d6dbe2;
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    overflow-wrap: anywhere;
-  }
-
-  .report-row dd {
-    font-family: var(--mono);
-    font-size: 0.61rem;
-    font-weight: 600;
-    letter-spacing: 0.035em;
-  }
-
-  .state-valid {
-    color: #78ddb0;
-  }
-
-  .state-warning {
-    color: var(--warning-on-dark);
-  }
-
-  .state-neutral {
-    color: #b7c0cd;
-  }
-
-  .panel-note {
-    padding: 0.85rem 1rem 1rem;
-    border-top: 1px solid var(--technical-border);
-    color: #929ba8;
-    font-size: 0.68rem;
-    line-height: 1.6;
-  }
-
-  /* Engineering proof */
-  .proof {
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    background: var(--page);
-  }
-
-  .proof-grid {
-    display: grid;
-    grid-template-columns: 0.75fr 0.75fr 0.9fr 1.45fr 1.15fr;
-  }
-
-  .proof-item {
-    min-width: 0;
-    padding: 1.6rem 1.4rem;
-  }
-
-  .proof-item + .proof-item {
-    border-left: 1px solid var(--border);
-  }
-
-  .proof-value {
-    display: block;
-    color: var(--ink);
-    font-family: var(--mono);
-    font-size: clamp(0.9rem, 1.6vw, 1.15rem);
-    font-weight: 650;
-    line-height: 1.35;
-    overflow-wrap: anywhere;
-  }
-
-  .proof-value-accent {
-    color: var(--accent);
-  }
-
-  .proof-label {
-    display: block;
-    margin-top: 0.45rem;
-    color: var(--muted);
-    font-size: 0.68rem;
-    font-weight: 650;
-    letter-spacing: 0.07em;
-    line-height: 1.45;
-    text-transform: uppercase;
-  }
-
-  /* v0.3.0 release index */
-  .release-index {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    border-top: 1px solid var(--border-strong);
-  }
-
-  .release-item {
-    min-width: 0;
-    padding: 2rem 1.5rem 0 0;
-  }
-
-  .release-item + .release-item {
-    padding-left: 1.5rem;
-    border-left: 1px solid var(--border);
-  }
-
-  .release-number {
-    color: var(--accent);
-    font-family: var(--mono);
-    font-size: 0.69rem;
-    font-weight: 600;
-  }
-
-  .release-title {
-    margin-top: 1.2rem;
-    font-size: 1rem;
-    font-weight: 750;
-    letter-spacing: -0.01em;
-  }
-
-  .technical-list {
-    margin-top: 1rem;
-    list-style: none;
-  }
-
-  .technical-list li {
-    position: relative;
-    margin-top: 0.55rem;
-    padding-left: 1rem;
-    color: var(--text);
-    font-size: 0.84rem;
-    line-height: 1.55;
-  }
-
-  .technical-list li::before {
-    content: '';
-    position: absolute;
-    top: 0.68em;
-    left: 0;
-    width: 4px;
-    height: 4px;
-    border-radius: 1px;
-    background: var(--border-strong);
-  }
-
-  /* Assurance model */
-  .assurance-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 4rem;
-  }
-
-  .assurance-group {
-    min-width: 0;
-    border-top: 1px solid var(--border-strong);
-  }
-
-  .assurance-group-policy {
-    border-top-color: var(--border-strong);
-  }
-
-  .assurance-group-header {
-    min-height: 94px;
-    padding: 1.2rem 0 1rem;
-  }
-
-  .assurance-group-header h3 {
-    margin-top: 0.35rem;
-    font-size: 1.15rem;
-    font-weight: 750;
-  }
-
-  .assurance-group-header p {
-    margin-top: 0.4rem;
-    color: var(--muted);
-    font-size: 0.81rem;
-  }
-
-  .dimension-row {
-    padding: 1.1rem 0 1.2rem;
-    border-top: 1px solid var(--border);
-  }
-
-  .dimension-head {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0.65rem 1rem;
-    align-items: baseline;
-  }
-
-  .dimension-name {
-    color: var(--ink);
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    font-weight: 600;
-    overflow-wrap: anywhere;
-  }
-
-  .dimension-condition {
-    color: var(--accent);
-    font-family: var(--mono);
-    font-size: 0.59rem;
-    font-weight: 600;
-    letter-spacing: 0.065em;
-    text-transform: uppercase;
-  }
-
-  .dimension-condition-warning {
-    color: var(--warning);
-  }
-
-  .dimension-condition-neutral {
-    color: var(--muted);
-  }
-
-  .dimension-row p {
-    margin-top: 0.45rem;
-    color: var(--text);
-    font-size: 0.82rem;
-    line-height: 1.65;
-  }
-
-  /* Practical uses */
-  .practical-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    border-top: 1px solid var(--border-strong);
-    border-bottom: 1px solid var(--border-strong);
-  }
-
-  .practical-item {
-    min-width: 0;
-    padding: 1.8rem 2rem 1.9rem 0;
-  }
-
-  .practical-item:nth-child(even) {
-    padding-right: 0;
-    padding-left: 2rem;
-    border-left: 1px solid var(--border);
-  }
-
-  .practical-item:nth-child(n+3) {
-    border-top: 1px solid var(--border);
-  }
-
-  .practical-number {
-    color: var(--accent);
-    font-family: var(--mono);
-    font-size: 0.67rem;
-    font-weight: 600;
-  }
-
-  .practical-title {
-    margin-top: 0.65rem;
-    font-size: 1.05rem;
-    font-weight: 750;
-    letter-spacing: -0.01em;
-  }
-
-  .practical-visual {
-    min-height: 72px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    margin-top: 1rem;
-    padding: 0.7rem 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .practical-signal {
-    gap: 0.3rem;
-  }
-
-  .practical-signal-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 0.67rem;
-  }
-
-  .practical-signal-row strong {
-    color: var(--ink);
-    font-weight: 600;
-  }
-
-  .practical-signal-row .practical-different {
-    color: var(--warning);
-  }
-
-  .practical-flow {
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.35rem 0.5rem;
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 0.67rem;
-    line-height: 1.65;
-  }
-
-  .practical-flow code {
-    color: var(--ink);
-    font: inherit;
-    font-weight: 600;
-    overflow-wrap: anywhere;
-  }
-
-  .practical-arrow {
-    color: var(--accent);
-  }
-
-  .practical-copy {
-    margin-top: 0.9rem;
-    color: var(--text);
-    font-size: 0.84rem;
-    line-height: 1.65;
-  }
-
-  /* Comparison example */
-  #example {
-    border-top: 1px solid var(--border);
-    background: var(--page);
-  }
-
-  .comparison-shell {
-    overflow: hidden;
-    border: 1px solid var(--border-strong);
-    border-radius: var(--radius);
-    background: var(--surface);
-  }
-
-  .comparison-runs {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .comparison-run {
-    min-width: 0;
-    padding: 2rem;
-  }
-
-  .comparison-run + .comparison-run {
-    border-left: 1px solid var(--border);
-  }
-
-  .run-label {
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
-    color: var(--ink);
-    font-family: var(--mono);
-    font-size: 0.71rem;
-    font-weight: 600;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-  }
-
-  .run-index {
-    width: 26px;
-    height: 26px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #cbd3ff;
-    border-radius: 5px;
-    background: var(--accent-soft);
-    color: var(--accent);
-  }
-
-  .comparison-question {
-    margin-top: 1.35rem;
-    color: var(--muted);
-    font-size: 0.82rem;
-    font-style: italic;
-    line-height: 1.65;
-  }
-
-  .comparison-response {
-    margin-top: 1rem;
-    color: var(--text);
-    font-size: 0.9rem;
-    line-height: 1.7;
-  }
-
-  .comparison-hash {
-    margin-top: 1.35rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--border);
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    overflow-wrap: anywhere;
-  }
-
-  .comparison-verdict {
-    display: grid;
-    grid-template-columns: auto auto minmax(0, 1fr);
-    gap: 1rem 2rem;
-    align-items: center;
-    padding: 1.25rem 2rem;
-    border-top: 1px solid var(--border-strong);
-    background: var(--page);
-  }
-
-  .comparison-fact {
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    font-weight: 600;
-    white-space: nowrap;
-  }
-
-  .fact-same {
-    color: var(--accent);
-  }
-
-  .fact-different {
-    color: var(--warning);
-  }
-
-  .comparison-verdict p {
-    color: var(--text);
-    font-size: 0.83rem;
-    line-height: 1.6;
-  }
-
-  /* Interactive demo */
-  .demo-shell {
-    overflow: hidden;
-    border: 1px solid var(--border-strong);
-    border-radius: var(--radius);
-    background: var(--surface);
-  }
-
-  .demo-header {
-    display: flex;
-    justify-content: space-between;
-    gap: 2rem;
-    padding: 1.2rem 1.5rem;
-    border-bottom: 1px solid var(--technical-border);
-    background: var(--technical-2);
-    color: var(--technical-text);
-  }
-
-  .demo-header strong {
-    font-size: 0.82rem;
-  }
-
-  .demo-header span {
-    max-width: 560px;
-    color: var(--technical-muted);
-    font-size: 0.72rem;
-    line-height: 1.55;
-    text-align: right;
-  }
-
-  .demo-inputs {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .demo-field {
-    min-width: 0;
-    padding: 1.5rem;
-  }
-
-  .demo-field + .demo-field {
-    border-left: 1px solid var(--border);
-  }
-
-  .demo-field label {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 0.7rem;
-    color: var(--ink);
-    font-size: 0.75rem;
-    font-weight: 700;
-  }
-
-  .demo-field label span {
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    font-weight: 500;
-  }
-
-  .demo-field textarea {
-    width: 100%;
-    min-height: 150px;
-    resize: vertical;
-    padding: 0.85rem;
-    border: 1px solid var(--border-strong);
-    border-radius: 6px;
-    background: var(--page);
-    color: var(--ink);
-    font-family: var(--mono);
-    font-size: 0.78rem;
-    line-height: 1.65;
-  }
-
-  .demo-field textarea:focus-visible {
-    border-color: var(--accent);
-  }
-
-  .demo-result {
-    min-height: 176px;
-    padding: 1.25rem 1.5rem;
-    overflow-wrap: anywhere;
-    border-top: 1px solid var(--technical-border);
-    background: var(--technical);
-    color: var(--technical-muted);
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    line-height: 1.9;
-  }
-
-  .result-line {
-    display: block;
-  }
-
-  .result-key {
-    color: var(--accent-on-dark);
-  }
-
-  .result-same {
-    color: #78ddb0;
-    font-weight: 600;
-  }
-
-  .result-different {
-    color: var(--warning-on-dark);
-    font-weight: 600;
-  }
-
-  .result-hash {
-    color: #949eab;
-    font-size: 0.66rem;
-  }
-
-  /* Mechanism */
-  .flow-positioning {
-    max-width: 760px;
-    color: var(--text);
-    font-size: 0.95rem;
-    line-height: 1.75;
-  }
-
-  .flow-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    margin-top: 3rem;
-    border-top: 1px solid var(--border-strong);
-    border-bottom: 1px solid var(--border-strong);
-  }
-
-  .flow-step {
-    position: relative;
-    min-width: 0;
-    padding: 1.7rem 1.5rem 1.8rem 0;
-  }
-
-  .flow-step + .flow-step {
-    padding-left: 1.5rem;
-    border-left: 1px solid var(--border);
-  }
-
-  .step-num {
-    color: var(--accent);
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    font-weight: 600;
-  }
-
-  .step-title {
-    margin-top: 0.65rem;
-    font-size: 1rem;
-    font-weight: 750;
-  }
-
-  .step-desc {
-    margin-top: 0.45rem;
-    color: var(--text);
-    font-size: 0.82rem;
-    line-height: 1.65;
-  }
-
-  .step-code {
-    display: block;
-    margin-top: 0.9rem;
-    color: var(--accent);
-    font-family: var(--mono);
-    font-size: 0.67rem;
-    line-height: 1.55;
-    overflow-wrap: anywhere;
-  }
-
-  .formula-line {
-    margin-top: 1.4rem;
-    padding: 1rem 1.1rem;
-    border-left: 2px solid var(--accent);
-    background: var(--surface);
-    color: var(--text);
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    overflow-wrap: anywhere;
-  }
-
-  /* Boundaries */
-  .boundary-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin-top: 3rem;
-    border-top: 1px solid var(--border-strong);
-  }
-
-  .boundary-column {
-    min-width: 0;
-    padding: 1.8rem 2.5rem 0 0;
-  }
-
-  .boundary-column + .boundary-column {
-    padding-right: 0;
-    padding-left: 2.5rem;
-    border-left: 1px solid var(--border);
-  }
-
-  .boundary-column h3 {
-    font-size: 1.05rem;
-    font-weight: 750;
-  }
-
-  .boundary-list {
-    margin-top: 1rem;
-    list-style: none;
-  }
-
-  .boundary-list li {
-    position: relative;
-    margin-top: 0.7rem;
-    padding-left: 1.15rem;
-    color: var(--text);
-    font-size: 0.88rem;
-    line-height: 1.65;
-  }
-
-  .boundary-list li::before {
-    content: '';
-    position: absolute;
-    top: 0.78em;
-    left: 0;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: var(--accent);
-  }
-
-  .boundary-column-limit .boundary-list li::before {
-    background: var(--muted);
-  }
-
-  /* CTA */
-  .cta {
-    padding: 5rem 0;
-    background: var(--technical);
-    color: var(--technical-text);
-  }
-
-  .cta-inner {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 3rem;
-    align-items: center;
-  }
-
-  .cta .section-eyebrow {
-    color: var(--accent-on-dark);
-  }
-
-  .cta h2 {
-    margin-top: 0.75rem;
-    font-size: clamp(1.85rem, 3.3vw, 2.75rem);
-    font-weight: 750;
-    letter-spacing: -0.035em;
-    line-height: 1.15;
-  }
-
-  .cta p {
-    max-width: 620px;
-    margin-top: 0.8rem;
-    color: var(--technical-muted);
-    font-size: 0.92rem;
-  }
-
-  .cta-actions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 0.75rem;
-  }
-
-  .cta .button-primary {
-    background: #fff;
-    color: var(--technical);
-  }
-
-  .cta .button-primary:hover {
-    background: #e8ecf2;
-  }
-
-  .cta .button-secondary {
-    border-color: #4a5361;
-    color: #fff;
-  }
-
-  .cta .button-secondary:hover {
-    border-color: var(--accent-on-dark);
-    color: var(--accent-on-dark-strong);
-  }
-
-  .cta :focus-visible {
-    outline-color: var(--accent-on-dark);
-  }
-
-  .cta-utility {
-    margin-top: 1rem;
-    color: #8f99a7;
-    font-family: var(--mono);
-    font-size: 0.72rem;
-  }
-
-  .cta-utility a {
-    color: var(--accent-on-dark-strong);
-    text-underline-offset: 3px;
-  }
-
-  /* Footer */
-  .site-footer {
-    border-top: 1px solid var(--border);
-    background: var(--page);
-  }
-
-  .footer-inner {
-    min-height: 78px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    color: var(--muted);
-    font-size: 0.76rem;
-  }
-
-  .footer-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.25rem;
-  }
-
-  .footer-links a {
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-    text-decoration: none;
-  }
-
-  .footer-links a:hover {
-    color: var(--accent);
-  }
-
-  @media (max-width: 1024px) {
-    .hero-grid {
-      grid-template-columns: minmax(0, 1fr);
-    }
-
-    .hero-copy {
-      max-width: 780px;
-    }
-
-    .evidence-panel {
-      max-width: 760px;
-    }
-
-    .proof-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .proof-item {
-      border-bottom: 1px solid var(--border);
-    }
-
-    .proof-item + .proof-item {
-      border-left: 0;
-    }
-
-    .proof-item:nth-child(even) {
-      border-left: 1px solid var(--border);
-    }
-
-    .proof-item:last-child {
-      grid-column: 1 / -1;
-      border-bottom: 0;
-      border-left: 0;
-    }
-
-    .release-index {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 2.5rem 2rem;
-    }
-
-    .release-item,
-    .release-item + .release-item {
-      padding: 1.5rem 0 0;
-      border-left: 0;
-    }
-
-    .assurance-grid {
-      gap: 2.5rem;
-    }
-  }
-
-  @media (max-width: 800px) {
-    .section {
-      padding: 4.5rem 0;
-    }
-
-    .section-header {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 0.8rem;
-      margin-bottom: 2.3rem;
-    }
-
-    .assurance-grid,
-    .boundary-grid,
-    .cta-inner {
-      grid-template-columns: minmax(0, 1fr);
-    }
-
-    .assurance-grid {
-      gap: 2.5rem;
-    }
-
-    .comparison-verdict {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 0.55rem;
-    }
-
-    .flow-grid {
-      grid-template-columns: minmax(0, 1fr);
-    }
-
-    .flow-step,
-    .flow-step + .flow-step {
-      padding: 1.3rem 0;
-      border-left: 0;
-      border-top: 1px solid var(--border);
-    }
-
-    .flow-step:first-child {
-      border-top: 0;
-    }
-
-    .boundary-column,
-    .boundary-column + .boundary-column {
-      padding: 1.5rem 0 0;
-      border-left: 0;
-    }
-
-    .boundary-column + .boundary-column {
-      margin-top: 2rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .cta-actions {
-      justify-content: flex-start;
-    }
-  }
-
-  @media (max-width: 720px) {
-    .container {
-      width: min(var(--content), calc(100% - 2rem));
-    }
-
-    .nav-optional {
-      display: none;
-    }
-
-    .hero {
-      padding: 4.5rem 0 3.75rem;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.35rem, 12vw, 3.2rem);
-    }
-
-    .comparison-runs,
-    .demo-inputs {
-      grid-template-columns: minmax(0, 1fr);
-    }
-
-    .comparison-run + .comparison-run,
-    .demo-field + .demo-field {
-      border-left: 0;
-      border-top: 1px solid var(--border);
-    }
-
-    .demo-header {
-      display: block;
-    }
-
-    .demo-header span {
-      display: block;
-      margin-top: 0.45rem;
-      text-align: left;
-    }
-
-    .release-index {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 1.7rem;
-    }
-
-    .practical-grid {
-      grid-template-columns: minmax(0, 1fr);
-    }
-
-    .practical-item,
-    .practical-item:nth-child(even) {
-      padding: 1.45rem 0;
-      border-left: 0;
-    }
-
-    .practical-item + .practical-item {
-      border-top: 1px solid var(--border);
-    }
-  }
-
-  @media (max-width: 520px) {
-    .nav-inner {
-      gap: 0.75rem;
-    }
-
-    .nav-links {
-      gap: 0;
-    }
-
-    .nav-link {
-      padding: 0 0.45rem;
-    }
-
-    .nav-link-strong {
-      margin-left: 0.2rem;
-      padding: 0 0.7rem;
-    }
-
-    .nav-version {
-      display: none;
-    }
-
-    .hero-actions,
-    .cta-actions {
-      align-items: stretch;
-      flex-direction: column;
-    }
-
-    .button {
-      width: 100%;
-    }
-
-    .install-command {
-      width: 100%;
-    }
-
-    .evidence-pipeline {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 0.65rem;
-    }
-
-    .pipeline-arrow {
-      transform: rotate(90deg);
-    }
-
-    .panel-header {
-      align-items: flex-start;
-      flex-direction: column;
-    }
-
-    .panel-command {
-      text-align: left;
-    }
-
-    .proof-grid {
-      grid-template-columns: minmax(0, 1fr);
-    }
-
-    .proof-item,
-    .proof-item:nth-child(even),
-    .proof-item:last-child {
-      grid-column: auto;
-      border-left: 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .proof-item:last-child {
-      border-bottom: 0;
-    }
-
-    .comparison-run,
-    .comparison-verdict,
-    .demo-field,
-    .demo-result {
-      padding-right: 1.1rem;
-      padding-left: 1.1rem;
-    }
-
-    .footer-inner {
-      align-items: flex-start;
-      flex-direction: column;
-      padding: 1.2rem 0;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-
-    *,
-    *::before,
-    *::after {
-      scroll-behavior: auto !important;
-      transition-duration: 0.01ms !important;
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-    }
-  }
-</style>
-</head>
-<body>
-<a class="skip-link" href="#main">Skip to content</a>
-
-<nav class="site-nav" aria-label="Primary navigation">
-  <div class="container nav-inner">
-    <a class="nav-logo" href="#top">AELITIUM <span class="nav-version">v0.3.0</span></a>
-    <div class="nav-links">
-      <a class="nav-link nav-optional" href="#demo">Demo</a>
-      <a class="nav-link" href="https://github.com/aelitium-dev/aelitium-v3/tree/main/docs">Docs</a>
-      <a class="nav-link nav-optional" href="https://pypi.org/project/aelitium/">PyPI</a>
-      <a class="nav-link nav-link-strong" href="https://github.com/aelitium-dev/aelitium-v3">GitHub</a>
-      <div class="language-switcher" aria-label="Language">
-        <a class="language-option" href="/" hreflang="en" lang="en" aria-current="page">EN</a>
-        <a class="language-option" href="/fr/" hreflang="fr" lang="fr">FR</a>
-      </div>
-    </div>
-  </div>
-</nav>
-
-<main id="main">
-  <header class="hero" id="top">
-    <div class="container hero-grid">
-      <div class="hero-copy">
-        <p class="hero-eyebrow">AELITIUM / release v0.3.0 / Apache-2.0</p>
-        <h1>Evidence for recorded LLM interactions, checked offline.</h1>
-        <p class="hero-sub">An open-source Python library and CLI that produces evidence bundles and checks their internal consistency under a governed schema and canonicalization contract.</p>
-        <p class="hero-usecase"><strong>Same request hash. Different response hash.</strong> One concrete use case within a broader assurance model.</p>
-        <div class="hero-actions">
-          <a class="button button-primary" href="https://github.com/aelitium-dev/aelitium-v3">View on GitHub</a>
-          <a class="button button-secondary" href="#demo">See verification demo</a>
-        </div>
-        <button class="install-command" type="button" data-copy-command="pip install aelitium" aria-label="Copy pip install aelitium command">
-          <span class="install-prompt" aria-hidden="true">$</span>
-          <code>pip install aelitium</code>
-          <span class="copy-label" aria-live="polite">Copy</span>
-        </button>
-      </div>
-
-      <figure class="evidence-panel" aria-labelledby="evidence-panel-title">
-        <figcaption class="panel-header">
-          <span class="panel-label" id="evidence-panel-title">Sample assurance report</span>
-          <span class="panel-command">aelitium verify-bundle ./evidence</span>
-        </figcaption>
-        <div class="evidence-pipeline">
-          <div class="pipeline-node">
-            <span>Supported capture</span>
-            <strong>OpenAI / Anthropic / LiteLLM</strong>
-          </div>
-          <span class="pipeline-arrow" aria-hidden="true">→</span>
-          <div class="pipeline-node">
-            <span>AELITIUM evidence</span>
-            <strong>canonical payload + manifest</strong>
-          </div>
-          <span class="pipeline-arrow" aria-hidden="true">→</span>
-          <div class="pipeline-node">
-            <span>Offline verifier</span>
-            <strong>separate assurance states</strong>
-          </div>
-        </div>
-        <div class="assurance-report">
-          <p class="report-caption">Core consistency</p>
-          <dl>
-            <div class="report-row">
-              <dt>payload_integrity</dt>
-              <dd class="state-valid">VALID</dd>
-            </div>
-            <div class="report-row">
-              <dt>binding_field_consistency</dt>
-              <dd class="state-valid">VALID</dd>
-            </div>
-            <div class="report-row">
-              <dt>invocation_identity_consistency</dt>
-              <dd class="state-valid">VALID</dd>
-            </div>
-            <div class="report-row">
-              <dt>invocation_binding_consistency</dt>
-              <dd class="state-valid">VALID</dd>
-            </div>
-          </dl>
-          <p class="report-caption">Optional / policy-dependent</p>
-          <dl>
-            <div class="report-row">
-              <dt>signature_validity</dt>
-              <dd class="state-neutral">ABSENT</dd>
-            </div>
-            <div class="report-row">
-              <dt>trusted_signer_identity</dt>
-              <dd class="state-warning">UNESTABLISHED</dd>
-            </div>
-            <div class="report-row">
-              <dt>freshness</dt>
-              <dd class="state-neutral">NOT_EVALUATED</dd>
-            </div>
-            <div class="report-row">
-              <dt>authorization</dt>
-              <dd class="state-neutral">NOT_EVALUATED</dd>
-            </div>
-          </dl>
-        </div>
-        <p class="panel-note">Illustrative state mix. Optional and policy-dependent dimensions vary with bundle evidence and explicitly supplied verifier inputs.</p>
-      </figure>
-    </div>
-  </header>
-
-  <section class="proof" aria-labelledby="proof-title">
-    <h2 class="sr-only" id="proof-title">Engineering proof</h2>
-    <div class="container proof-grid">
-      <div class="proof-item">
-        <span class="proof-value proof-value-accent">v0.3.0</span>
-        <span class="proof-label">Published release</span>
-      </div>
-      <div class="proof-item">
-        <span class="proof-value">529</span>
-        <span class="proof-label">Tests per Python version</span>
-      </div>
-      <div class="proof-item">
-        <span class="proof-value">3.10 to 3.12</span>
-        <span class="proof-label">Python CI</span>
-      </div>
-      <div class="proof-item">
-        <span class="proof-value">OpenAI · Anthropic · LiteLLM</span>
-        <span class="proof-label">Supported capture integrations</span>
-      </div>
-      <div class="proof-item">
-        <span class="proof-value">release audit + public-claims guardrail</span>
-        <span class="proof-label">Public release checks</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="release" aria-labelledby="release-title">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-eyebrow">Current release</p>
-        <div>
-          <h2 class="section-title" id="release-title">What v0.3.0 adds</h2>
-          <p class="section-intro">v0.3.0 adds separate assurance checks beyond the core hash flow.</p>
-        </div>
-      </div>
-      <div class="release-index">
-        <article class="release-item">
-          <span class="release-number">01 / 04</span>
-          <h3 class="release-title">Evidence integrity</h3>
-          <ul class="technical-list">
-            <li>Deterministic canonical hashing</li>
-            <li>Stored request/response binding checks</li>
-            <li>Fail-closed offline bundle verification</li>
-          </ul>
-        </article>
-        <article class="release-item">
-          <span class="release-number">02 / 04</span>
-          <h3 class="release-title">Invocation assurance</h3>
-          <ul class="technical-list">
-            <li>Versioned invocation identity</li>
-            <li>Invocation identity hash consistency</li>
-            <li>Stored invocation-identity-to-response binding consistency</li>
-          </ul>
-        </article>
-        <article class="release-item">
-          <span class="release-number">03 / 04</span>
-          <h3 class="release-title">Trust &amp; policy</h3>
-          <ul class="technical-list">
-            <li>Ed25519 signature validity</li>
-            <li>Explicit external trust-store matching</li>
-            <li>Declared-time freshness under explicit policy inputs</li>
-          </ul>
-        </article>
-        <article class="release-item">
-          <span class="release-number">04 / 04</span>
-          <h3 class="release-title">Provider coverage</h3>
-          <ul class="technical-list">
-            <li>OpenAI, Anthropic and LiteLLM capture paths</li>
-            <li>Static scanning for potential uncaptured Python LLM call sites</li>
-          </ul>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section-white" id="assurance" aria-labelledby="assurance-title">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-eyebrow">Assurance model</p>
-        <div>
-          <h2 class="section-title" id="assurance-title">Eight dimensions, reported separately.</h2>
-          <p class="section-intro">Each dimension is reported separately. Depending on the dimension, evidence and verifier inputs, a state can be valid, invalid, absent, unestablished or not evaluated.</p>
-        </div>
-      </div>
-
-      <div class="assurance-grid">
-        <section class="assurance-group" aria-labelledby="core-assurance-title">
-          <div class="assurance-group-header">
-            <span class="group-kicker">Core consistency checks</span>
-            <h3 id="core-assurance-title">Stored evidence contract</h3>
-            <p>Evaluated independently when their prerequisites are present.</p>
-          </div>
-          <div class="dimension-row">
-            <div class="dimension-head">
-              <code class="dimension-name">payload_integrity</code>
-              <span class="dimension-condition">bundle check</span>
-            </div>
-            <p>Payload, schema, canonical bytes, manifest and payload-hash consistency.</p>
-          </div>
-          <div class="dimension-row">
-            <div class="dimension-head">
-              <code class="dimension-name">binding_field_consistency</code>
-              <span class="dimension-condition">when present</span>
-            </div>
-            <p>Consistency among stored v1 request, response and binding hash fields.</p>
-          </div>
-          <div class="dimension-row">
-            <div class="dimension-head">
-              <code class="dimension-name">invocation_identity_consistency</code>
-              <span class="dimension-condition">when present</span>
-            </div>
-            <p>Stored versioned invocation identity structure and hash consistency.</p>
-          </div>
-          <div class="dimension-row">
-            <div class="dimension-head">
-              <code class="dimension-name">invocation_binding_consistency</code>
-              <span class="dimension-condition">when present</span>
-            </div>
-            <p>Stored invocation identity hash-to-response hash link consistency.</p>
-          </div>
-        </section>
-
-        <section class="assurance-group assurance-group-policy" aria-labelledby="policy-assurance-title">
-          <div class="assurance-group-header">
-            <span class="group-kicker">Optional / policy-dependent</span>
-            <h3 id="policy-assurance-title">Explicit evidence and inputs</h3>
-            <p>These checks depend on explicit evidence or verifier inputs.</p>
-          </div>
-          <div class="dimension-row">
-            <div class="dimension-head">
-              <code class="dimension-name">signature_validity</code>
-              <span class="dimension-condition dimension-condition-warning">when present</span>
-            </div>
-            <p>Checks Ed25519 signature validity when signature material is present. The dimension can be ABSENT unless a signature is required.</p>
-          </div>
-          <div class="dimension-row">
-            <div class="dimension-head">
-              <code class="dimension-name">trusted_signer_identity</code>
-              <span class="dimension-condition dimension-condition-warning">external input</span>
-            </div>
-            <p>Exact key-fingerprint match against an explicitly supplied external trust store; otherwise UNESTABLISHED.</p>
-          </div>
-          <div class="dimension-row">
-            <div class="dimension-head">
-              <code class="dimension-name">freshness</code>
-              <span class="dimension-condition dimension-condition-warning">explicit policy</span>
-            </div>
-            <p>Freshness uses an explicit maximum age and UTC reference time. No implicit clock is used.</p>
-          </div>
-          <div class="dimension-row">
-            <div class="dimension-head">
-              <code class="dimension-name">authorization</code>
-              <span class="dimension-condition dimension-condition-neutral">not evaluated</span>
-            </div>
-            <p>No authorization decision is implemented; this dimension is always NOT_EVALUATED in v0.3.0.</p>
-          </div>
-        </section>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="uses" aria-labelledby="uses-title">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-eyebrow">Where it fits</p>
-        <div>
-          <h2 class="section-title" id="uses-title">Practical uses</h2>
-          <p class="section-intro">Four concrete developer workflows supported by v0.3.0.</p>
-        </div>
-      </div>
-
-      <div class="practical-grid">
-        <article class="practical-item">
-          <span class="practical-number">01 / 04</span>
-          <h3 class="practical-title">Compare recorded runs</h3>
-          <div class="practical-visual practical-signal">
-            <div class="practical-signal-row">
-              <code>REQUEST_HASH</code>
-              <strong>SAME</strong>
-            </div>
-            <div class="practical-signal-row">
-              <code>RESPONSE_HASH</code>
-              <strong class="practical-different">DIFFERENT</strong>
-            </div>
-          </div>
-          <p class="practical-copy">Compare evidence from two runs and detect when the same recorded request hash is associated with different recorded response hashes. AELITIUM reports the difference without attributing a cause.</p>
-        </article>
-
-        <article class="practical-item">
-          <span class="practical-number">02 / 04</span>
-          <h3 class="practical-title">Check evidence offline</h3>
-          <div class="practical-visual practical-flow">
-            <span>evidence bundle</span>
-            <span class="practical-arrow" aria-hidden="true">→</span>
-            <code>aelitium verify-bundle</code>
-            <span class="practical-arrow" aria-hidden="true">→</span>
-            <span>assurance states</span>
-          </div>
-          <p class="practical-copy">Check the internal consistency of a governed evidence bundle offline before using it in a review, investigation or downstream workflow.</p>
-        </article>
-
-        <article class="practical-item">
-          <span class="practical-number">03 / 04</span>
-          <h3 class="practical-title">Find potential capture gaps</h3>
-          <div class="practical-visual practical-flow">
-            <span>Python source</span>
-            <span class="practical-arrow" aria-hidden="true">→</span>
-            <code>aelitium scan</code>
-            <span class="practical-arrow" aria-hidden="true">→</span>
-            <span>potential call sites</span>
-          </div>
-          <p class="practical-copy">Scan Python source for potential LLM call sites that may not use a supported AELITIUM capture path.</p>
-        </article>
-
-        <article class="practical-item">
-          <span class="practical-number">04 / 04</span>
-          <h3 class="practical-title">Check coverage in CI</h3>
-          <div class="practical-visual practical-flow">
-            <span>pull request</span>
-            <span class="practical-arrow" aria-hidden="true">→</span>
-            <code>aelitium scan ./src --ci</code>
-            <span class="practical-arrow" aria-hidden="true">→</span>
-            <span>CI result</span>
-          </div>
-          <p class="practical-copy">Run the AELITIUM scanner in CI to surface potential Python LLM call sites without supported capture instrumentation.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="example" aria-labelledby="example-title">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-eyebrow">Concrete use case</p>
-        <div>
-          <h2 class="section-title" id="example-title">Same request hash. Different recorded response hash.</h2>
-          <p class="section-intro">Two bundles can have the same stored request hash and different recorded response hashes. The comparison does not attribute a cause.</p>
-        </div>
-      </div>
-
-      <div class="comparison-shell">
-        <div class="comparison-runs">
-          <article class="comparison-run">
-            <h3 class="run-label"><span class="run-index">A</span> Run A</h3>
-            <p class="comparison-question">“Summarise the key risks of deploying LLMs in production in one sentence.”</p>
-            <p class="comparison-response">Key risks include non-deterministic outputs, prompt injection vulnerabilities, hallucinated facts, and the absence of inspectable evidence records.</p>
-            <p class="comparison-hash">response_hash: 2f1563cc8c0b7b71…</p>
-          </article>
-          <article class="comparison-run">
-            <h3 class="run-label"><span class="run-index">B</span> Run B</h3>
-            <p class="comparison-question">“Summarise the key risks of deploying LLMs in production in one sentence.”</p>
-            <p class="comparison-response">Primary risks are hallucination, data leakage, adversarial prompt injection, and unpredictable behaviour changes following silent model updates.</p>
-            <p class="comparison-hash">response_hash: c41d8e3b5f9a2201…</p>
-          </article>
-        </div>
-        <div class="comparison-verdict">
-          <span class="comparison-fact fact-same">REQUEST_HASH=SAME</span>
-          <span class="comparison-fact fact-different">RESPONSE_HASH=DIFFERENT</span>
-          <p>The selected recorded request fields have the same v1 request hash. The recorded response hashes differ. AELITIUM reports the compared fields without attributing a cause.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section-white" id="demo" aria-labelledby="demo-title">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-eyebrow">Interactive demo</p>
-        <div>
-          <h2 class="section-title" id="demo-title">Inspect a response-text hash change.</h2>
-          <p class="section-intro" id="demo-description">Edit either recorded response. This browser demo compares response-text SHA-256 values; it does not perform bundle verification.</p>
-        </div>
-      </div>
-
-      <div class="demo-shell">
-        <div class="demo-header">
-          <strong>LOCAL BROWSER DEMO</strong>
-          <span>No text leaves the page. The request hash shown below is a fixed demo assumption and is not computed here.</span>
-        </div>
-        <div class="demo-inputs">
-          <div class="demo-field">
-            <label for="textA">Recorded response A <span>RUN A</span></label>
-            <textarea id="textA" aria-describedby="demo-description">Key risks include non-deterministic outputs, prompt injection vulnerabilities, hallucinated facts, and the absence of inspectable evidence records.</textarea>
-          </div>
-          <div class="demo-field">
-            <label for="textB">Recorded response B <span>RUN B</span></label>
-            <textarea id="textB" aria-describedby="demo-description">Primary risks are hallucination, data leakage, adversarial prompt injection, and unpredictable behaviour changes following silent model updates.</textarea>
-          </div>
-        </div>
-        <div class="demo-result" id="demoResult" role="status" aria-live="polite" aria-atomic="true"></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="mechanism" aria-labelledby="mechanism-title">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-eyebrow">Mechanism</p>
-        <div>
-          <h2 class="section-title" id="mechanism-title">Capture → Hash → Bind → Verify</h2>
-          <p class="section-intro flow-positioning">AELITIUM creates evidence bundles for recorded LLM interactions and checks payload integrity plus stored binding and invocation consistency offline, with separate results for optional signatures, explicit external trust-store matching and declared-time freshness.</p>
-        </div>
-      </div>
-
-      <div class="flow-grid">
-        <article class="flow-step">
-          <span class="step-num">01</span>
-          <h3 class="step-title">Capture</h3>
-          <p class="step-desc">Records selected request and response fields on supported adapter paths.</p>
-          <code class="step-code">from aelitium import capture_openai</code>
-        </article>
-        <article class="flow-step">
-          <span class="step-num">02</span>
-          <h3 class="step-title">Hash</h3>
-          <p class="step-desc">Computes deterministic request_hash and response_hash values.</p>
-          <code class="step-code">request_hash<br>response_hash</code>
-        </article>
-        <article class="flow-step">
-          <span class="step-num">03</span>
-          <h3 class="step-title">Bind</h3>
-          <p class="step-desc">Links the stored request and recorded response hashes with binding_hash.</p>
-          <code class="step-code">request_hash + response_hash<br>→ binding_hash</code>
-        </article>
-        <article class="flow-step">
-          <span class="step-num">04</span>
-          <h3 class="step-title">Verify</h3>
-          <p class="step-desc">Checks governed bundle consistency offline and fails closed on invalid evidence.</p>
-          <code class="step-code">aelitium verify-bundle ./evidence</code>
-        </article>
-      </div>
-      <p class="formula-line">binding_hash = SHA256(canonical({request_hash, response_hash}))</p>
-    </div>
-  </section>
-
-  <section class="section section-white" id="boundaries" aria-labelledby="boundaries-title">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-eyebrow">Explicit boundary</p>
-        <div>
-          <h2 class="section-title" id="boundaries-title">What AELITIUM verifies and what it does not claim.</h2>
-          <p class="section-intro">Internal consistency is deliberately separate from claims about provider execution or historical non-modification.</p>
-        </div>
-      </div>
-
-      <div class="boundary-grid">
-        <section class="boundary-column" aria-labelledby="verifies-title">
-          <h3 id="verifies-title">What AELITIUM verifies</h3>
-          <ul class="boundary-list">
-            <li>Governed payload, canonical representation, manifest and payload-hash consistency.</li>
-            <li>Stored v1 request, response and binding-field consistency when binding evidence is present.</li>
-            <li>Stored versioned invocation identity and invocation-identity-to-response binding consistency when present.</li>
-            <li>Mathematical signature validity when material is present, plus external trust-store matching and declared-time freshness when explicit inputs are supplied.</li>
-          </ul>
-        </section>
-        <section class="boundary-column boundary-column-limit" aria-labelledby="limits-title">
-          <h3 id="limits-title">What AELITIUM does not claim</h3>
-          <ul class="boundary-list">
-            <li>Provider authenticity, provider execution or response causation.</li>
-            <li>Output truth, safety or semantic correctness.</li>
-            <li>Trusted historical time or historical non-modification from the bundle alone.</li>
-            <li>Authorization, legal compliance or complete capture of real-world events.</li>
-          </ul>
-        </section>
-      </div>
-    </div>
-  </section>
-
-  <section class="cta" aria-labelledby="cta-title">
-    <div class="container cta-inner">
-      <div>
-        <p class="section-eyebrow">Get started</p>
-        <h2 id="cta-title">Inspect one evidence bundle yourself.</h2>
-        <p>Install the Python package, capture a supported call path and check the resulting bundle offline.</p>
-        <div class="cta-utility">$ pip install aelitium · also on <a href="https://pypi.org/project/aelitium/">PyPI</a></div>
-      </div>
-      <div class="cta-actions">
-        <a class="button button-primary" href="https://github.com/aelitium-dev/aelitium-v3">View on GitHub</a>
-        <a class="button button-secondary" href="https://github.com/aelitium-dev/aelitium-v3/tree/main/docs">Read the docs</a>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer class="site-footer">
-  <div class="container footer-inner">
-    <span>© 2026 AELITIUM · Apache-2.0 · v0.3.0</span>
-    <div class="footer-links">
-      <a href="https://github.com/aelitium-dev/aelitium-v3">GitHub</a>
-      <a href="https://github.com/aelitium-dev/aelitium-v3/tree/main/docs">Docs</a>
-      <a href="https://pypi.org/project/aelitium/">PyPI</a>
-    </div>
-  </div>
-</footer>
-
-<script>
-const copyButton = document.querySelector('[data-copy-command]');
-const copyLabel = copyButton.querySelector('.copy-label');
-
-copyButton.addEventListener('click', async () => {
-  try {
-    if (!navigator.clipboard) {
-      throw new Error('Clipboard API unavailable');
-    }
-    await navigator.clipboard.writeText(copyButton.dataset.copyCommand);
-    copyLabel.textContent = 'Copied';
-  } catch (error) {
-    copyLabel.textContent = 'Select';
-  }
-  window.setTimeout(() => {
-    copyLabel.textContent = 'Copy';
-  }, 1600);
-});
-
-async function sha256(text) {
-  const bytes = new TextEncoder().encode(text);
-  const digest = await crypto.subtle.digest('SHA-256', bytes);
-  return Array.from(new Uint8Array(digest))
-    .map((value) => value.toString(16).padStart(2, '0'))
-    .join('');
-}
-
-const textA = document.getElementById('textA');
-const textB = document.getElementById('textB');
-const demoResult = document.getElementById('demoResult');
-let demoRevision = 0;
-
-async function updateDemo() {
-  const revision = ++demoRevision;
-  const [hashA, hashB] = await Promise.all([
-    sha256(textA.value),
-    sha256(textB.value),
-  ]);
-
-  if (revision !== demoRevision) {
-    return;
-  }
-
-  const same = hashA === hashB;
-  const resultClass = same ? 'result-same' : 'result-different';
-  const resultText = same ? 'UNCHANGED' : 'DIFFERENT';
-
-  demoResult.innerHTML = [
-    '<span class="result-line"><span class="result-key">DEMO_RESULT</span>=<span class="' + resultClass + '">' + resultText + '</span></span>',
-    '<span class="result-line"><span class="result-key">REQUEST_HASH</span>=<span class="result-same">SAME</span> (fixed demo assumption; not computed here)</span>',
-    '<span class="result-line"><span class="result-key">RESPONSE_TEXT_SHA256</span>=<span class="' + resultClass + '">' + (same ? 'SAME' : 'DIFFERENT') + '</span></span>',
-    '<span class="result-line result-hash">a=' + hashA + '</span>',
-    '<span class="result-line result-hash">b=' + hashB + '</span>',
-    '<span class="result-line"><span class="result-key">SCOPE</span>=browser text-hash comparison; bundle verification not performed</span>',
-  ].join('');
-}
-
-textA.addEventListener('input', updateDemo);
-textB.addEventListener('input', updateDemo);
-updateDemo();
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js?v=guided-20260926" defer>
 </script>
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="header-inner">
+<a class="wordmark" href="#top">AELITIUM</a>
+<span class="header-meta">EVIDENCE LAYER / v0.4.0</span>
+<button type="button" id="menu-toggle" aria-controls="site-nav" aria-expanded="false" hidden>Menu <span aria-hidden="true">☰</span>
+</button>
+<nav id="site-nav" aria-label="Main navigation">
+<a href="#product">Product</a>
+<a href="#records">How it works</a>
+<a href="https://github.com/aelitium-dev/aelitium-v3/tree/v0.4.0/docs">Docs</a>
+<a href="https://github.com/aelitium-dev/aelitium-v3">GitHub</a>
+<a href="#feedback">Feedback</a>
+<div class="languages" aria-label="Language">
+<a href="/" lang="en" hreflang="en" aria-current=page>EN</a>
+<span aria-hidden="true">/</span>
+<a href="/fr/" lang="fr" hreflang="fr" >FR</a>
+</div>
+<a class="button primary nav-install" href="#release">Install AELITIUM →</a>
+</nav>
+</div>
+</header>
+<main id="main" tabindex="-1">
+<section class="chapter hero" id="product" aria-labelledby="product-title">
+<div class="chapter-number" aria-hidden="true">01</div>
+<div class="chapter-intro">
+<p class="eyebrow">
+<span class="mobile-number">01 / </span>Evidence for recorded AI interactions</p>
+<h1 id="product-title">WHEN AI RUNS,<br>CAN YOU CHECK<br>THE RECORD LATER?</h1>
+<p class="intro">AELITIUM turns recorded AI interactions into evidence you can check later. Verification works offline, under explicit verification and comparison rules.</p>
+<div class="actions">
+<a class="button primary" id="explore" href="#inspector">Explore an evidence example <span aria-hidden="true">→</span>
+</a>
+<a class="button" href="#release">Install AELITIUM</a>
+</div>
+<div class="copy-group">
+<div class="command">
+<code id="hero-install" tabindex="0">pip install aelitium</code>
+<button type="button" data-copy-target="hero-install" aria-label="Copy command">
+<span aria-hidden="true">⧉</span> Copy</button>
+</div>
+<p class="copy-status" role="status">
+</p>
+</div>
+<a class="text-link" href="#feedback">Tell us your use case <span aria-hidden="true">↗</span>
+</a>
+</div>
+<div class="chapter-body">
+<div class="inspector" id="inspector">
+<div class="panel-heading">
+<h2>Review a recorded LLM run</h2>
+<span class="micro">Prepared example · AELITIUM v0.4.0</span>
+</div>
+<p class="micro example-context">Your platform team is reviewing a saved LLM run. Inspect its request and response, then see what happens when a copy is edited.</p>
+<p class="example-note">Synthetic example. Recorded content is in English. Precomputed release results; no verifier runs in this browser. <a href="/assets/examples/provenance.json">Provenance ↗</a>
+</p>
+<p class="connection-status" role="status">Example data not connected</p>
+<div class="inspector-steps">
+ <details class="inspector-step" open>
+<summary>
+<span class="step-index">01</span> Recorded interaction</summary>
+<p class="micro">Recorded request, response and context. Select a field.</p>
+<div class="record-fields">
+<button type="button" class="record-field" data-field="request" aria-pressed="false" disabled>
+<span class="field-label">Request</span>
+<span data-record="request">—</span>
+</button>
+<button type="button" class="record-field" data-field="response" aria-pressed="false" disabled>
+<span class="field-label">Response</span>
+<span data-record="response">—</span>
+</button>
+<button type="button" class="record-field" data-field="model" aria-pressed="false" disabled>
+<span class="field-label">Model</span>
+<span data-record="model">—</span>
+</button>
+<button type="button" class="record-field" data-field="parameters" aria-pressed="false" disabled>
+<span class="field-label">Parameters</span>
+<span data-record="parameters">—</span>
+</button>
+<button type="button" class="record-field" data-field="time" aria-pressed="false" disabled>
+<span class="field-label">Recorded at</span>
+<span data-record="time">—</span>
+</button>
+</div>
+</details>
+ <details class="inspector-step" id="canonical-step">
+<summary>
+<span class="step-index">02</span> Canonical evidence</summary>
+<p class="micro">ai_canonical.json · UTF-8</p>
+<div id="byte-grid" class="byte-grid" tabindex="0" role="region" aria-label="Serialized byte matrix">
+</div>
+<p id="byte-selection" class="micro" role="status">Select a recorded field to inspect its serialized bytes.</p>
+<details class="explanation">
+<summary>How this evidence is built</summary>
+<p>This matrix shows the complete canonical payload of record-a, excluding the final file newline. Highlighted ranges are exact UTF-8 offsets of serialized top-level values, not digest bytes.</p>
+<p>Request selects /prompt, a JSON string containing recorded messages. No additional parameters were supplied in this example; that selection has no byte range.</p>
+<a class="text-link" href="/assets/examples/record-a/ai_canonical.json">Read the source object <span aria-hidden="true">↗</span>
+</a>
+</details>
+</details>
+ <details class="inspector-step" id="derived-step">
+<summary>
+<span class="step-index">03</span> Derived evidence</summary>
+<p class="micro">Hashes derived from defined recorded inputs.</p>
+<div id="derived-hashes">
+</div>
+<details class="explanation">
+<summary>What do these hashes cover?</summary>
+<dl class="coverage">
+<dt>ai_hash_sha256</dt>
+<dd>Complete canonical payload; the payload integrity reference in ai_manifest.json.</dd>
+<dt>request_hash</dt>
+<dd>Selected recorded model and messages.</dd>
+<dt>response_hash</dt>
+<dd>Selected recorded response content and model.</dd>
+<dt>invocation_identity_hash</dt>
+<dd>Versioned format, surface, mode and selected request fields. This is not complete real-world invocation identity.</dd>
+</dl>
+</details>
+</details>
+</div>
+</div>
+</div>
+</section>
+<div class="metadata-strip">
+<span>OPEN SOURCE / APACHE-2.0 / v0.4.0</span>
+<span>RECORDED EVIDENCE / EXPLICIT ASSURANCE / EXPLICIT BOUNDARIES</span>
+</div>
+<section class="chapter " id="records" aria-labelledby="records-title">
+<div class="chapter-number" aria-hidden="true">02</div>
+<div class="chapter-intro">
+<p class="eyebrow">
+<span class="mobile-number">02 / </span>Checkable records</p>
+<h2 id="records-title">RECORDS ARE USEFUL.<br>CHECKABLE RECORDS ARE BETTER.</h2>
+<p class="intro">AELITIUM adds defined evidence checks to AI interaction records you retain.</p>
+</div>
+<div class="chapter-body">
+<p class="eyebrow">Try a simple change</p>
+<h3>What happens if a retained value no longer matches?</h3>
+<p class="">Change the recorded response in this prepared example to see the recorded check result.</p>
+<div class="modify-grid">
+<div>
+<h4>Stored evidence</h4>
+<p class="micro">Recorded response</p>
+<div class="sample-text" lang="en">The report identifies three operational risks.</div>
+<p class="micro">Expected payload hash</p>
+<div id="expected-hash">—</div>
+</div>
+<div>
+<h4>Inspected payload</h4>
+<label class="micro" for="modify-choice">Prepared response</label>
+<select id="modify-choice" disabled>
+<option value="record-a">Original: three operational risks</option>
+<option value="record-a-modified">Modified: four operational risks</option>
+</select>
+<div class="sample-text" id="modified-response" lang="en">The report identifies three operational risks.</div>
+<p class="micro">Recomputed payload hash</p>
+<div id="recomputed-hash">—</div>
+</div>
+</div>
+<div class="result-panel" aria-live="polite">
+<p class="eyebrow">Payload integrity</p>
+<strong class="verdict" data-state="UNAVAILABLE" id="modify-state">Example data not connected</strong>
+<p id="modify-explanation">
+</p>
+<p class="micro" id="modify-reason">
+</p>
+</div>
+<button type="button" class="text-button" id="reset-example" disabled>Reset example ↺</button>
+<p class="boundary">This result does not establish when, why or by whom a record changed. The expected manifest and stored hashes are held fixed.</p>
+</div>
+</section>
+<section class="chapter " id="assurance" aria-labelledby="assurance-title">
+<div class="chapter-number" aria-hidden="true">03</div>
+<div class="chapter-intro">
+<p class="eyebrow">
+<span class="mobile-number">03 / </span>Assurance</p>
+<h2 id="assurance-title">DIFFERENT QUESTIONS.<br>DIFFERENT STATES.</h2>
+<p class="intro">AELITIUM reports separate properties instead of collapsing everything into a single authenticity claim.</p>
+<a class="text-link" href="https://github.com/aelitium-dev/aelitium-v3/blob/v0.4.0/docs/TRUST_BOUNDARY.md">Learn about the assurance model <span aria-hidden="true">↗</span>
+</a>
+</div>
+<div class="chapter-body">
+<p class="connection-status" data-assurance-availability role="status">Example data not connected</p>
+<div class="assurance-layout">
+<div>
+<h3 class="eyebrow">Evidence check: example</h3>
+<details class="assurance-row">
+<summary>
+<span class="row-number">01</span>
+<span>Payload integrity</span>
+<code class="property-state" data-state="UNAVAILABLE" data-property="payload_integrity">—</code>
+</summary>
+<div class="assurance-description">
+<code>payload_integrity</code>
+<p data-property-description="payload_integrity" hidden>The canonical payload matches the retained manifest hash.</p>
+</div>
+</details>
+<details class="assurance-row">
+<summary>
+<span class="row-number">02</span>
+<span>Binding field consistency</span>
+<code class="property-state" data-state="UNAVAILABLE" data-property="binding_field_consistency">—</code>
+</summary>
+<div class="assurance-description">
+<code>binding_field_consistency</code>
+<p data-property-description="binding_field_consistency" hidden>Stored request, response and binding hash fields are consistent.</p>
+</div>
+</details>
+<details class="assurance-row">
+<summary>
+<span class="row-number">03</span>
+<span>Invocation identity consistency</span>
+<code class="property-state" data-state="UNAVAILABLE" data-property="invocation_identity_consistency">—</code>
+</summary>
+<div class="assurance-description">
+<code>invocation_identity_consistency</code>
+<p data-property-description="invocation_identity_consistency" hidden>Stored invocation fields match their versioned identity hash.</p>
+</div>
+</details>
+<details class="assurance-row">
+<summary>
+<span class="row-number">04</span>
+<span>Invocation binding consistency</span>
+<code class="property-state" data-state="UNAVAILABLE" data-property="invocation_binding_consistency">—</code>
+</summary>
+<div class="assurance-description">
+<code>invocation_binding_consistency</code>
+<p data-property-description="invocation_binding_consistency" hidden>Stored invocation identity and response hashes match their binding.</p>
+</div>
+</details>
+<div id="extra-properties">
+<details class="assurance-row">
+<summary>
+<span class="row-number">05</span>
+<span>Signature validity</span>
+<code class="property-state" data-state="UNAVAILABLE" data-property="signature_validity">—</code>
+</summary>
+<div class="assurance-description">
+<code>signature_validity</code>
+<p data-property-description="signature_validity" hidden>This prepared bundle contains no signature evidence.</p>
+</div>
+</details>
+<details class="assurance-row">
+<summary>
+<span class="row-number">06</span>
+<span>Trusted signer identity</span>
+<code class="property-state" data-state="UNAVAILABLE" data-property="trusted_signer_identity">—</code>
+</summary>
+<div class="assurance-description">
+<code>trusted_signer_identity</code>
+<p data-property-description="trusted_signer_identity" hidden>No trusted signer identity is established by these inputs.</p>
+</div>
+</details>
+<details class="assurance-row">
+<summary>
+<span class="row-number">07</span>
+<span>Freshness</span>
+<code class="property-state" data-state="UNAVAILABLE" data-property="freshness">—</code>
+</summary>
+<div class="assurance-description">
+<code>freshness</code>
+<p data-property-description="freshness" hidden>No explicit declared-time freshness policy was supplied.</p>
+</div>
+</details>
+<details class="assurance-row">
+<summary>
+<span class="row-number">08</span>
+<span>Authorization</span>
+<code class="property-state" data-state="UNAVAILABLE" data-property="authorization">—</code>
+</summary>
+<div class="assurance-description">
+<code>authorization</code>
+<p data-property-description="authorization" hidden>Not evaluated in v0.4.0.</p>
+</div>
+</details>
+</div>
+<button type="button" id="toggle-properties" class="wide-button" aria-controls="extra-properties" aria-expanded="true" hidden>Show fewer properties</button>
+</div>
+<details class="states">
+<summary>About these states</summary>
+<dl>
+<div>
+<dt>
+<code>VALID</code>
+</dt>
+<dd>The defined check succeeded.</dd>
+</div>
+<div>
+<dt>
+<code>INVALID</code>
+</dt>
+<dd>The evaluated evidence is inconsistent with the defined check.</dd>
+</div>
+<div>
+<dt>
+<code>ABSENT</code>
+</dt>
+<dd>The relevant evidence is not present.</dd>
+</div>
+<div>
+<dt>
+<code>UNESTABLISHED</code>
+</dt>
+<dd>The available inputs do not establish the property.</dd>
+</div>
+<div>
+<dt>
+<code>NOT_EVALUATED</code>
+</dt>
+<dd>No evaluation of that property was performed.</dd>
+</div>
+</dl>
+</details>
+</div>
+</div>
+</section>
+<section class="chapter " id="compare" aria-labelledby="compare-title">
+<div class="chapter-number" aria-hidden="true">04</div>
+<div class="chapter-intro">
+<p class="eyebrow">
+<span class="mobile-number">04 / </span>Compare</p>
+<h2 id="compare-title">NOT EVERY DIFFERENCE SHOULD BECOME A CONCLUSION.</h2>
+<p class="intro">Compare validated records under an explicit basis. Sometimes refusing to compare is the more informative result.</p>
+</div>
+<div class="chapter-body">
+<p class="example-note">Synthetic examples. Precomputed release results; no verifier runs in this browser.</p>
+<div class="comparisons">
+<article class="comparison" data-comparison="changed">
+<h3>A. Same selected comparison identity / different response</h3>
+<div class="compare-hashes">
+</div>
+<div class="compare-result" aria-live="polite">
+<strong class="verdict" data-state="UNAVAILABLE">Example data not connected</strong>
+</div>
+</article>
+<article class="comparison" data-comparison="not-comparable">
+<h3>B. Different selected comparison identity</h3>
+<div class="compare-hashes">
+</div>
+<div class="compare-result" aria-live="polite">
+<strong class="verdict" data-state="UNAVAILABLE">Example data not connected</strong>
+</div>
+</article>
+</div>
+<details class="other-scenarios">
+<summary>Explore two more prepared scenarios</summary>
+<label for="compare-choice">Select an example</label>
+<select id="compare-choice" disabled>
+<option value="unchanged">UNCHANGED</option>
+<option value="invalid">INVALID_BUNDLE</option>
+</select>
+<article class="comparison" data-comparison="extra">
+<h3>Selected example</h3>
+<div class="compare-hashes">
+</div>
+<div class="compare-result" aria-live="polite">
+<strong class="verdict" data-state="UNAVAILABLE">Example data not connected</strong>
+</div>
+</article>
+</details>
+<p class="boundary">CHANGED describes recorded evidence; it does not establish model drift, regression, provider fault or causation.</p>
+<a class="text-link" href="https://github.com/aelitium-dev/aelitium-v3/blob/v0.4.0/README.md#compare-validated-recorded-evidence">Learn more about comparison <span aria-hidden="true">↗</span>
+</a>
+</div>
+</section>
+<section class="chapter " id="offline" aria-labelledby="offline-title">
+<div class="chapter-number" aria-hidden="true">05</div>
+<div class="chapter-intro">
+<p class="eyebrow">
+<span class="mobile-number">05 / </span>Verify offline</p>
+<h2 id="offline-title">TAKE THE EVIDENCE WITH YOU.</h2>
+<p class="intro">Once the evidence bundle is available, verification can run offline.</p>
+</div>
+<div class="chapter-body">
+<ol class="offline-flow">
+<li>
+<span class="step-index">01</span>
+<h3>AI APPLICATION / PRODUCTION</h3>
+<p>A supported capture path records interaction data.</p>
+</li>
+<li>
+<span class="step-index">02</span>
+<h3>CAPTURED EVIDENCE (via AELITIUM)</h3>
+<p>The captured material is stored in an evidence bundle.</p>
+<div class="file-pair">
+<code>ai_canonical.json</code>
+<code>ai_manifest.json</code>
+</div>
+</li>
+<li>
+<span class="step-index">03</span>
+<h3>TRANSFER</h3>
+<p>Copy the bundle to a different environment.</p>
+</li>
+<li>
+<span class="step-index">04</span>
+<h3>OFFLINE REVIEW</h3>
+<p>Check the available evidence offline.</p>
+</li>
+</ol>
+<div class="copy-group">
+<div class="command">
+<code id="verify-command" tabindex="0">aelitium verify-bundle ./bundle</code>
+<button type="button" data-copy-target="verify-command" aria-label="Copy command">
+<span aria-hidden="true">⧉</span> Copy</button>
+</div>
+<p class="copy-status" role="status">
+</p>
+</div>
+<p class="boundary">No production access is required for this verification step once the bundle is available. The bundle carries the recorded evidence and supporting data used by AELITIUM’s verification and comparison contracts. Additional trust/policy inputs may be supplied locally; the bundle is not itself a trusted external trust store.</p>
+<a class="text-link" href="https://github.com/aelitium-dev/aelitium-v3/blob/v0.4.0/docs/AI_INTEGRITY_DEMO.md">Learn more about offline verification <span aria-hidden="true">↗</span>
+</a>
+</div>
+</section>
+<section class="chapter " id="use" aria-labelledby="use-title">
+<div class="chapter-number" aria-hidden="true">06</div>
+<div class="chapter-intro">
+<p class="eyebrow">
+<span class="mobile-number">06 / </span>Who uses this?</p>
+<h2 id="use-title">BUILT FOR THE PEOPLE WHO NEED THE EVIDENCE.</h2>
+</div>
+<div class="chapter-body">
+<p class="">AELITIUM complements observability. It adds defined checks to retained evidence; it does not replace logging or tracing infrastructure.</p>
+<div class="use-grid">
+<article>
+<span class="row-number">01</span>
+<h3>BUILD AI</h3>
+<p>Keep checkable evidence from recorded AI interactions in your applications and workflows.</p>
+<p class="micro audience">Developers · AI / Platform Engineering · Product & Infrastructure.</p>
+</article>
+<article>
+<span class="row-number">02</span>
+<h3>AUDIT AI</h3>
+<p>Review retained technical evidence offline once the bundle is available, without production access for the verification step.</p>
+<p class="micro audience">Governance · Internal audit · Security · Risk teams.</p>
+</article>
+<article>
+<span class="row-number">03</span>
+<h3>INVESTIGATE</h3>
+<p>Inspect what was recorded after an incident or unexpected result. Compare validated records and see exactly which evidence relationship AELITIUM reports.</p>
+<p class="micro audience">Incident response · Technical investigation · Quality & evaluation · Customer assurance.</p>
+</article>
+</div>
+</div>
+</section>
+<section class="chapter " id="boundaries" aria-labelledby="boundaries-title">
+<div class="chapter-number" aria-hidden="true">07</div>
+<div class="chapter-intro">
+<p class="eyebrow">
+<span class="mobile-number">07 / </span>Boundaries</p>
+<h2 id="boundaries-title">EVIDENCE HAS A BOUNDARY.<br>WE MAKE IT VISIBLE.</h2>
+<p class="intro">AELITIUM checks the recorded evidence. It does not establish that the AI’s answer is true or that every interaction was captured.</p>
+</div>
+<div class="chapter-body">
+<div class="boundaries">
+<details>
+<summary>What AELITIUM can check</summary>
+<div class="disclosure-body">
+<h3>Consistency checks on the supplied evidence</h3>
+<ul>
+<li>Payload integrity</li>
+<li>Binding field consistency</li>
+<li>Invocation identity consistency</li>
+<li>Invocation binding consistency</li>
+</ul>
+<p class="">Absent evidence and unevaluated properties are reported separately.</p>
+<h3>Additional checks when the required evidence or policy inputs are supplied</h3>
+<dl class="conditions">
+<dt>Signature validity</dt>
+<dd>When signature evidence and verification material are present.</dd>
+<dt>Trusted signer identity</dt>
+<dd>When a valid signature’s key matches an explicitly supplied external trust store.</dd>
+<dt>Declared-time freshness</dt>
+<dd>With an explicit maximum age and UTC reference time. Checks the declared canonical timestamp, not historical time.</dd>
+</dl>
+</div>
+</details>
+<details>
+<summary>What it does not establish</summary>
+<div class="disclosure-body">
+<p>By itself, evidence verification does not establish:</p>
+<ul>
+<li>Provider execution.</li>
+<li>Response causation.</li>
+<li>Capture completeness.</li>
+<li>Output truth, correctness or safety.</li>
+<li>Complete real-world invocation identity.</li>
+<li>Historical occurrence.</li>
+<li>Trusted historical time.</li>
+<li>Authorization.</li>
+<li>Legal compliance.</li>
+</ul>
+<p>In v0.4.0, authorization is always <code>NOT_EVALUATED</code>.</p>
+</div>
+</details>
+</div>
+<p class="closing">EVIDENCE SHOULD SUPPORT A CONCLUSION.<br>IT SHOULD NOT SILENTLY BECOME A STRONGER ONE.</p>
+</div>
+</section>
+<section class="chapter " id="release" aria-labelledby="release-title">
+<div class="chapter-number" aria-hidden="true">08</div>
+<div class="chapter-intro">
+<p class="eyebrow">
+<span class="mobile-number">08 / </span>Current release</p>
+<h2 id="release-title">AELITIUM<br>v0.4.0</h2>
+<p class="intro">OPEN SOURCE / APACHE-2.0</p>
+</div>
+<div class="chapter-body">
+<div class="release-grid">
+<article>
+<h3>CAPTURE</h3>
+<p>OpenAI · Anthropic · LiteLLM.<br>Supported non-streaming capture paths.</p>
+</article>
+<article>
+<h3>VERIFY</h3>
+<p>8 separate assurance dimensions.<br>Offline bundle verification.</p>
+</article>
+<article>
+<h3>COMPARE</h3>
+<p>Explicit mode / basis / reason.</p>
+<p class="machine-list">UNCHANGED<br>CHANGED<br>
+<span class="blue">NOT_COMPARABLE</span>
+<br>INVALID_BUNDLE</p>
+</article>
+<article>
+<h3>SCAN</h3>
+<p>Supported Python LLM call patterns. This is source-code analysis, not a claim of complete capture or bundle verification.</p>
+</article>
+</div>
+<div class="copy-group">
+<div class="command">
+<code id="release-install" tabindex="0">pip install aelitium</code>
+<button type="button" data-copy-target="release-install" aria-label="Copy command">
+<span aria-hidden="true">⧉</span> Copy</button>
+</div>
+<p class="copy-status" role="status">
+</p>
+</div>
+<p class="micro">Python 3.10 or newer. <a class="text-link" href="https://github.com/aelitium-dev/aelitium-v3/blob/v0.4.0/docs/INTEGRATION_CAPTURE.md">Prerequisites & extras <span aria-hidden="true">↗</span>
+</a>
+</p>
+<div class="release-links">
+<a class="text-link" href="https://github.com/aelitium-dev/aelitium-v3/tree/v0.4.0/docs">Read the docs <span aria-hidden="true">↗</span>
+</a>
+<a class="text-link" href="https://github.com/aelitium-dev/aelitium-v3">View GitHub <span aria-hidden="true">↗</span>
+</a>
+</div>
+</div>
+</section>
+<section class="chapter " id="feedback" aria-labelledby="feedback-title">
+<div class="chapter-number" aria-hidden="true">09</div>
+<div class="chapter-intro">
+<p class="eyebrow">
+<span class="mobile-number">09 / </span>Feedback</p>
+<h2 id="feedback-title">TELL US WHAT YOU’RE TRYING TO VERIFY.</h2>
+</div>
+<div class="chapter-body">
+<p class="">Real use cases are more useful than assumptions about what teams need. They help shape what AELITIUM validates and builds next.</p>
+<div class="feedback-grid">
+<article>
+<span class="row-number">01</span>
+<h3>Share your use case</h3>
+<p>Tell us what you’re trying to verify and what is missing.</p>
+<a href="mailto:hello@aelitium.com?subject=%5BAELITIUM%20Feedback%5D" data-email="feedback" aria-describedby="email-client-note">Share your use case →</a>
+</article>
+<article>
+<span class="row-number">02</span>
+<h3>Report an issue</h3>
+<p>Found unexpected behaviour? Open a GitHub issue.</p>
+<a class="text-link" href="https://github.com/aelitium-dev/aelitium-v3/issues">Report an issue <span aria-hidden="true">↗</span>
+</a>
+</article>
+<article id="contact">
+<span class="row-number">03</span>
+<h3>Contact</h3>
+<p>Integration / pilot / research / collaboration.</p>
+<a href="mailto:hello@aelitium.com?subject=%5BAELITIUM%20Contact%5D" data-email="contact" aria-describedby="email-client-note">Contact →</a>
+</article>
+</div>
+<div class="copy-group">
+<div class="command">
+<code id="contact-email" tabindex="0">hello@aelitium.com</code>
+<button type="button" data-copy-target="contact-email" aria-label="Copy email address">
+<span aria-hidden="true">⧉</span> Copy</button>
+</div>
+<p class="copy-status" role="status"></p>
+</div>
+<p class="boundary" id="email-client-note">“Share your use case” and “Contact” open your email app with the subject prepared. You send the message there; this site does not send it.</p>
+<p class="micro">Please do not include API keys, production prompts, responses, evidence bundles or confidential data.</p>
+</div>
+</section>
+</main>
+<footer class="site-footer">
+<div>
+<a class="wordmark" href="#top">AELITIUM</a>
+<p>Checkable evidence for recorded AI interactions.</p>
+<p class="micro">Open source · Apache-2.0 · v0.4.0</p>
+</div>
+<nav aria-label="Footer">
+<a href="https://github.com/aelitium-dev/aelitium-v3/tree/v0.4.0/docs">Docs</a>
+<a href="https://github.com/aelitium-dev/aelitium-v3">GitHub</a>
+<a href="#feedback">Feedback</a>
+<a href="mailto:hello@aelitium.com?subject=%5BAELITIUM%20Contact%5D" data-email="contact" aria-describedby="email-client-note">Contact</a>
+<div class="languages" aria-label="Language">
+<a href="/" lang="en" hreflang="en" aria-current=page>EN</a>
+<span aria-hidden="true">/</span>
+<a href="/fr/" lang="fr" hreflang="fr" >FR</a>
+</div>
+</nav>
+</footer>
 </body>
 </html>

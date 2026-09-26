@@ -1,71 +1,79 @@
-# AELITIUM Messaging Spec
+# AELITIUM messaging — website prototype v0.4.0
 
-Purpose: keep public copy inside the current evidence-consistency and release-state boundaries.
+This local EN/FR prototype targets public release v0.4.0, commit
+`3506a4fdd8adc6a4c4aec25799cd2add2b2a1f73`. Recheck the public release before
+publication. The FR copy has received local language review against EN; technical identifiers
+and recorded results remain unchanged. The user has accepted the R2 design,
+01–09 structure and Ubuntu Sans typography.
 
-## Core claim
+## Product scope
 
-AELITIUM is a library and CLI for producing and verifying internally consistent, offline-verifiable evidence bundles for recorded AI interactions.
+AELITIUM is a library and CLI for checkable evidence from recorded AI interactions.
+Verification evaluates retained evidence offline under explicit contracts.
+Eight assurance dimensions are reported separately. Capture covers supported
+non-streaming OpenAI, Anthropic and LiteLLM paths. Scan analyzes supported Python
+LLM call patterns; it is not a bundle verifier or proof of capture completeness.
 
-## Release wording
+Comparison validates inputs before selecting a basis. Default v0.4.0 comparison
+uses `INVOCATION_IDENTITY_V1` when both valid records have usable validated
+invocation identity and binding evidence. Other supported modes/bases are documented
+in the release; do not describe the default as always comparing request hashes.
+The four outcomes are `UNCHANGED`, `CHANGED`, `NOT_COMPARABLE`, `INVALID_BUNDLE`.
+`SAME` is a hash relation, never a comparison outcome.
 
-- Latest actual release: v0.3.0
-- v0.3.0 is tagged, released on GitHub, and published to PyPI.
+## Non-claims — apply to every example and page
 
-## Scope words
+- Payload integrity is not historical non-modification. An internally consistent
+  replacement requires an independently trusted external anchor to distinguish it.
+- Signature validity is not trusted signer identity. Trust requires matching the
+  verified key to an explicitly supplied external trust store.
+- Invocation consistency is not provider execution or full real-world identity.
+- Invocation binding is not response causation.
+- Declared-time freshness evaluates the canonical timestamp only with explicit
+  maximum age and UTC reference time; it is not trusted historical time.
+- `authorization` is always `NOT_EVALUATED` in v0.4.0.
+- Evidence does not establish truth, correctness, safety, capture completeness,
+  historical occurrence, model drift, regression, provider fault or legal compliance.
+- Never collapse the dimensions into a global authenticity, trust or safety badge.
+- No invented customers, contact addresses, submission success or capture guarantees.
 
-Prefer:
+## Prepared examples — not universal product results
 
-- evidence bundle
-- recorded request and response fields
-- v1 selected-field request identity
-- internal consistency
-- recorded evidence contract
-- offline verification
-- mathematical signature validity
-- externally supplied trust store
+`assets/examples/provenance.json` identifies the public source, dependencies,
+input/output file hashes and regeneration command. `raw-outputs.json` retains
+stdout/stderr/return codes and verification API results. `results.json` is the
+shared EN/FR view of those results. UI code selects results; it runs no verifier.
 
-## Assurance boundaries
+- `record-a`: synthetic mock-client capture; four consistency dimensions VALID,
+  signature ABSENT, signer identity UNESTABLISHED, freshness/authorization NOT_EVALUATED.
+- `record-a-copy`: same bundle, comparison UNCHANGED / RESPONSE_HASH_SAME / rc=0.
+- `record-b`: another valid bundle; same selected identity, different response;
+  CHANGED / RESPONSE_HASH_DIFFERENT / rc=2.
+- `record-c`: another valid bundle with different recorded request;
+  NOT_COMPARABLE / INVOCATION_IDENTITY_HASH_DIFFERENT / rc=1.
+- `record-a-modified`: only canonical `/output` changes; expected manifest and
+  stored metadata retained. Payload integrity INVALID / HASH_MISMATCH;
+  comparison INVALID_BUNDLE / basis NONE / BUNDLE_VERIFICATION_FAILED / rc=2.
 
-- payload integrity != historical non-modification
-- signature validity != trusted signer identity
-- invocation consistency != provider execution
-- invocation binding != causation
-- freshness VALID != trusted historical time
-- authorization != execution
-- technical VALID != legal compliance
-- evidence set != completeness of real-world events
+The first three comparison outcomes above use INVOCATION_IDENTITY_V1. Hashes are
+complete in the files and copy controls. No image hashes are reused. Inspector
+highlights are documented exact UTF-8 ranges in one canonical object, never digest
+bytes attributed to a field. Missing example data must remain visibly unavailable.
 
-## Allowed claims
+## Direct email contact and release limits
 
-- “Check the internal consistency of a recorded AI evidence bundle offline.”
-- “Detect changes inconsistent with the recorded evidence contract, hashes, and present signature material.”
-- “Compare recorded response hashes for the same request hash.”
-- “AELITIUM reports eight separate assurance dimensions.”
-- “Trusted signer identity requires a matching key in an explicitly supplied external trust store.”
+Feedback and Contact use native mailto links to hello@aelitium.com, with exact
+subjects [AELITIUM Feedback] and [AELITIUM Contact]. They open the visitor's
+configured email app; the visitor sends the message there. The site sends no
+email and must never report delivery. The address remains selectable/copiable.
+There is no local form flow, stored form data, submission service, SMTP or Bridge
+integration. GitHub Issues remains a separate actual link.
 
-## Disallowed claims
+Do not advertise self-test/doctor, arbitrary bundle upload, future product features
+or readiness for publication. Product wheel/sdist qualification and publication
+configuration are separate tasks. This prototype does not approve Phase 2.
 
-- “Proves an AI action happened.”
-- “Proves the provider executed the invocation.”
-- “Proves the request caused the response.”
-- “Proves the bundle was never modified.”
-- “Proves complete capture.”
-- “Proves trusted historical time.”
-- “Proves regulatory or legal compliance.”
-- “Signatures automatically establish a trusted signer.”
+## Checks
 
-## Wording swaps
-
-- “detects post-capture modification” -> “detects changes inconsistent with the recorded evidence contract”
-- “same request” -> “same request hash” or “same v1 selected-field request identity”
-- “response” -> “recorded response”
-- “verify the result” -> “check the bundle's internal consistency”
-- “authentic signer” -> “mathematically valid signature” unless an external trust-store match is explicitly in scope
-
-## Compliance framing
-
-Technical evidence may support an audit, governance, or compliance workflow. It does not itself establish legal or regulatory compliance.
-
-## Quick check
-
-Run: `powershell -ExecutionPolicy Bypass -File guardrail.ps1`
+Keep `guardrail.ps1` unchanged. Its actual PowerShell execution must be reported
+separately from the portable complementary checks in `tests/check_site.py`.

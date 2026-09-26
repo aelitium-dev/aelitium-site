@@ -1,0 +1,20 @@
+{
+  "record-a": {
+    "request": "Quelle est la conclusion de ce rapport d’incident ? Constats : requêtes en double, délais dépassés sans traitement et journaux de prompts non expurgés.",
+    "response": "Le rapport relève trois risques opérationnels.",
+    "model": "gpt-4o-mini",
+    "declared_time": "2026-09-03T12:00:00Z"
+  },
+  "record-b": {
+    "request": "Quelle est la conclusion de ce rapport d’incident ? Constats : requêtes en double, délais dépassés sans traitement et journaux de prompts non expurgés.",
+    "response": "Le rapport relève quatre risques opérationnels.",
+    "model": "gpt-4o-mini",
+    "declared_time": "2026-09-03T12:00:00Z"
+  },
+  "record-c": {
+    "request": "Combien de risques ce rapport d’incident relève-t-il ? Constats : requêtes en double, délais dépassés sans traitement et journaux de prompts non expurgés.",
+    "response": "Le rapport relève quatre risques opérationnels.",
+    "model": "gpt-4o-mini",
+    "declared_time": "2026-09-03T12:00:00Z"
+  }
+}
